@@ -74,86 +74,86 @@ import { RuleCreationComponent } from './rule/rule-creation/rule-creation.compon
 import { RuleDetailsComponent } from './rule/rule-details/rule-details.component';
 import { RuleEditComponent } from './rule/rule-edit/rule-edit.component';
 
+// Import components
+import { FullComponent } from './layouts/full/full.component'; // Template's FullComponent  
+
 // Define routes
 const routes: Routes = [
-  
-  // Trip routes
-  { path: 'trips', component: TripListComponent },
-  { path: 'trips/create', component: TripCreateComponent },
-  { path: 'trips/:id', component: TripDetailComponent },
+  {
+    path: '',
+    component: FullComponent, // Use FullComponent as the layout for main pages
+    children: [
+      // Template routes
+      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      },
+      {
+        path: 'about',
+        loadChildren: () =>
+          import('./about/about.module').then((m) => m.AboutModule),
+      },
+      {
+        path: 'component',
+        loadChildren: () =>
+          import('./component/component.module').then((m) => m.ComponentsModule),
+      },
 
-  // Reservation routes
-  { path: 'reservations', component: ReservationListComponent },
-  { path: 'reservations/:id', component: ReservationDetailComponent },
-
-  // Carpool routes
-  { path: 'carpooling', component: CarpoolingListComponent },
-  { path: 'carpooling/create', component: CarpoolingCreateComponent },
-  { path: 'carpooling/:id', component: CarpoolingDetailComponent },
-  { path: 'carpooling/join/:id', component: CarpoolingJoinComponent },
-
-  // Parcel routes
-  { path: 'parcels', component: ParcelListComponent },
-  { path: 'parcels/track', component: ParcelTrackComponent },
-  { path: 'parcels/create', component: ParcelCreateComponent },
-  { path: 'parcels/:id', component: ParcelDetailComponent },
-
-  // Vehicle routes
-  { path: 'vehicles', component: VehicleListComponent },
-  { path: 'vehicles/create', component: VehicleCreateComponent },
-  { path: 'vehicles/edit/:id', component: VehicleEditComponent },
-  { path: 'vehicles/:id', component: VehicleDetailComponent },
-
-  // Payment routes
-  { path: 'payments/create', component: PaymentCreationComponent },
-  { path: 'payments/history', component: PaymentHistoryComponent },
-  { path: 'payments/method', component: PaymentMethodComponent },
-
-  // Partner routes
-  { path: 'partners', component: PartnerListComponent },
-  { path: 'partners/create', component: PartnerCreateComponent },
-  { path: 'partners/edit/:id', component: PartnerEditComponent },
-
-  // Event routes
-  { path: 'events', component: EventListComponent },
-  { path: 'events/create', component: EventCreateComponent },
-  { path: 'events/:id', component: EventDetailComponent },
-  { path: 'events/notify', component: EventNotifyComponent },
-
-  // Chat routes
-  { path: 'chat', component: ChatComponent },
-  { path: 'chat/list', component: ChatListComponent },
-
-  // Chat Message routes
-  { path: 'chat-message/create', component: ChatMessageCreationComponent },
-  { path: 'chat-message/edit/:id', component: ChatMessageEditComponent },
-
-  // Complaint routes
-  { path: 'complaints/create', component: ComplaintCreationComponent },
-  { path: 'complaints/list', component: ComplaintListComponent },
-  { path: 'complaints/:id', component: ComplaintDetailsComponent },
-
-  // Subscription routes
-  { path: 'subscriptions/create', component: SubscriptionCreationComponent },
-  { path: 'subscriptions/:id', component: SubscriptionDetailsComponent },
-
-
-  // Promotion routes
-  { path: 'promotions/create', component: PromotionCreationComponent },
-  { path: 'promotions/:id', component: PromotionDetailsComponent },
-  { path: 'promotions/edit/:id', component: PromotionEditComponent },
-
-  // Rule routes
-  { path: 'rules/create', component: RuleCreationComponent },
-  { path: 'rules/:id', component: RuleDetailsComponent },
-  { path: 'rules/edit/:id', component: RuleEditComponent },
-
-  // Wildcard route for 404 page
-  { path: '**', component: NotFoundComponent }
+      // Your project's routes
+      { path: 'trips', component: TripListComponent },
+      { path: 'trips/create', component: TripCreateComponent },
+      { path: 'trips/:id', component: TripDetailComponent },
+      { path: 'reservations', component: ReservationListComponent },
+      { path: 'reservations/:id', component: ReservationDetailComponent },
+      { path: 'carpooling', component: CarpoolingListComponent },
+      { path: 'carpooling/create', component: CarpoolingCreateComponent },
+      { path: 'carpooling/:id', component: CarpoolingDetailComponent },
+      { path: 'carpooling/join/:id', component: CarpoolingJoinComponent },
+      { path: 'parcels', component: ParcelListComponent },
+      { path: 'parcels/track', component: ParcelTrackComponent },
+      { path: 'parcels/create', component: ParcelCreateComponent },
+      { path: 'parcels/:id', component: ParcelDetailComponent },
+      { path: 'vehicles', component: VehicleListComponent },
+      { path: 'vehicles/create', component: VehicleCreateComponent },
+      { path: 'vehicles/edit/:id', component: VehicleEditComponent },
+      { path: 'vehicles/:id', component: VehicleDetailComponent },
+      { path: 'payments/create', component: PaymentCreationComponent },
+      { path: 'payments/history', component: PaymentHistoryComponent },
+      { path: 'payments/method', component: PaymentMethodComponent },
+      { path: 'partners', component: PartnerListComponent },
+      { path: 'partners/create', component: PartnerCreateComponent },
+      { path: 'partners/edit/:id', component: PartnerEditComponent },
+      { path: 'events', component: EventListComponent },
+      { path: 'events/create', component: EventCreateComponent },
+      { path: 'events/:id', component: EventDetailComponent },
+      { path: 'events/notify', component: EventNotifyComponent },
+      { path: 'chat', component: ChatComponent },
+      { path: 'chat/list', component: ChatListComponent },
+      { path: 'chat-message/create', component: ChatMessageCreationComponent },
+      { path: 'chat-message/edit/:id', component: ChatMessageEditComponent },
+      { path: 'complaints/create', component: ComplaintCreationComponent },
+      { path: 'complaints/list', component: ComplaintListComponent },
+      { path: 'complaints/:id', component: ComplaintDetailsComponent },
+      { path: 'subscriptions/create', component: SubscriptionCreationComponent },
+      { path: 'subscriptions/:id', component: SubscriptionDetailsComponent },
+      { path: 'promotions/create', component: PromotionCreationComponent },
+      { path: 'promotions/:id', component: PromotionDetailsComponent },
+      { path: 'promotions/edit/:id', component: PromotionEditComponent },
+      { path: 'rules/create', component: RuleCreationComponent },
+      { path: 'rules/:id', component: RuleDetailsComponent },
+      { path: 'rules/edit/:id', component: RuleEditComponent },
+    ],
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
