@@ -6,10 +6,9 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-dropdown-basic',
-  standalone: true,
-  imports: [NgbDropdownModule, NgbModule, NgbCollapseModule],
-  templateUrl: './dropdown-collapse.component.html',
+    selector: 'app-dropdown-basic',
+    imports: [NgbDropdownModule, NgbModule, NgbCollapseModule],
+    templateUrl: './dropdown-collapse.component.html'
 })
 export class NgbdDropdownBasicComponent {
   // This is for the collapse example

@@ -4,10 +4,9 @@ import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
 @Component({
-  selector: 'app-navigation',
-  standalone: true,
-  imports:[NgbDropdownModule],
-  templateUrl: './navigation.component.html'
+    selector: 'app-navigation',
+    imports: [NgbDropdownModule],
+    templateUrl: './navigation.component.html'
 })
 export class NavigationComponent implements AfterViewInit {
   @Output() toggleSidebar = new EventEmitter<void>();

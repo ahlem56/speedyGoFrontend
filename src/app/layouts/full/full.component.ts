@@ -8,11 +8,10 @@ import { SidebarComponent } from "src/app/shared/sidebar/sidebar.component";
 //declare var $: any;
 
 @Component({
-  selector: "app-full-layout",
-  standalone: true,
-  imports:[RouterModule, SidebarComponent, NavigationComponent, CommonModule, NgbCollapseModule],
-  templateUrl: "./full.component.html",
-  styleUrls: ["./full.component.scss"],
+    selector: "app-full-layout",
+    imports: [RouterModule, SidebarComponent, NavigationComponent, CommonModule, NgbCollapseModule],
+    templateUrl: "./full.component.html",
+    styleUrls: ["./full.component.scss"]
 })
 export class FullComponent implements OnInit {
 

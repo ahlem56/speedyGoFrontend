@@ -76,6 +76,8 @@ import { RuleEditComponent } from './rule/rule-edit/rule-edit.component';
 
 // Import components
 import { FullComponent } from './layouts/full/full.component'; // Template's FullComponent  
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 // Define routes
 const routes: Routes = [
@@ -102,6 +104,8 @@ const routes: Routes = [
       },
 
       // Your project's routes
+      { path: 'login', component: LoginComponent },
+      { path: 'signup', component: SignupComponent },
       { path: 'trips', component: TripListComponent },
       { path: 'trips/create', component: TripCreateComponent },
       { path: 'trips/:id', component: TripDetailComponent },

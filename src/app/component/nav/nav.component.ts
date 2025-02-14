@@ -3,11 +3,9 @@ import { NgbNavModule, NgbNavChangeEvent, NgbDropdownModule, NgbAlertModule } fr
 import { NgFor, NgIf } from '@angular/common';
 
 @Component({
-	selector: 'app-ngbd-nav',
-	standalone: true,
-	imports: [NgbNavModule, NgbDropdownModule, NgFor, NgIf, NgbAlertModule],
-	templateUrl: './nav.component.html',
-
+    selector: 'app-ngbd-nav',
+    imports: [NgbNavModule, NgbDropdownModule, NgFor, NgIf, NgbAlertModule],
+    templateUrl: './nav.component.html'
 })
 export class NgbdnavBasicComponent {
 	//  basic navs

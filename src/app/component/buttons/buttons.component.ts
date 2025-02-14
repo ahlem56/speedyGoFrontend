@@ -9,12 +9,11 @@ interface buttonsData {
 }
 
 @Component({
-  selector: 'app-ngbd-buttons',
-  standalone: true,
-  templateUrl: 'buttons.component.html',
-  imports: [
-    FormsModule, ReactiveFormsModule , NgFor
-  ]
+    selector: 'app-ngbd-buttons',
+    templateUrl: 'buttons.component.html',
+    imports: [
+        FormsModule, ReactiveFormsModule, NgFor
+    ]
 })
 export class NgbdButtonsComponent implements OnInit {
   public checkboxGroupForm: UntypedFormGroup = Object.create(null);

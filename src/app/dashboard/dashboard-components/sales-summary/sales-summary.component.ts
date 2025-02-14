@@ -28,8 +28,9 @@ export type salesChartOptions = {
 };
 
 @Component({
-  selector: 'app-sales-summary',
-  templateUrl: './sales-summary.component.html'
+    selector: 'app-sales-summary',
+    templateUrl: './sales-summary.component.html',
+    standalone: false
 })
 export class SalesSummaryComponent implements OnInit {
 

@@ -6,7 +6,7 @@
   position: relative;
   z-index: 100;
   transition: $transitions;
-  box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.05);
+  box-shadow: 1px 0px 7px #ac01010d;
   background: $topbar;
   height: $topbar-height;
   .navbar-collapse {
@@ -26,7 +26,11 @@
           display: none;
         }
         .logo-icon {
-          margin-right: 5px;
+          margin-left: 50px;  /* Reduce the space to the text */
+        }
+        .logo-icon img {
+          max-width: 100px;
+          height: auto;
         }
       }
     }

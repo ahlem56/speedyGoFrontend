@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -47,6 +47,7 @@ import { RuleCreationComponent } from './rule/rule-creation/rule-creation.compon
 import { RuleDetailsComponent } from './rule/rule-details/rule-details.component';
 import { RuleEditComponent } from './rule/rule-edit/rule-edit.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -93,12 +94,14 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     RuleCreationComponent,
     RuleDetailsComponent,
     RuleEditComponent,
-    NotFoundComponent
+    NotFoundComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
