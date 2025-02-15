@@ -28,7 +28,7 @@ import { PartnerListComponent } from './BackOffice/partner/partner-list/partner-
 import { PartnerCreateComponent } from './BackOffice/partner/partner-create/partner-create.component';
 import { PartnerEditComponent } from './BackOffice/partner/partner-edit/partner-edit.component';
 import { EventListComponent } from './FrontOffice/event/event-list/event-list.component';
-import { EventCreateComponent } from './BackOffice/event/event-create/event-create.component';
+import { EventCreateComponent } from './BackOffice/event/event-createBackOffice/event-createBackOffice.component';
 import { EventDetailComponent } from './FrontOffice/event/event-detail/event-detail.component';
 import { EventNotifyComponent } from './FrontOffice/event/event-notify/event-notify.component';
 import { ChatComponent } from './FrontOffice/chat/chat/chat.component';

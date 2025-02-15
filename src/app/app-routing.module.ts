@@ -43,7 +43,7 @@ import { PartnerEditComponent } from './BackOffice/partner/partner-edit/partner-
 
 // Event components
 import { EventListComponent } from './FrontOffice/event/event-list/event-list.component';
-import { EventCreateComponent } from './BackOffice/event/event-create/event-create.component';
+import { EventCreateComponent } from './BackOffice/event/event-createBackOffice/event-createBackOffice.component';
 import { EventDetailComponent } from './FrontOffice/event/event-detail/event-detail.component';
 import { EventNotifyComponent } from './FrontOffice/event/event-notify/event-notify.component';
 
@@ -86,7 +86,7 @@ const routes: Routes = [
     component: FullComponent, // Use FullComponent as the layout for main pages
     children: [
       // Template routes
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: '/component/badges', pathMatch: 'full' },
       {
         path: 'dashboard',
         loadChildren: () =>

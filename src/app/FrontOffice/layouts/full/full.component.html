@@ -16,74 +16,44 @@
   <!-- Topbar header - style you can find in topbar.scss -->
   <!-- ============================================================== -->
   <header class="topbar" data-navbarbg="skin5">
-    <nav class="d-flex top-navbar navbar-expand-lg navbar-dark">
-      <div
-        class="navbar-header"
-        [ngClass]="expandLogo ? 'expand-logo' : ''"
-        data-logobg="skin6"
-      >
-        <!-- This is for the sidebar toggle which is visible on mobile only -->
-        <a
-          (click)="showMobileMenu = !showMobileMenu"
-          class="nav-toggler waves-effect waves-light d-block d-lg-none"
-          href="javascript:void(0)"
-        >
-          <i [ngClass]="showMobileMenu ? 'bi bi-text-left fs-6' : 'bi bi-text-left fs-6'"></i>
-        </a>
-        <!-- ============================================================== -->
-        <!-- Logo -->
-        <!-- ============================================================== -->
-        <a class="navbar-brand" href="/">
-          <!-- Logo icon -->
-          <b class="logo-icon">
-            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-            <!-- Light Logo icon -->
-            <img
-              src="assets/FrontOffice/images/logos/SpeedyGo (10).png"
-              alt="homepage"
-              class="dark-logo"
-            />
-          </b>
-          <!--End Logo icon -->
-          <!-- Logo text -->
-         
-        </a>
-        <!-- ============================================================== -->
-        <!-- End Logo -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Toggle which is visible on mobile only -->
-        <!-- ============================================================== -->
-        <a
-          class="topbartoggler d-block d-lg-none waves-effect waves-light"
-          href="javascript:void(0)"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          (click)="isCollapsed = !isCollapsed"
-          [attr.aria-expanded]="!isCollapsed"
-        >
-          <i class="bi bi-text-right fs-6"></i>
-        </a>
-      </div>
-      <!-- ============================================================== -->
-      <!-- End Logo -->
-      <!-- ============================================================== -->
-      <div
-        class="navbar-collapse collapse"
-        id="navbarSupportedContent"
-        data-navbarbg="skin5"
-        [ngbCollapse]="!isCollapsed"
-      >
-        <app-navigation
-          (toggleSidebar)="toggleSidebarType()"
-          class="w-100"
-        ></app-navigation>
-      </div>
-    </nav>
-  </header>
+  <nav class="d-flex top-navbar navbar-expand-lg navbar-dark">
+    <div class="navbar-header" [ngClass]="expandLogo ? 'expand-logo' : ''" data-logobg="skin6">
+      <!-- This is for the sidebar toggle which is visible on mobile only -->
+      <a (click)="showMobileMenu = !showMobileMenu"
+         class="nav-toggler waves-effect waves-light d-block d-lg-none"
+         href="javascript:void(0)">
+        <i [ngClass]="showMobileMenu ? 'bi bi-text-left fs-6' : 'bi bi-text-left fs-6'"></i>
+      </a>
+      
+      <!-- Logo -->
+      <a class="navbar-brand" href="/">
+        <!-- Logo icon -->
+        <b class="logo-icon">
+          <img src="assets/FrontOffice/images/logos/SpeedyGo (10).png" alt="homepage" class="dark-logo" />
+        </b>
+      </a>
+      
+      <!-- Mobile toggle -->
+      <a class="topbartoggler d-block d-lg-none waves-effect waves-light"
+         href="javascript:void(0)"
+         data-toggle="collapse"
+         data-target="#navbarSupportedContent"
+         aria-controls="navbarSupportedContent"
+         aria-expanded="false"
+         aria-label="Toggle navigation"
+         (click)="isCollapsed = !isCollapsed"
+         [attr.aria-expanded]="!isCollapsed">
+        <i class="bi bi-text-right fs-6"></i>
+      </a>
+    </div>
+    
+    <!-- Navbar links collapse -->
+    <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5" [ngbCollapse]="!isCollapsed">
+      <app-navigation (toggleSidebar)="toggleSidebarType()" class="w-100"></app-navigation>
+    </div>
+  </nav>
+</header>
+
   <!-- ============================================================== -->
   <!-- Left Sidebar - style you can find in sidebar.scss  -->
   <!-- ============================================================== -->

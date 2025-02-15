@@ -1,53 +1,50 @@
 import { RouteInfo } from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
- 
   {
-    path: '/dashboard',
+    path: 'trips/create',
     title: 'Trip',
-    icon: 'bi bi-speedometer2',
+    icon: 'bi bi-geo-alt',  // Map pin for trips
     class: '',
     extralink: false,
     submenu: []
   },
   {
-    path: '/component/alert',
+    path: 'carpooling/create',
     title: 'Carpool',
-    icon: 'bi bi-bell',
+    icon: 'bi bi-car-front',  // Car icon for carpooling
     class: '',
     extralink: false,
     submenu: []
   },
   {
-    path: '/component/badges',
+    path: 'parcels/create',
     title: 'Parcel',
-    icon: 'bi bi-patch-check',
+    icon: 'bi bi-box',  // Box icon for parcels
     class: '',
     extralink: false,
     submenu: []
   },
   {
-    path: '/component/buttons',
+    path: 'events',
     title: 'Events',
-    icon: 'bi bi-hdd-stack',
+    icon: 'bi bi-calendar-event',  // Calendar icon for events
     class: '',
     extralink: false,
     submenu: []
   },
-  
   {
-    path: '/component/dropdown',
+    path: 'complaints/create',
     title: 'Complaints',
-    icon: 'bi bi-menu-app',
+    icon: 'bi bi-exclamation-circle',  // Exclamation circle for complaints
     class: '',
     extralink: false,
     submenu: []
   },
-  
   {
     path: '/about',
     title: 'About',
-    icon: 'bi bi-people',
+    icon: 'bi bi-info-circle',  // Info circle for About section
     class: '',
     extralink: false,
     submenu: []
