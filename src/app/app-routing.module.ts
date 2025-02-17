@@ -143,18 +143,19 @@ import { VehicleDetailDriverInterfaceComponent } from './Components/DriverInterf
 
 //************ Imports Shared Components ************
 // not found component
-import { NotFoundComponent } from './Shared/login/components/not-found/not-found.component';
+import { NotFoundComponent } from './Shared/components/not-found/not-found.component';
 
 // login component
 import { LoginComponent } from './Shared/login/login.component';
 
 //about component
-import { AboutComponent } from './Shared/login/about/about.component';
+import { AboutComponent } from './Shared/about/about.component';
 
 // Import components
-import { FullComponent } from './Shared/login/layouts/full/full.component'; // Template's FullComponent  
+import { FullComponent } from './Shared/layouts/full/full.component'; // Template's FullComponent  
 import { PromotionDetailsBackOfficeComponent } from './Components/BackOffice/promotion/promotion-details/promotion-details.component';
-import { LandingPageComponent } from './Shared/login/landing-page/landing-page.component';
+import { LandingPageComponent } from './Shared/landing-page/landing-page.component';
+import { AuthGuard } from './auth.guard';
 
 
 
@@ -200,7 +201,7 @@ const routes: Routes = [
       { path: 'promotions/:id', component: PromotionDetailsFrontOfficeComponent },
 
       // BackOffice Routes
-      { path: 'back-office/dashboard', component: DashboardComponent },
+      { path: 'back-office/dashboard', component: DashboardComponent ,canActivate: [AuthGuard] },
       { path: 'back-office/rules/create', component: RuleCreationBackOfficeComponent },
       { path: 'back-office/rules/:id', component: RuleDetailsBackOfficeComponent },
       { path: 'back-office/rules/edit/:id', component: RuleEditBackOfficeComponent },

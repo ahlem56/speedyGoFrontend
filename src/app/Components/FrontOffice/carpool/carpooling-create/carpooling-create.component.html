@@ -1,1 +1,63 @@
-<p>carpooling-create works!</p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2 class="section-title">Join or create your carpool offer with SpeedyGo</h2>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+        <div class="col-md-5 text-center">
+        
+            <button class="btn btn-lg btn-primary" (click)="joinCarpool()">
+                <i class="fas fa-paper-plane"></i> Join Trip
+            </button><br>
+            <button class="btn btn-lg btn-primary" (click)="displayForm()">
+                <i class="fas fa-plus"></i> Create Trip
+            </button>
+        </div>
+    </div>
+
+
+
+<!-- Formulaire pour créer un covoiturage -->
+<div *ngIf="showForm" class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm">
+            <h4 class="text-center">Enter your carpool Details</h4>
+            <form (ngSubmit)="submitCarpool()">
+                <div class="mb-3">
+                    <label class="form-label">Departure</label>
+                    <input type="text" class="form-control" placeholder="Enter departure location" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Destination</label>
+                    <input type="text" class="form-control" placeholder="Enter destination" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">number of available seats </label>
+                    <input type="number" class="form-control" placeholder="Enter number of seats available" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">date </label>
+                    <input type="date" class="form-control form-control-lg" id="carpoolDate" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">carpool Time</label>
+                    <input type="time" class="form-control" name="carpoolTime" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Conditions</label>
+                    <div *ngFor="let condition of conditions">
+                        <input type="checkbox" [value]="condition" (change)="toggleCondition(condition)"> {{ condition }}
+                    </div><br>
+               <div class="mb-3">
+                        <label class="form-label">Price(TND)</label>
+                        <input type="number" class="form-control" [(ngModel)]="tripPrice" name="tripPrice" placeholder="Enter price per passenger" required>
+                </div>
+
+                </div>
+                <button class="btn btn-danger w-100" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 // *************** FrontOffice Components ***************
 import { TripListFrontOfficeComponent } from './Components/FrontOffice/trip/trip-list/trip-list.component';
@@ -100,13 +102,15 @@ import { VehicleListDriverInterfaceComponent } from './Components/DriverInterfac
 import { VehicleDetailDriverInterfaceComponent } from './Components/DriverInterface/vehicle/vehicle-detail/vehicle-detail.component';
 
 // *************** Shared Components ***************
-import { NotFoundComponent } from './Shared/login/components/not-found/not-found.component';
-import { FullComponent } from './Shared/login/layouts/full/full.component';
+import { NotFoundComponent } from './Shared/components/not-found/not-found.component';
+import { FullComponent } from './Shared/layouts/full/full.component';
+import { LoginComponent } from './Shared/login/login.component';
 
 
 // Define routes
 @NgModule({
   declarations: [
+    
     AppComponent,
     TripListFrontOfficeComponent,
     TripCreateFrontOfficeComponent,
@@ -187,8 +191,13 @@ import { FullComponent } from './Shared/login/layouts/full/full.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     DashboardModule  ,
+    FormsModule,
+    HttpClientModule,
+    CommonModule,
     FullComponent,   // Import standalone component
-    SignupComponent  // Import standalone component
+    SignupComponent,
+    LoginComponent  // Import standalone component
+   
   ],
   providers: [],
   bootstrap: [AppComponent]
