@@ -156,6 +156,7 @@ import { FullComponent } from './Shared/layouts/full/full.component'; // Templat
 import { PromotionDetailsBackOfficeComponent } from './Components/BackOffice/promotion/promotion-details/promotion-details.component';
 import { LandingPageComponent } from './Shared/landing-page/landing-page.component';
 import { AuthGuard } from './auth.guard';
+import { ProfileComponent } from './Shared/profile/profile.component';
 
 
 
@@ -171,6 +172,7 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'about', component: AboutComponent },
       { path: 'signup', component: SignupComponent },
+      { path: 'profile', component: ProfileComponent },  
       { path: 'trips', component: TripListFrontOfficeComponent },
       { path: 'trips/create', component: TripCreateFrontOfficeComponent },
       { path: 'trips/:id', component: TripDetailFrontOfficeComponent },

@@ -24,25 +24,27 @@ export class LoginComponent {
   onLogin(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-  
-      // Only send email and password to backend, no 'type' needed
-      const loginData = { email, password };
-  
-      this.userService.login(email, password).subscribe(
-        (response) => {
-          localStorage.setItem('authToken', response.token);
-          localStorage.setItem('userRole', response.role);  // Store the role
-          this.router.navigate(['/landingPage']);
-        },
-        (error) => {
-          console.error('Login error:', error);
-          alert('Invalid email or password!');
-        }
-      );
+
+     // In login.component.ts
+this.userService.login(email, password).subscribe(
+  (response) => {
+    localStorage.setItem('authToken', response.token);  // Save the authToken
+    localStorage.setItem('userRole', response.role);  // Save the userRole
+    localStorage.setItem('user', JSON.stringify(response.user));  // Store the full user data
+    this.router.navigate(['/landingPage']);  // Navigate to landing page
+    
+  },
+  (error) => {
+    console.error('Login error:', error);
+    alert('Invalid email or password!');
+  }
+);
+
     } else {
       console.log('Form is not valid');
     }
   }
+  
   
   
   

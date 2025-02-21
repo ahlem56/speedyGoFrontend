@@ -4,8 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
+import { CommonModule,DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+
 
 
 // *************** FrontOffice Components ***************
@@ -106,6 +107,9 @@ import { VehicleDetailDriverInterfaceComponent } from './Components/DriverInterf
 import { NotFoundComponent } from './Shared/components/not-found/not-found.component';
 import { FullComponent } from './Shared/layouts/full/full.component';
 import { LoginComponent } from './Shared/login/login.component';
+import { RouterModule } from '@angular/router';
+import { ProfileComponent } from './Shared/profile/profile.component';
+
 
 
 // Define routes
@@ -196,13 +200,14 @@ import { LoginComponent } from './Shared/login/login.component';
     DashboardModule  ,
     FormsModule,
     HttpClientModule,
+    RouterModule,
     CommonModule,
+    ProfileComponent,
     FullComponent,   // Import standalone component
-    SignupComponent,
-    LoginComponent  // Import standalone component
+    
    
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

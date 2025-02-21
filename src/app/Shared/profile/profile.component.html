@@ -1,0 +1,14 @@
+<div class="profile-container">
+    <h2>My Profile</h2>
+    <div class="profile-details">
+      <p><strong>First Name:</strong> {{ user.firstName }}</p>
+      <p><strong>Last Name:</strong> {{ user.lastName }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Address:</strong> {{ user.address }}</p>
+      <p><strong>CIN:</strong> {{ user.cin }}</p>
+      <p><strong>Birth Date:</strong> {{ user.birthDate | date }}</p>
+      <p><strong>Profile Photo:</strong></p>
+      <img [src]="getProfileImage()" alt="Profile Photo" class="profile-photo"/>
+    </div>
+  </div>
+  

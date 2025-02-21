@@ -14,21 +14,23 @@ export class UserService {
 
   // Login method to authenticate user and get JWT token
  // Login method to authenticate user and get JWT token
-login(email: string, password: string): Observable<any> {
-  const loginData = { email: email, password: password }; // Remove the 'type' field
+ login(email: string, password: string): Observable<any> {
+  const loginData = { email: email, password: password };
 
   return this.http.post(this.signinUrl, loginData).pipe(
     map((response: any) => {
-      const token = response.token.split(' ')[1];  // Extract the token after "Bearer"
-      localStorage.setItem('authToken', token);  // Save the token to localStorage
+      console.log('Response from server:', response);  // Log the response
+      const token = response.token.split(' ')[1];  // Extract the token
+      localStorage.setItem('authToken', token);  // Store the token
+      localStorage.setItem('userRole', response.role);  // Store the role
+      localStorage.setItem('user', JSON.stringify(response.user));  // Store the full user object
 
-      // Store the user's role if it is returned in response
-      localStorage.setItem('userRole', response.role);  // Save the role (or type)
-
-      return { token, role: response.role };  // Return both token and role (or userType)
+      return { token, role: response.role, user: response.user };
     })
   );
 }
+
+
 
   
   
@@ -53,4 +55,11 @@ login(email: string, password: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any>(`${environment.apiUrl}/user/profile`, { headers });
   }  
+
+  // user.service.ts
+logout(): void {
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('userRole');
+}
+
 }
