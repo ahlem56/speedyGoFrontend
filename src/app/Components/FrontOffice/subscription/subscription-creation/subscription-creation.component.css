@@ -1,0 +1,174 @@
+/* Subscription Plans Heading */
+h2 {
+    font-family: 'Roboto', sans-serif; /* Modern sans-serif font */
+    font-size: 3.2em; /* Larger font size for prominence */
+    font-weight: 800; /* Bold and prominent font weight */
+    text-transform: uppercase; /* Uppercase letters for boldness */
+    color: #1abc9c; /* Greenish color for vibrancy */
+    text-align: center; /* Center the heading */
+    margin-top: 40px; /* Space above */
+    margin-bottom: 30px; /* Space below */
+    padding: 10px 0; /* Padding for spacing */
+    letter-spacing: 3px; /* Wide letter spacing for impact */
+    background: linear-gradient(135deg, #9b1818, #ff9f9f); /* Colorful gradient background */
+    background-clip: text; /* Clip the gradient to the text */
+    -webkit-background-clip: text; /* Ensures the gradient is applied to text */
+    color: transparent; /* Make text transparent to show gradient */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    animation: slideIn 1s ease-out; /* Animation for smooth entrance */
+  }
+  
+  /* Animation for smooth slide-in effect */
+  @keyframes slideIn {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Subscription Cards Container */
+  .subscription-offers {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Flexbox container for subscription cards */
+  .subscription-cards {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    margin-bottom: 40px;
+  }
+  
+  /* Individual subscription card */
+  .subscription-card {
+    background: linear-gradient(145deg, #f9f9f9, #ffffff); /* Subtle gradient background */
+    border-radius: 20px; /* Rounded corners for modern look */
+    width: 300px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.15); /* Deeper shadow for depth */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+  
+  /* Hover effect for cards */
+  .subscription-card:hover {
+    transform: translateY(-20px); /* Lift the card on hover */
+    box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.3); /* Stronger shadow effect */
+  }
+  
+  /* Card Header */
+  .card-header h3 {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #333; /* Dark color for readability */
+    margin-bottom: 15px;
+    font-family: 'Lora', serif; /* Elegant serif font */
+    text-transform: capitalize; /* Capitalize card titles */
+  }
+  
+  /* Price Styling */
+  .price {
+    font-size: 1.5em;
+    color: #9b1818; /* Rich gold color */
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  /* Price underline effect */
+  .price::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #9b1818; /* Gold underline */
+    animation: underline 1s ease-in-out infinite alternate; /* Animation for glowing underline */
+  }
+  
+  /* Animation for glowing price underline */
+  @keyframes underline {
+    0% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+  
+  /* Card Body */
+  .card-body p {
+    font-size: 1.1em;
+    color: #666;
+    line-height: 1.6;
+    margin: 15px 0;
+    font-style: italic; /* Italics for more emphasis */
+  }
+  
+  /* Card Footer */
+  .card-footer {
+    margin-top: 30px;
+  }
+  
+  /* Button Styling */
+  .subscribe-btn {
+    padding: 14px 28px;
+    background: linear-gradient(45deg, #D9C077, #e0ae15); /* Gradient background for button */
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+    border-radius: 50px; /* Pill-shaped button */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transitions */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  .subscribe-btn:hover {
+    background: linear-gradient(45deg, #9b1818, #e67e22); /* Hover effect with another gradient */
+    transform: scale(1.1); /* Button grows on hover */
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2); /* Glow effect */
+  }
+  
+  /* Focus effect for accessibility */
+  .subscribe-btn:focus {
+    outline: none;
+    box-shadow: 0px 0px 20px rgba(52, 152, 219, 0.7); /* Subtle glow effect on focus */
+  }
+  
+  /* Different background color for odd and even cards */
+  .subscription-card:nth-child(odd) {
+    background: linear-gradient(145deg, #fff, #f1f1f1); /* Slightly lighter background */
+  }
+  
+  .subscription-card:nth-child(even) {
+    background: linear-gradient(145deg, #f9f9f9, #ffffff); /* Slightly different background */
+  }
+  
+  /* Additional small animations on the subscription cards */
+  @keyframes card-enter {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .subscription-card {
+    animation: card-enter 0.5s ease-out; /* Cards will slide in with a smooth animation */
+  }
+  

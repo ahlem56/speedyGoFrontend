@@ -34,6 +34,14 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: '/subscriptions/create',
+    title: 'Subscriptions',
+    icon: 'bi bi-journal-bookmark',  
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: 'complaints/create',
     title: 'Complaints',
     icon: 'bi bi-exclamation-circle',  // Exclamation circle for complaints

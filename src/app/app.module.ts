@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
+
 // *************** FrontOffice Components ***************
 import { TripListFrontOfficeComponent } from './Components/FrontOffice/trip/trip-list/trip-list.component';
 import { TripCreateFrontOfficeComponent } from './Components/FrontOffice/trip/trip-create/trip-create.component';
@@ -113,7 +114,7 @@ import { LoginComponent } from './Shared/login/login.component';
     
     AppComponent,
     TripListFrontOfficeComponent,
-    TripCreateFrontOfficeComponent,
+  
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
     CarpoolingCreateFrontOfficeComponent,
@@ -137,7 +138,7 @@ import { LoginComponent } from './Shared/login/login.component';
     ComplaintCreationFrontOfficeComponent,
     ComplaintListFrontOfficeComponent,
     ComplaintDetailsFrontOfficeComponent,
-    SubscriptionCreationFrontOfficeComponent,
+
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
     
@@ -189,6 +190,8 @@ import { LoginComponent } from './Shared/login/login.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    TripCreateFrontOfficeComponent,
+    SubscriptionCreationFrontOfficeComponent,
     ReactiveFormsModule,
     DashboardModule  ,
     FormsModule,

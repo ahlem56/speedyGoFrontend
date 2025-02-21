@@ -1,1 +1,21 @@
-<p>subscription-creation works!</p>
+<div class="subscription-offers">
+    <h2>Subscription Plans</h2>
+  
+    <div class="subscription-cards">
+      <div class="subscription-card" *ngFor="let offer of subscriptionOffers">
+        <div class="card-header">
+          <h3>{{ offer.name }}</h3>
+          <p class="price">{{ formatPrice(offer.subscriptionPrice) }}</p>
+        </div>
+        
+        <div class="card-body">
+          <p>{{ offer.subscriptionDescription }}</p>
+        </div>
+        
+        <div class="card-footer">
+          <button class="subscribe-btn" (click)="subscribe(offer)">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

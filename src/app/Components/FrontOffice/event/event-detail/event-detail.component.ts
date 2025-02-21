@@ -4,7 +4,8 @@ import { Component } from '@angular/core';
     selector: 'app-event-detail',
     templateUrl: './event-detail.component.html',
     styleUrls: ['./event-detail.component.css'],
-    standalone: false
+    standalone: false,
+    host: { class: 'front-office' }
 })
 export class EventDetailFrontOfficeComponent {
 

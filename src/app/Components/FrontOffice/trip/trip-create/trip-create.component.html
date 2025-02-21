@@ -1,5 +1,4 @@
 <div class="container-fluid">
-    <!-- Welcome Section with Instructions -->
     <div class="row justify-content-center">
         <div class="col-md-8 text-center">
             <h2 class="section-title">Create Your Trip with SpeedyGo</h2>
@@ -9,65 +8,66 @@
 
     <!-- Form Section -->
     <div class="row justify-content-center">
-        <!-- Left Column: Departure -->
         <div class="col-md-5">
             <div class="form-group">
                 <label for="departure" class="form-label">Departure Location</label>
-                <input type="text" class="form-control form-control-lg" id="departure" placeholder="Enter departure location" required>
+                <input type="text" class="form-control form-control-lg" id="departure" [(ngModel)]="trip.tripDeparture" name="tripDeparture" placeholder="Enter departure location" required>
                 <small class="form-text text-muted">Where are you starting your journey?</small>
             </div>
         </div>
-
-        <!-- Right Column: Destination -->
         <div class="col-md-5">
             <div class="form-group">
                 <label for="destination" class="form-label">Destination Location</label>
-                <input type="text" class="form-control form-control-lg" id="destination" placeholder="Enter destination location" required>
+                <input type="text" class="form-control form-control-lg" id="destination" [(ngModel)]="trip.tripDestination" name="tripDestination" placeholder="Enter destination location" required>
                 <small class="form-text text-muted">Where would you like to go?</small>
             </div>
         </div>
     </div>
 
-    <!-- Trip Type and Number of People -->
     <div class="row justify-content-center mt-4">
-        <!-- Left Column: Trip Type -->
         <div class="col-md-5">
             <div class="form-group">
                 <label for="tripType" class="form-label">Trip Type</label>
-                <select class="form-control form-control-lg" id="tripType" required>
+                <select class="form-control form-control-lg" id="tripType" [(ngModel)]="trip.tripType" name="tripType" required>
                     <option value="express">Express Trip</option>
                     <option value="longDistance">Long Distance Travel</option>
                 </select>
-                <small class="form-text text-muted">Choose the type of trip (fast or long).</small>
             </div>
         </div>
-
-        <!-- Right Column: Number of People -->
         <div class="col-md-5">
             <div class="form-group">
                 <label for="numPeople" class="form-label">Number of People</label>
-                <input type="number" class="form-control form-control-lg" id="numPeople" min="1" max="10" placeholder="Enter number of people" required>
-                <small class="form-text text-muted">How many people will be traveling?</small>
+                <input type="number" class="form-control form-control-lg" id="numPeople" [(ngModel)]="trip.numPeople" name="numPeople" min="1" max="10" placeholder="Enter number of people" required>
             </div>
         </div>
     </div>
 
-    <!-- Date Selection -->
     <div class="row justify-content-center mt-4">
         <div class="col-md-5">
             <div class="form-group">
                 <label for="tripDate" class="form-label">Date of Departure</label>
-                <input type="date" class="form-control form-control-lg" id="tripDate" required>
+                <input type="date" class="form-control form-control-lg" id="tripDate" [(ngModel)]="trip.tripDate" name="tripDate" required>
             </div>
         </div>
     </div>
 
-    
+    <!-- Select Driver -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="driverSelect" class="form-label">Select Driver</label>
+                <select id="driverSelect" class="form-control form-control-lg" [(ngModel)]="trip.driverId" name="driverId" required>
+                    <option *ngFor="let driver of availableDrivers" [value]="driver.driverId">{{driver.firstName}} {{driver.lastName}}</option>
+                </select>
+                <small class="form-text text-muted">Select an available driver</small>
+            </div>
+        </div>
+    </div>
 
     <!-- Submit Button -->
     <div class="row justify-content-center mt-4">
         <div class="col-md-5">
-            <button class="btn btn-lg btn-primary w-100" type="submit">
+            <button class="btn btn-lg btn-primary w-100" type="button" (click)="createTrip()">
                 <i class="fas fa-paper-plane"></i> Create Trip
             </button>
         </div>
