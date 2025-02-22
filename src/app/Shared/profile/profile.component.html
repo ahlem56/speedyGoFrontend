@@ -1,14 +1,45 @@
 <div class="profile-container">
-    <h2>My Profile</h2>
+  <div class="profile-header">
+    <h2 class="profile-title">My Profile</h2>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-photo-container">
+      <img src="assets/FrontOffice/images/users/user4.jpg" alt="Profile Photo" class="profile-photo" />
+      <input type="file" id="fileInput" (change)="onFileChange($event)" style="display: none" />
+      <button (click)="triggerFileInput()" class="change-photo-btn">Change Photo</button>
+    </div>
+
     <div class="profile-details">
-      <p><strong>First Name:</strong> {{ user.firstName }}</p>
-      <p><strong>Last Name:</strong> {{ user.lastName }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
-      <p><strong>Address:</strong> {{ user.address }}</p>
-      <p><strong>CIN:</strong> {{ user.cin }}</p>
-      <p><strong>Birth Date:</strong> {{ user.birthDate | date }}</p>
-      <p><strong>Profile Photo:</strong></p>
-      <img [src]="getProfileImage()" alt="Profile Photo" class="profile-photo"/>
+      <div class="detail">
+        <span class="label">First Name:</span>
+        <span class="value">{{ user.firstName }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Last Name:</span>
+        <span class="value">{{ user.lastName }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Email:</span>
+        <span class="value">{{ user.email }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Address:</span>
+        <span class="value">{{ user.address }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">CIN:</span>
+        <span class="value">{{ user.cin }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Birth Date:</span>
+        <span class="value">{{ user.birthDate | date }}</span>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="edit-btn">Edit Profile</button>
+      <button class="change-password-btn">Change Password</button>
     </div>
   </div>
-  
+</div>

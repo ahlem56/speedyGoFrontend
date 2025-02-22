@@ -16,14 +16,14 @@
     /* Body styling */
     body {
       font-family: 'Arial', sans-serif;
-      background: #f4f4f4;
+      background: linear-gradient(45deg, #ff8c00, #ff6f61); /* Subtle gradient background */
       margin: 0;
       padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: auto; /* Allow scrolling if necessary */
+      overflow: hidden;
     }
 
     /* Remove all inherited styles from global CSS like header or sidebar */
@@ -33,29 +33,39 @@
 
     /* Container for the sign up form */
     .signup-container {
-      max-width: 400px;
+      max-width: 450px;
       width: 100%;
-      padding: 30px;
+      padding: 40px;
       background: #ffffff;
       border-radius: 12px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
       text-align: center;
       position: relative;
-      overflow-y: auto; /* Enable scroll within the container */
-      max-height: 90vh; /* Limit the height to ensure content fits */
+      overflow-y: auto; /* Enable vertical scrolling */
+      max-height: 90vh; /* Prevent it from expanding too large */
+    }
+
+    /* SpeedyGo Logo - clickable to navigate to landing page */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 100px;
+      cursor: pointer;
     }
 
     h2 {
-      font-size: 28px;
+      font-size: 30px;
       color: #333;
       margin-bottom: 35px;
       font-weight: 600;
       text-transform: uppercase;
+      color: #ff6f61;
     }
 
     /* Styling for the input groups */
     .input-group {
-      margin-bottom: 20px; /* Reduced margin for better fit */
+      margin-bottom: 25px;
       position: relative;
     }
 
@@ -112,10 +122,25 @@
       background-color: #9e0f0f;
     }
 
+    /* Link styling for 'Already have an account?' */
+    .link-container {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .link-container a {
+      color: #ff6f61;
+      text-decoration: none;
+    }
+
+    .link-container a:hover {
+      text-decoration: underline;
+    }
+
     /* Responsive design for smaller screens */
     @media (max-width: 768px) {
       .signup-container {
-        padding: 20px;
+        padding: 30px;
       }
 
       h2 {
@@ -131,6 +156,11 @@
 
 <body>
   <div class="signup-container">
+    <!-- SpeedyGo Logo - clickable to navigate to landing page -->
+    <a href="/landingPage">
+      <img src="assets/FrontOffice/images/logos/SpeedyGo (10).png" alt="SpeedyGo Logo" style="width: 100px; margin-bottom: 30px; cursor: pointer;" />
+    </a>
+
     <h2>Sign Up</h2>
     <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
       <!-- First Name -->
@@ -201,6 +231,11 @@
 
       <button type="submit" [disabled]="signupForm.invalid" class="submit-button">Sign Up</button>
     </form>
+
+    <!-- Link to Login page -->
+    <div class="link-container">
+      <span>Already have an account? <a href="/login">Login</a></span>
+    </div>
   </div>
 </body>
 

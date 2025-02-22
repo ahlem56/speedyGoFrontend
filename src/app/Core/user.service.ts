@@ -9,6 +9,7 @@ import { map, Observable } from 'rxjs';
 export class UserService {
   private signinUrl = 'http://localhost:8089/examen/user/signin';
   private signupUrl = 'http://localhost:8089/examen/user/signup';
+  private apiUrl = 'http://localhost:8089/examen/user';
 
   constructor(private http: HttpClient) { }
 
@@ -60,6 +61,12 @@ export class UserService {
 logout(): void {
   localStorage.removeItem('authToken');
   localStorage.removeItem('userRole');
+}
+
+
+// API call to upload profile photo
+uploadProfileImage(formData: FormData, headers: HttpHeaders): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/upload-profile-photo`, formData, { headers });
 }
 
 }

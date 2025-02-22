@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { RouteInfo } from './sidebar.metadata';
-import { ROUTES } from './menu-items';
+import { ALL_ROUTES } from './menu-items';
 
 
 @Injectable({
@@ -13,7 +13,7 @@ export class VerticalSidebarService {
     public collapseSidebar: boolean = false;
     public fullScreen: boolean = false;
 
-    MENUITEMS: RouteInfo[] = ROUTES;
+    MENUITEMS: RouteInfo[] = ALL_ROUTES;
 
     items = new BehaviorSubject<RouteInfo[]>(this.MENUITEMS);
 

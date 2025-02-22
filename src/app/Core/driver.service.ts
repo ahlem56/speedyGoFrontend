@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 // Define the Driver interface
 export interface Driver {
-  driverId: number;
+  userId: number;
   firstName: string;
   lastName: string;
   availabilityD: boolean;  // availability status
@@ -21,6 +21,6 @@ export class DriverService {
 
   // Fetch available drivers
   getAvailableDrivers(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.baseUrl}availableDrivers`);  // Call the backend endpoint
+    return this.http.get<Driver[]>(`${this.baseUrl}get-available-drivers`);  // Updated URL
   }
 }

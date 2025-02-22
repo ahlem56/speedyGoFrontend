@@ -1,21 +1,89 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { ROUTES } from './menu-items';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RouteInfo } from './sidebar.metadata';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule, NgIf } from '@angular/common';
-//declare var $: any;
+import { UserService } from 'src/app/Core/user.service'; // Import UserService to access logged-in user's role
+import { RouterModule } from '@angular/router';  // Import RouterModule
+import { CommonModule } from '@angular/common';  // Import CommonModule
+import { ALL_ROUTES } from './menu-items';
+import { LoginPopupComponent } from '../../login-popup/login-popup.component';
 
 @Component({
-    selector: 'app-sidebar',
-    imports: [RouterModule, CommonModule, NgIf],
-    templateUrl: './sidebar.component.html'
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  standalone: true,  // If you're using standalone component
+  imports: [CommonModule, RouterModule, LoginPopupComponent]  // Import the modal component
 })
 export class SidebarComponent implements OnInit {
   showMenu = '';
-  showSubMenu = '';
-  public sidebarnavItems:RouteInfo[]=[];
-  // this is for the open close
+  public sidebarnavItems: RouteInfo[] = []; // Empty initially
+  public userRole: string = ''; // To store the logged-in user's role
+  public showModal: boolean = false; // To control the modal visibility
+
+  constructor(
+    private router: Router,
+    private userService: UserService
+  ) {}
+
+  ngOnInit() {
+    // Get user role from localStorage
+    this.userRole = localStorage.getItem('userRole') || 'SimpleUser';  // Default to 'SimpleUser' if not available
+    this.setMenuItems();
+  }
+
+  // Set menu items based on user role
+  setMenuItems() {
+    switch (this.userRole) {
+      case 'Admin':
+        this.sidebarnavItems = ALL_ROUTES.filter((sidebarnavItem: RouteInfo) =>
+          sidebarnavItem.path === 'back-office/dashboard' ||
+          sidebarnavItem.path === 'back-office/drivers' ||
+          sidebarnavItem.path === 'back-office/vehicles' ||
+          sidebarnavItem.path === 'back-office/users' ||
+          sidebarnavItem.path === 'trips/create' ||
+          sidebarnavItem.path === 'carpooling/create' ||
+          sidebarnavItem.path === 'parcels/create' ||
+          sidebarnavItem.path === 'complaints/create' ||
+          sidebarnavItem.path === 'events'
+        );
+        break;
+      case 'Driver':
+        this.sidebarnavItems = ALL_ROUTES.filter((sidebarnavItem: RouteInfo) =>
+          sidebarnavItem.path === 'driver-interface/trips' ||
+          sidebarnavItem.path === 'driver-interface/parcels' ||
+          sidebarnavItem.path === 'drivers/schedule' // For driver-specific routes
+        );
+        break;
+      case 'SimpleUser':
+        this.sidebarnavItems = ALL_ROUTES.filter((sidebarnavItem: RouteInfo) =>
+          sidebarnavItem.path === 'trips/create' ||
+          sidebarnavItem.path === 'carpooling/create' ||
+          sidebarnavItem.path === 'parcels/create' ||
+          sidebarnavItem.path === 'events' ||
+          sidebarnavItem.path === '/subscriptions/create' ||
+          sidebarnavItem.path === 'complaints/create' ||
+          sidebarnavItem.path === '/about'
+        );
+        break;
+      default:
+        this.sidebarnavItems = [];
+        break;
+    }
+  }
+
+  // Handle sidebar item click and check for login
+  handleSidebarItemClick(path: string) {
+    const isLoggedIn = localStorage.getItem('authToken'); // Check if token exists
+    
+    if (!isLoggedIn) {
+      // If user is not logged in, show the modal
+      this.showModal = true;
+    } else {
+      // If logged in, navigate to the clicked route
+      this.router.navigate([path]);
+    }
+  }
+
+  // Toggle menu items
   addExpandClass(element: string) {
     if (element === this.showMenu) {
       this.showMenu = '0';
@@ -24,15 +92,8 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  constructor(
-    private modalService: NgbModal,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
-
-  // End open close
-  ngOnInit() {
-    this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
-    
+  // Close the modal (if needed)
+  closeModal() {
+    this.showModal = false;
   }
 }

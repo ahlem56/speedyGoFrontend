@@ -109,6 +109,9 @@ import { FullComponent } from './Shared/layouts/full/full.component';
 import { LoginComponent } from './Shared/login/login.component';
 import { RouterModule } from '@angular/router';
 import { ProfileComponent } from './Shared/profile/profile.component';
+import { ForgotPasswordComponent } from './Shared/forgot-password/forgot-password.component';
+import { NotificationFrontOfficeComponent } from './Components/FrontOffice/notification/notification.component';
+import { AccessDeniedComponent } from './Shared/access-denied/access-denied.component';
 
 
 
@@ -118,7 +121,7 @@ import { ProfileComponent } from './Shared/profile/profile.component';
     
     AppComponent,
     TripListFrontOfficeComponent,
-  
+    
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
     CarpoolingCreateFrontOfficeComponent,
@@ -202,7 +205,10 @@ import { ProfileComponent } from './Shared/profile/profile.component';
     HttpClientModule,
     RouterModule,
     CommonModule,
+    ForgotPasswordComponent,
     ProfileComponent,
+    AccessDeniedComponent,
+    NotificationFrontOfficeComponent,
     FullComponent,   // Import standalone component
     
    
