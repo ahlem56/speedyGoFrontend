@@ -85,6 +85,66 @@ export const ALL_ROUTES: RouteInfo[] = [
     submenu: []
   },
 
+  {
+    path: 'back-office/trips',
+    title: 'Trip',
+    icon: 'bi bi-geo-alt',  // Map pin for trips
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: 'back-office/carpool/list',
+    title: 'Carpool',
+    icon: 'bi bi-car-front',  // Car icon for carpooling
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: 'back-office/parcels',
+    title: 'Parcel',
+    icon: 'bi bi-box',  // Box icon for parcels
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: 'back-office/events/create',
+    title: 'Events',
+    icon: 'bi bi-calendar-event',  // Calendar icon for events
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
+    path: 'back-office/subscriptions',
+    title: 'Subscriptions',
+    icon: 'bi bi-journal-bookmark',  
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+
+  {
+    path: 'back-office/partners/create',
+    title: 'Subscriptions',
+    icon: 'bi bi-journal-bookmark',  
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  
+  {
+    path: 'back-office/complaints',
+    title: 'Complaints',
+    icon: 'bi bi-exclamation-circle',  // Exclamation circle for complaints
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  
+
   // Driver-specific routes
 
   {

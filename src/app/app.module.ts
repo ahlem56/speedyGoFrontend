@@ -170,7 +170,7 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-    SubscriptionDetailsBackOfficeComponent,
+    
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
@@ -183,6 +183,7 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
     TripListDriverInterfaceComponent,
+    
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
@@ -199,6 +200,8 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     BrowserAnimationsModule,
     TripCreateFrontOfficeComponent,
     SubscriptionCreationFrontOfficeComponent,
+    SubscriptionDetailsBackOfficeComponent,
+    
     ReactiveFormsModule,
     DashboardModule  ,
     FormsModule,

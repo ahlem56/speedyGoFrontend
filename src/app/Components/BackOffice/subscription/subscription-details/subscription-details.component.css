@@ -1,0 +1,106 @@
+/* subscription-create.component.scss */
+.container {
+    margin-top: 40px;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-top: 20px;
+  }
+  
+  h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  label {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  input,
+  select {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+  }
+  
+  input:focus,
+  select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  .input-group-text {
+    background-color: #f0ad4e;
+    color: white;
+    border-radius: 8px 0 0 8px;
+  }
+  
+  button {
+    padding: 14px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    background-color: #bb2b2b;
+    color: white;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  button:hover {
+    background-color: #f1b356;
+  }
+  
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Existing Subscriptions Styles */
+  ul.list-group {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .list-group-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+  }
+  
+  .list-group-item .btn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .list-group-item .btn-warning {
+    background-color: #f0ad4e;
+  }
+  
+  .list-group-item .btn-danger {
+    background-color: #d9534f;
+  }
+  

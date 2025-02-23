@@ -1,1 +1,75 @@
-<p>subscription-details works!</p>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <!-- Subscription Card -->
+        <div class="card shadow-lg p-5 mb-5 rounded-lg">
+          <h2 class="text-center text-dark mb-4">Create Your Subscription</h2>
+  
+          <!-- Form -->
+          <form (ngSubmit)="onSubmit()">
+            <!-- Subscription Type -->
+            <div class="form-group">
+              <label for="subscriptionType" class="text-dark">Subscription Type</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-cogs"></i></span>
+                <select id="subscriptionType" [(ngModel)]="subscriptionType" name="subscriptionType" class="form-control" required>
+                  <option value="BASIC">Basic</option>
+                  <option value="PREMIUM">Premium</option>
+                  <option value="GOLD">Gold</option>
+                </select>
+              </div>
+            </div>
+  
+            <!-- Subscription Price -->
+            <div class="form-group">
+              <label for="subscriptionPrice" class="text-dark">Price (TND)</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                <input type="number" id="subscriptionPrice" [(ngModel)]="subscriptionPrice" name="subscriptionPrice" class="form-control" placeholder="Enter price" required />
+              </div>
+            </div>
+  
+            <!-- Subscription Description -->
+            <div class="form-group">
+              <label for="subscriptionDescription" class="text-dark">Description</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+                <input type="text" id="subscriptionDescription" [(ngModel)]="subscriptionDescription" name="subscriptionDescription" class="form-control" placeholder="Enter description" required />
+              </div>
+            </div>
+  
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-lg w-100 shadow-lg mt-3">
+              <i class="fas fa-check"></i> Create Subscription
+            </button>
+          </form>
+        </div>
+  
+        <!-- Toggle Button to Show Existing Subscriptions -->
+        <button (click)="toggleExistingSubscriptions()" class="btn btn-info btn-sm mb-4 w-100">
+          {{ showExistingSubscriptions ? 'Hide' : 'Show' }} Existing Subscriptions
+        </button>
+  
+        <!-- Existing Subscriptions List -->
+        <div *ngIf="showExistingSubscriptions" class="card shadow-sm p-4">
+          <h4 class="text-center mb-4">Existing Subscriptions</h4>
+          <ul class="list-group">
+            <li *ngFor="let sub of subscriptions" class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ sub.subscriptionType }}</strong> - {{ sub.subscriptionPrice }} TND
+              </div>
+              <div>
+                <button (click)="editSubscription(sub)" class="btn btn-warning btn-sm mr-2">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button (click)="deleteSubscription(sub.id)" class="btn btn-danger btn-sm">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  

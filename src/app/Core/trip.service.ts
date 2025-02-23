@@ -17,5 +17,15 @@ export class TripService {
     return this.http.post(url, tripData, { headers });
   }
   
-  
+   // Get all trips for a specific user
+   getTripsForUser(userId: number, headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}getTripsForUser/${userId}`;
+    return this.http.get<any[]>(url, { headers });
+  }
+
+  // Delete a trip by tripId
+  deleteTrip(tripId: number, headers: HttpHeaders): Observable<void> {
+    const url = `${this.apiUrl}deleteTrip/${tripId}`;
+    return this.http.delete<void>(url, { headers });
+  }
 }

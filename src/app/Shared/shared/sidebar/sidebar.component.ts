@@ -39,11 +39,12 @@ export class SidebarComponent implements OnInit {
           sidebarnavItem.path === 'back-office/drivers' ||
           sidebarnavItem.path === 'back-office/vehicles' ||
           sidebarnavItem.path === 'back-office/users' ||
-          sidebarnavItem.path === 'trips/create' ||
-          sidebarnavItem.path === 'carpooling/create' ||
-          sidebarnavItem.path === 'parcels/create' ||
-          sidebarnavItem.path === 'complaints/create' ||
-          sidebarnavItem.path === 'events'
+          sidebarnavItem.path === 'back-office/trips' ||
+          sidebarnavItem.path === 'back-office/carpool/list' ||
+          sidebarnavItem.path === 'back-office/parcels' ||
+          sidebarnavItem.path === 'back-office/complaints' ||
+          sidebarnavItem.path === 'back-office/events/create' ||
+          sidebarnavItem.path === 'back-office/subscriptions' 
         );
         break;
       case 'Driver':

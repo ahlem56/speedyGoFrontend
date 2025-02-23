@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- Import CommonModule
+import { SubscriptionService } from 'src/app/Core/subscription.service';
 
 @Component({
   selector: 'app-subscription-creation',
@@ -10,32 +11,25 @@ import { CommonModule } from '@angular/common'; // <-- Import CommonModule
 })
 export class SubscriptionCreationFrontOfficeComponent implements OnInit {
 
-  // Sample subscription offers matching the Subscription entity
-  subscriptionOffers = [
-    { 
-      name: 'Monthly Plan', 
-      subscriptionType: 'MONTHLY', // Assuming subscriptionType as an enum value
-      subscriptionPrice: 45, 
-      subscriptionDescription: 'Unlimited carpool offers for one months.' 
-    },
-    { 
-      name: '6-Month Plan', 
-      subscriptionType: 'SIX_MONTH', // Assuming subscriptionType as an enum value
-      subscriptionPrice: 200, 
-      subscriptionDescription: 'Unlimited carpool offers for 6 months.' 
-    },
-    { 
-      name: 'Yearly Plan', 
-      subscriptionType: 'YEARLY', // Assuming subscriptionType as an enum value
-      subscriptionPrice:400 , 
-      subscriptionDescription: 'Unlimited carpool offers for 1 year.' 
-    }
-  ];
+  subscriptionOffers: any[] = [];  // Store fetched subscriptions from the backend
 
-  constructor() { }
+  constructor(private subscriptionService: SubscriptionService) { }
 
-  ngOnInit(): void { 
-    console.log(this.subscriptionOffers);
+  ngOnInit(): void {
+    this.fetchSubscriptions();  // Fetch subscriptions from the backend
+  }
+
+  // Fetch subscriptions from backend
+  fetchSubscriptions() {
+    this.subscriptionService.getSubscriptions().subscribe(
+      (response) => {
+        this.subscriptionOffers = response;
+      },
+      (error) => {
+        console.error('Error fetching subscriptions:', error);
+        alert('Error fetching subscriptions');
+      }
+    );
   }
 
   // Formatting price using the Intl API
@@ -45,6 +39,7 @@ export class SubscriptionCreationFrontOfficeComponent implements OnInit {
 
   // Handle subscription logic when the user subscribes
   subscribe(offer: any) {
-    console.log(`Subscribed to ${offer.name} for ${this.formatPrice(offer.subscriptionPrice)}`);
+    console.log(`Subscribed to ${offer.subscriptionType} for ${this.formatPrice(offer.subscriptionPrice)}`);
+    alert(`Subscribed to ${offer.subscriptionType} for ${this.formatPrice(offer.subscriptionPrice)}`);
   }
 }

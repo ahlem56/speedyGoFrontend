@@ -41,5 +41,26 @@
       <button class="edit-btn">Edit Profile</button>
       <button class="change-password-btn">Change Password</button>
     </div>
+
+    <!-- Trip History Section -->
+    <div class="trip-history">
+      <h3 class="toggle-trip-history" (click)="toggleTripHistory()">
+        My Trip History
+        <span *ngIf="isTripsVisible">▲</span>
+        <span *ngIf="!isTripsVisible">▼</span>
+      </h3>
+      <div [ngClass]="{'trip-cards-container': true, 'open': isTripsVisible}">
+        <div *ngFor="let trip of trips" class="trip-card">
+          <div class="trip-details">
+            <p><strong>Departure:</strong> {{ trip.tripDeparture }}</p>
+            <p><strong>Destination:</strong> {{ trip.tripDestination }}</p>
+            <p><strong>Date:</strong> {{ trip.tripDate | date }}</p>
+            <p><strong>Price:</strong> ${{ trip.tripPrice }}</p>
+            <p><strong>Status:</strong> <span [ngClass]="{'canceled': trip.reservationStatus === 'CANCELED'}">{{ trip.reservationStatus }}</span></p>
+          </div>
+          <button (click)="deleteTrip(trip.tripId)" class="cancel-trip-btn">Cancel Trip</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -161,6 +161,7 @@ import { DriversBackOfficeComponent } from './Components/BackOffice/drivers/driv
 import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/schedule/schedule.component';
 import { ForgotPasswordComponent } from './Shared/forgot-password/forgot-password.component';
 import { NotificationFrontOfficeComponent } from './Components/FrontOffice/notification/notification.component';
+import { ResetPasswordComponent } from './Shared/reset-password/reset-password.component';
 
 
 
@@ -179,6 +180,7 @@ const routes: Routes = [
       { path: 'signup', component: SignupComponent },
       { path: 'profile', component: ProfileComponent },
       {path: 'forgot-password', component: ForgotPasswordComponent},  
+      { path: 'reset-password/:token=', component: ResetPasswordComponent },
       { path: 'trips', component: TripListFrontOfficeComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] } },
       { path: 'trips/create', component: TripCreateFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'trips/:id', component: TripDetailFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
