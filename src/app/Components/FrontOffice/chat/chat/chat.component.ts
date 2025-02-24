@@ -56,5 +56,12 @@ export class ChatFrontOfficeComponent {
         msg.likes = (msg.likes || 0) + 1; // Incrémente le nombre de likes
         localStorage.setItem('messages', JSON.stringify(this.messages));
     }
+    deleteMessage(msg: any): void {
+        const index = this.messages.findIndex(m => m === msg);
+        if (index !== -1) {
+            this.messages.splice(index, 1); // Supprime le message
+            localStorage.setItem('messages', JSON.stringify(this.messages));
+        }
+    }
     
 }

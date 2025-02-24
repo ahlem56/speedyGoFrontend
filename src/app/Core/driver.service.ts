@@ -23,4 +23,8 @@ export class DriverService {
   getAvailableDrivers(): Observable<Driver[]> {
     return this.http.get<Driver[]>(`${this.baseUrl}get-available-drivers`);  // Updated URL
   }
+
+  getAllDrivers(): Observable<Driver[]> {  // Retourner un tableau générique
+    return this.http.get<any[]>(`${this.baseUrl}get-all-drivers`);
+  }
 }

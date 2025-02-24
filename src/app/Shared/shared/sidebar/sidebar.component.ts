@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
           sidebarnavItem.path === 'back-office/users' ||
           sidebarnavItem.path === 'trips/create' ||
           sidebarnavItem.path === 'carpooling/create' ||
-          sidebarnavItem.path === 'parcels/create' ||
+          sidebarnavItem.path === 'back-office/parcels' ||
           sidebarnavItem.path === 'complaints/create' ||
           sidebarnavItem.path === 'events'
         );

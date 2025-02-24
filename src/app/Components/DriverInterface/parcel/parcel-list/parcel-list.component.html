@@ -1,1 +1,24 @@
-<p>parcel-list works!</p>
+<div class="container">
+    <h2 class="title text-center">📦 My affected parcels</h2>
+  
+    <div *ngIf="parcels && parcels.length > 0; else noParcels">
+      <div class="parcel-list">
+        <div class="parcel-card" *ngFor="let parcel of parcels">
+          <h3>Colis #{{ parcel.parcelId }}</h3>
+          <p><strong>Catégorie :</strong> {{ parcel.parcelCategory }}</p>
+          <p><strong>Expéditeur :</strong> {{ parcel.senderPhoneNumber }}</p>
+          <p><strong>Destinataire :</strong> {{ parcel.recepeientPhoneNumber }}</p>
+          <p><strong>Départ :</strong> {{ parcel.parcelDeparture }}</p>
+          <p><strong>Destination :</strong> {{ parcel.parcelDestination }}</p>
+          <p><strong>Poids :</strong> {{ parcel.parcelWeight }} kg</p>
+          <p><strong>Prix :</strong> {{ parcel.parcelPrice | number:'1.2-2' }} TND</p>
+          <p><strong>Date :</strong> {{ parcel.parcelDate | date:'dd/MM/yyyy HH:mm' }}</p>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #noParcels>
+      <p class="no-data text-center">🚚 Aucun colis affecté pour le moment.</p>
+    </ng-template>
+  </div>
+  

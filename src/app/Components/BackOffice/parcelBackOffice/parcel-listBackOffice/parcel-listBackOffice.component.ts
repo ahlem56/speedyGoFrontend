@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ParcelService } from 'src/app/Core/parcel.service';
 
 @Component({
     selector: 'app-parcel-list',
@@ -7,5 +8,23 @@ import { Component } from '@angular/core';
     standalone: false
 })
 export class ParcelListBackOfficeComponent {
+    parcels: any[] = [];
+
+  constructor(private parcelService: ParcelService) {}
+
+  ngOnInit(): void {
+    this.loadParcels();
+  }
+
+  loadParcels() {
+    this.parcelService.getParcels().subscribe(
+      (data) => {
+        this.parcels = data;
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des colis', error);
+      }
+    );
+  }
 
 }

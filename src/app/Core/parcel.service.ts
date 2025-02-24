@@ -14,4 +14,12 @@ export class ParcelService {
   createParcel(parcelData: any, simpleUserId: number, headers: HttpHeaders): Observable<any> {
     const url = `${this.apiUrl}createParcel/${simpleUserId}`;
     return this.http.post(url, parcelData, { headers });
-  }}
+  }
+  getParcelsByDriver(driverId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}driver/${driverId}`);
+  }
+  getParcels(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}get-all-parcels`);
+  }
+
+}
