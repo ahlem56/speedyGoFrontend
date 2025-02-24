@@ -112,6 +112,8 @@ import { ProfileComponent } from './Shared/profile/profile.component';
 import { ForgotPasswordComponent } from './Shared/forgot-password/forgot-password.component';
 import { NotificationFrontOfficeComponent } from './Components/FrontOffice/notification/notification.component';
 import { AccessDeniedComponent } from './Shared/access-denied/access-denied.component';
+import { ResetPasswordComponent } from './Shared/reset-password/reset-password.component';
+import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/schedule/schedule.component';
 
 
 
@@ -182,7 +184,7 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     ChatListDriverInterfaceComponent,
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
-    TripListDriverInterfaceComponent,
+    
     
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
@@ -190,7 +192,7 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     ParcelTrackDriverInterfaceComponent,
     VehicleListDriverInterfaceComponent,
     VehicleDetailDriverInterfaceComponent,
-    
+  
     NotFoundComponent,
     
   ],
@@ -201,14 +203,17 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     TripCreateFrontOfficeComponent,
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
-    
+    TripListDriverInterfaceComponent,
+    ResetPasswordComponent,
     ReactiveFormsModule,
     DashboardModule  ,
     FormsModule,
     HttpClientModule,
     RouterModule,
     CommonModule,
+    ScheduleDriverInterfaceComponent,
     ForgotPasswordComponent,
+    ResetPasswordComponent,
     ProfileComponent,
     AccessDeniedComponent,
     NotificationFrontOfficeComponent,

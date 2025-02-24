@@ -26,11 +26,11 @@ export class ForgotPasswordComponent {
   onSubmit(): void {
     if (this.forgotPasswordForm.valid) {
       const email = this.forgotPasswordForm.get('email')?.value;
-      this.http.post('http://localhost:8089/examen/user/forgot-password', { email })
+      this.http.post('http://localhost:8089/examen/user/forgot-password', { email }, { responseType: 'text' })
         .subscribe(
           (response) => {
             console.log('Password reset email sent to:', email);
-            this.router.navigate(['/login']);  // Redirect to login page
+            this.router.navigate(['/login']);
           },
           (error) => {
             console.error('Error sending reset email', error);
@@ -38,5 +38,6 @@ export class ForgotPasswordComponent {
         );
     }
   }
+  
   
 }

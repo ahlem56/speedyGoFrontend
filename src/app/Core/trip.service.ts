@@ -28,4 +28,23 @@ export class TripService {
     const url = `${this.apiUrl}deleteTrip/${tripId}`;
     return this.http.delete<void>(url, { headers });
   }
+
+  // Get all trips for a specific driver
+  getTripsForDriver(driverId: number, headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}getTripsForDriver/${driverId}`;
+    const token = localStorage.getItem('authToken');  // Get token from localStorage
+  
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);  // Attach token to the headers
+    }
+  
+    return this.http.get<any[]>(url, { headers });
+  }
+
+  getAllTrips(headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}getAllTrips`;
+    return this.http.get<any[]>(url, { headers });
+  }
+  
+  
 }

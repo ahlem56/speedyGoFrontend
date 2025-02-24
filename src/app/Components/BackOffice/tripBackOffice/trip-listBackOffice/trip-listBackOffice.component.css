@@ -1,0 +1,72 @@
+.trip-list-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .trip-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .trip-table th, .trip-table td {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .trip-table th {
+    background-color: #f3ba4f;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .trip-table td {
+    background-color: #fff;
+  }
+  
+  .trip-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .delete-btn {
+    background-color: #dfa665;
+    color: white;
+  }
+  
+  .view-btn {
+    background-color: #9e1212;
+    color: white;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  .no-trips-message {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 20px;
+  }
+  

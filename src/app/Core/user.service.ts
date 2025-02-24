@@ -25,6 +25,9 @@ export class UserService {
       localStorage.setItem('authToken', token);  // Store the token
       localStorage.setItem('userRole', response.role);  // Store the role
       localStorage.setItem('user', JSON.stringify(response.user));  // Store the full user object
+      
+
+
 
       return { token, role: response.role, user: response.user };
     })

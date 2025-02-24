@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, ChangeDetectorRef } from "@angular/core";
 import { Router, RouterModule, NavigationStart, NavigationEnd } from "@angular/router";
 import { NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 import { NavigationComponent } from "src/app/Shared/shared/header/navigation.component";
@@ -13,7 +13,7 @@ import { filter } from "rxjs";
   styleUrls: ["./full.component.scss"]
 })
 export class FullComponent implements OnInit {
-  constructor(public router: Router) {}
+  constructor(public router: Router, private cdRef: ChangeDetectorRef) {}
 
   public isCollapsed = false;
   public innerWidth: number = 0;
@@ -28,15 +28,14 @@ export class FullComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Trigger the visibility check initially
+    this.updateSidebarAndHeader();
+
     // Listen for route changes and update hideSidebarAndHeader accordingly
     this.router.events.pipe(
       filter(event => event instanceof NavigationStart || event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // Set the hideSidebarAndHeader flag based on the route
-      this.hideSidebarAndHeader = 
-        this.router.url === '/login' || 
-        this.router.url === '/signup' || 
-        this.router.url === '/forgot-password';
+      this.updateSidebarAndHeader();
     });
 
     // Force navigation to landingPage if initially on the root path
@@ -74,5 +73,19 @@ export class FullComponent implements OnInit {
 
       default:
     }
+  }
+
+  // New method to update the visibility of the sidebar and header based on the route
+  private updateSidebarAndHeader() {
+    const currentUrl = this.router.url;
+
+    this.hideSidebarAndHeader = 
+      currentUrl === '/login' || 
+      currentUrl === '/signup' || 
+      currentUrl === '/forgot-password' ||
+      currentUrl === '/reset-password';
+
+    // Detect changes after route change or on initial load to ensure proper updates
+    this.cdRef.detectChanges();
   }
 }

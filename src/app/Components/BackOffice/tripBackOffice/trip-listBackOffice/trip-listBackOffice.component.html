@@ -1,1 +1,35 @@
-<p>trip-list works!</p>
+<div *ngIf="trips && trips.length > 0; else noTrips" class="trip-list-container">
+    <h2>All Trips</h2>
+    <table class="trip-table">
+      <thead>
+        <tr>
+          <th>Departure</th>
+          <th>Destination</th>
+          <th>Date</th>
+          <th>Duration</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let trip of trips">
+          <td>{{ trip.tripDeparture }}</td>
+          <td>{{ trip.tripDestination }}</td>
+          <td>{{ trip.tripDate | date: 'short' }}</td>
+          <td>{{ trip.tripDuration || 'N/A' }} hrs</td>
+          <td>{{ trip.tripPrice || 'N/A' | currency }}</td>
+          <td>{{ trip.reservationStatus }}</td>
+          <td class="action-buttons">
+            <button class="delete-btn" (click)="deleteTrip(trip.id)">Delete</button>
+            <button class="view-btn" (click)="viewTrip(trip)">View</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <ng-template #noTrips>
+    <p class="no-trips-message">No trips available.</p>
+  </ng-template>
+  

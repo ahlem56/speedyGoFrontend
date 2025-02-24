@@ -8,11 +8,13 @@ import { CommonModule } from '@angular/common';
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
-  imports: [ReactiveFormsModule, CommonModule]
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class ResetPasswordComponent {
   resetPasswordForm: FormGroup;
   token: string;
+  successMessage: string = ''; // To hold success message
+  errorMessage: string = ''; // To hold error message
 
   constructor(
     private fb: FormBuilder,
@@ -20,7 +22,8 @@ export class ResetPasswordComponent {
     private http: HttpClient,
     private route: ActivatedRoute
   ) {
-    this.token = this.route.snapshot.paramMap.get('token') as string;
+    // Retrieve the token from the query parameters
+    this.token = this.route.snapshot.queryParamMap.get('token') as string;
 
     this.resetPasswordForm = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -36,10 +39,12 @@ export class ResetPasswordComponent {
         .subscribe(
           (response) => {
             console.log('Password successfully reset');
-            this.router.navigate(['/login']);
+            this.successMessage = 'Password successfully reset! You can now log in with your new password.';
+            setTimeout(() => this.router.navigate(['/login']), 3000); // Redirect after 3 seconds
           },
           (error) => {
             console.error('Error resetting password', error);
+            this.errorMessage = 'There was an error resetting your password. Please try again later.';
           }
         );
     }

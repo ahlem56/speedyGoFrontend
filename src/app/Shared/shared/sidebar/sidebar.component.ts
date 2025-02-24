@@ -51,7 +51,7 @@ export class SidebarComponent implements OnInit {
         this.sidebarnavItems = ALL_ROUTES.filter((sidebarnavItem: RouteInfo) =>
           sidebarnavItem.path === 'driver-interface/trips' ||
           sidebarnavItem.path === 'driver-interface/parcels' ||
-          sidebarnavItem.path === 'drivers/schedule' // For driver-specific routes
+          sidebarnavItem.path === 'driver-interface/schedule' // For driver-specific routes
         );
         break;
       case 'SimpleUser':
