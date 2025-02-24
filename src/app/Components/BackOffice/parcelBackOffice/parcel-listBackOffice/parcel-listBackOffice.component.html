@@ -1,103 +1,110 @@
 <div class="parcel-list">
-    <h2 class="title">List of Parcels</h2>
-    <table class="table">
+  <h2 class="title">List of Parcels</h2>
+  <table class="table">
       <thead>
-        <tr>
-          <th>ID</th>
-          <th>Category</th>
-          <th>Departure</th>
-          <th>Destination</th>
-          <th>Weight (kg)</th>
-          <th>Price (DT)</th>
-          <th>Sender</th>
-          <th>Recipient</th>
-          <th>Driver</th>
-          <th>Actions</th>
-        </tr>
+          <tr>
+              <th>ID</th>
+              <th>Category</th>
+              <th>Departure</th>
+              <th>Destination</th>
+              <th>Weight (kg)</th>
+              <th>Price (DT)</th>
+              <th>Sender</th>
+              <th>Recipient</th>
+              <th>Driver</th>
+              <th>Actions</th>
+          </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let parcel of parcels">
-          <td>{{ parcel.parcelId }}</td>
-          <td>{{ parcel.parcelCategory }}</td>
-          <td>{{ parcel.parcelDeparture }}</td>
-          <td>{{ parcel.parcelDestination }}</td>
-          <td>{{ parcel.parcelWeight }}</td>
-          <td>{{ parcel.parcelPrice | number:'1.2-2' }}</td>
-          <td>{{ parcel.simpleUser?.email }}</td>
-          <td>{{ parcel.recepeientPhoneNumber }}</td>
-          <td>
-            {{ parcel.driver ? (parcel.driver.firstName + ' ' + parcel.driver.lastName) : 'Not Assigned' }}
-          </td>
-          <td>
-            <button class="btn btn-edit">Edit</button>
-            <button class="btn btn-delete">Delete</button>
-          </td>
-        </tr>
+          <tr *ngFor="let parcel of parcels">
+              <td>{{ parcel.parcelId }}</td>
+              <td>{{ parcel.parcelCategory }}</td>
+              <td>{{ parcel.parcelDeparture }}</td>
+              <td>{{ parcel.parcelDestination }}</td>
+              <td>{{ parcel.parcelWeight }}</td>
+              <td>{{ parcel.parcelPrice | number:'1.2-2' }}</td>
+              <td>{{ parcel.simpleUser?.email }}</td>
+              <td>{{ parcel.recepeientPhoneNumber }}</td>
+              
+              <!-- Driver selection column -->
+              <td>
+                  <select [(ngModel)]="selectedDrivers[parcel.parcelId]" (change)="assignParcel(parcel.parcelId)">
+                      <option [value]="null" disabled>Select a driver</option>
+                      <option *ngFor="let driver of drivers" [value]="driver.id">
+                          {{ driver.firstName }} {{ driver.lastName }}
+                      </option>
+                  </select>
+              </td>
+
+              <td>
+                  <button class="btn btn-assign" (click)="assignParcel(parcel.parcelId)">Assign</button>
+              </td>
+          </tr>
       </tbody>
-    </table>
-  </div>
-  
-  <style>
-    .parcel-list {
-      max-width: 100%;
-      margin: 20px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-  
-    .title {
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-  
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 8px;
-    }
-  
-    .table th, .table td {
-      padding: 12px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
-  
-    .table th {
-      background: #007BFF;
-      color: white;
-      font-weight: bold;
-    }
-  
-    .table tr:nth-child(even) {
-      background: #f9f9f9;
-    }
-  
-    .btn {
-      padding: 6px 12px;
-      margin: 2px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  
-    .btn-edit {
-      background: #28a745;
-      color: white;
-    }
-  
-    .btn-delete {
-      background: #dc3545;
-      color: white;
-    }
-  
-    .btn:hover {
-      opacity: 0.8;
-    }
-  </style>
-  
+  </table>
+</div>
+
+<style>
+  .parcel-list {
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .table th {
+    background: #007BFF;
+    color: white;
+    font-weight: bold;
+  }
+
+  .table tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .btn-assign {
+    background: #28a745;
+    color: white;
+  }
+
+  .btn:hover {
+    opacity: 0.8;
+  }
+
+  select {
+    padding: 5px;
+    border-radius: 4px;
+    width: 100%;
+  }
+</style>

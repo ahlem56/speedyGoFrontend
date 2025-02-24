@@ -60,7 +60,14 @@ export const ALL_ROUTES: RouteInfo[] = [
     submenu: []
   },
   // Admin-specific routes
-
+  {
+    path: 'back-office/parcels',
+    title: 'Parcels',
+    icon: 'bi bi-box',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
   {
     path: 'back-office/dashboard',
     title: 'Dashboard',
@@ -77,14 +84,7 @@ export const ALL_ROUTES: RouteInfo[] = [
     extralink: false,
     submenu: []
   },
-  {
-    path: 'back-office/parcels',
-    title: 'Parcels',
-    icon: 'bi bi-person-bounding-box',
-    class: '',
-    extralink: false,
-    submenu: []
-  },
+  
   {
     path: 'back-office/vehicles',
     title: 'Vehicles',
