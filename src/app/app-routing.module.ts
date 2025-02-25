@@ -163,6 +163,7 @@ import { ForgotPasswordComponent } from './Shared/forgot-password/forgot-passwor
 import { NotificationFrontOfficeComponent } from './Components/FrontOffice/notification/notification.component';
 import { ResetPasswordComponent } from './Shared/reset-password/reset-password.component';
 import { SubscriptionEditBackOfficeComponent } from './Components/BackOffice/subscription/subscription-edit/subscription-edit.component';
+import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers/create-driver/create-driver.component';
 
 
 
@@ -245,6 +246,8 @@ const routes: Routes = [
       { path: 'back-office/vehicles/edit/:id', component: VehicleEditBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/vehicles/:id', component: VehicleDetailBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       {path : 'back-office/drivers', component: DriversBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
+      {path: 'back-office/drivers/create', component: CreateDriverBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
+
 
       // Driver Interface Routes
       { path: 'driver-interface/chat', component: ChatDriverInterfaceComponent, canActivate: [AuthGuard], data: { roles: ['Driver'] } },

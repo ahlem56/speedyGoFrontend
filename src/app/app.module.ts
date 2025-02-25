@@ -114,6 +114,7 @@ import { NotificationFrontOfficeComponent } from './Components/FrontOffice/notif
 import { AccessDeniedComponent } from './Shared/access-denied/access-denied.component';
 import { ResetPasswordComponent } from './Shared/reset-password/reset-password.component';
 import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/schedule/schedule.component';
+import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers/create-driver/create-driver.component';
 
 
 
@@ -204,6 +205,7 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
     TripListDriverInterfaceComponent,
+    CreateDriverBackOfficeComponent,
     ResetPasswordComponent,
     ReactiveFormsModule,
     DashboardModule  ,

@@ -1,1 +1,69 @@
-<p>parcel-list works!</p>
+<div class="container mt-4">
+  <h2 class="title text-center">📦 My Affected Parcels</h2>
+
+  <div *ngIf="parcels && parcels.length > 0; else noParcels">
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let parcel of parcels">
+        <div class="card parcel-card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-primary">Parcel {{ parcel.parcelId }}</h5>
+            <p class="card-text"><strong>📦 Category:</strong> {{ parcel.parcelCategory }}</p>
+            <p class="card-text"><strong>📞 Sender:</strong> {{ parcel.senderPhoneNumber }}</p>
+            <p class="card-text"><strong>📞 Recipient:</strong> {{ parcel.recepeientPhoneNumber }}</p>
+            <p class="card-text"><strong>🚚 Departure:</strong> {{ parcel.parcelDeparture }}</p>
+            <p class="card-text"><strong>📍 Destination:</strong> {{ parcel.parcelDestination }}</p>
+            <p class="card-text"><strong>⚖️ Weight:</strong> {{ parcel.parcelWeight }} kg</p>
+            <p class="card-text"><strong>💰 Price:</strong> {{ parcel.parcelPrice | currency:'TND' }}</p>
+            <p class="card-text"><strong>📅 Date:</strong> {{ parcel.parcelDate | date:'dd/MM/yyyy HH:mm' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noParcels>
+    <div class="text-center mt-5">
+      <p class="alert alert-warning no-data">🚚 No parcels assigned to your account at the moment.</p>
+    </div>
+  </ng-template>
+</div>
+
+<style>
+  .container {
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+
+  .parcel-card {
+    border-radius: 10px;
+    background-color: #af3740; /* Rouge pour la carte */
+    color: white; /* Texte blanc */
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .parcel-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .card-text {
+    font-size: 14px;
+  }
+
+  .no-data {
+    font-size: 16px;
+    font-weight: bold;
+  }
+</style>
