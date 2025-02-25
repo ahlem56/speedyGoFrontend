@@ -30,7 +30,13 @@ export class ParcelService {
     return this.http.get<any[]>(`${this.apiUrl}get-all-parcels`);
   }
   assignParcelToDriver(parcelId: number, driverId: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/assign/${parcelId}/${driverId}`, {});
+    const token = localStorage.getItem('authToken');  // Récupérer le token JWT depuis le localStorage
+    if (!token) {
+      console.error('No authentication token found');
+      throw new Error('No authentication token found');
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);  // Ajouter le token dans les en-têtes
+    return this.http.put(`${this.apiUrl}assign/${parcelId}/${driverId}`, {}, { headers });
   }
 
 }

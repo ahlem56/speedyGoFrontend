@@ -39,21 +39,22 @@ export class ParcelListBackOfficeComponent {
 
   // Assigner un chauffeur à un colis
   assignParcel(parcelId: number) {
-      const driverId = this.selectedDrivers[parcelId];
-      if (driverId) {
-          this.parcelService.assignParcelToDriver(parcelId, driverId).subscribe(
-              response => {
-                  alert('Parcel assigned successfully!');
-                  this.loadParcels();  // Rafraîchir la liste
-              },
-              error => {
-                  alert('Failed to assign parcel');
-                  console.error(error);
-              }
-          );
-      } else {
-          alert('Please select a driver!');
-      }
+    const driverId = this.selectedDrivers[parcelId];
+    console.log('Selected driver ID:', driverId);  // Ajoutez cette ligne pour vérifier la valeur du driverId
+    if (driverId != null) {  // Vérifier que driverId est défini
+      this.parcelService.assignParcelToDriver(parcelId, driverId).subscribe(
+        response => {
+          alert('Parcel assigned successfully!');
+          this.loadParcels();  // Rafraîchir la liste des colis
+        },
+        error => {
+          alert('Failed to assign parcel');
+          console.error(error);
+        }
+      );
+    } else {
+      alert('Please select a driver!');
+    }
   }
 
 }
