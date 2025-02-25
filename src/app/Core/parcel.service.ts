@@ -30,7 +30,7 @@ export class ParcelService {
     return this.http.get<any[]>(`${this.apiUrl}get-all-parcels`);
   }
   assignParcelToDriver(parcelId: number, driverId: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}/assign/${parcelId}/${driverId}`, {});
+    return this.http.put(`${this.apiUrl}assign/${parcelId}/${driverId}`, {});
   }
 
 }

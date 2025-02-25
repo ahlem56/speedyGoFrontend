@@ -121,10 +121,10 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
 // Define routes
 @NgModule({
   declarations: [
-    
+
     AppComponent,
     TripListFrontOfficeComponent,
-    
+
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
     CarpoolingCreateFrontOfficeComponent,
@@ -151,7 +151,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
-    
+
 
     RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
@@ -173,7 +173,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-    
+
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
@@ -186,7 +186,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
     
-    
+
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
@@ -197,6 +197,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     NotFoundComponent,
     
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -217,11 +218,8 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ProfileComponent,
-    AccessDeniedComponent,
     NotificationFrontOfficeComponent,
     FullComponent,   // Import standalone component
-    
-   
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
