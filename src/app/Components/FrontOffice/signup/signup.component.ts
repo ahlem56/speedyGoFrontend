@@ -2,20 +2,22 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from 'src/app/Core/user.service';  // Import the UserService
 import { Router } from '@angular/router';  // Import Router
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  imports: [ReactiveFormsModule]
+  imports:[ReactiveFormsModule, CommonModule]  // Import ReactiveFormsModule and CommonModule directly here
 })
 export class SignupComponent {
   signupForm: FormGroup;
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+    // Initialize the form with validation rules
     this.signupForm = this.fb.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       address: ['', [Validators.required]],
@@ -25,6 +27,7 @@ export class SignupComponent {
   }
 
   onSignup(): void {
+    // Check if the form is valid
     if (this.signupForm.valid) {
       console.log('Sign up successful', this.signupForm.value);
 
@@ -42,7 +45,17 @@ export class SignupComponent {
         }
       );
     } else {
+      // Show error if form is not valid
       console.log('Form is not valid');
     }
   }
+
+  // Getter methods to make accessing form controls easier
+  get firstName() { return this.signupForm.get('firstName'); }
+  get lastName() { return this.signupForm.get('lastName'); }
+  get email() { return this.signupForm.get('email'); }
+  get password() { return this.signupForm.get('password'); }
+  get address() { return this.signupForm.get('address'); }
+  get cin() { return this.signupForm.get('cin'); }
+  get birthDate() { return this.signupForm.get('birthDate'); }
 }

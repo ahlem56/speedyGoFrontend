@@ -31,8 +31,7 @@
                 <select class="form-control form-control-lg" id="tripType" [(ngModel)]="trip.tripType" name="tripType" required>
                     <option value="EXPRESS_TRIP">Express Trip</option>
                     <option value="LONG_DISTANCE_TRAVEL">Long Distance Travel</option>
-                  </select>
-                  
+                </select>
             </div>
         </div>
         <div class="col-md-5">
@@ -53,22 +52,19 @@
     </div>
 
     <!-- Select Driver -->
-    <!-- Select Driver -->
-<div class="row justify-content-center mt-4">
-    <div class="col-md-5">
-        <div class="form-group">
-            <label for="driverSelect" class="form-label">Select Driver</label>
-            <select id="driverSelect" class="form-control form-control-lg" [(ngModel)]="trip.driverId" name="driverId" required>
-                <option *ngFor="let driver of availableDrivers" [value]="driver.userId">
-                  {{ driver.firstName }} {{ driver.lastName }}
-                </option>
-              </select>
-              
-            <small class="form-text text-muted">Select an available driver</small>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="driverSelect" class="form-label">Select Driver</label>
+                <select id="driverSelect" class="form-control form-control-lg" [(ngModel)]="trip.driverId" name="driverId" required>
+                    <option *ngFor="let driver of availableDrivers" [value]="driver.userId">
+                        {{ driver.firstName }} {{ driver.lastName }}
+                    </option>
+                </select>
+                <small class="form-text text-muted">Select an available driver</small>
+            </div>
         </div>
     </div>
-</div>
-
 
     <!-- Submit Button -->
     <div class="row justify-content-center mt-4">
@@ -78,14 +74,12 @@
             </button>
         </div>
     </div>
-    <!-- Success Message -->
-<!-- Success Message -->
-<div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show mt-4" role="alert">
-    <strong>Success!</strong> {{ successMessage }} <!-- Make sure the successMessage is interpolated here -->
-    <button type="button" class="close" (click)="successMessage = ''" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-</div>
 
-  
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+        <strong>Success!</strong> {{ successMessage }}
+        <button type="button" class="close" (click)="successMessage = ''" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </div>

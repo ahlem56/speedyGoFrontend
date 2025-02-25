@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SubscriptionService } from 'src/app/Core/subscription.service';
 
 @Component({
@@ -16,7 +17,9 @@ export class SubscriptionDetailsBackOfficeComponent {
   showExistingSubscriptions: boolean = false;  // Toggle for showing subscriptions
   subscriptions: any[] = [];  // This will hold the existing subscriptions
 
-  constructor(private subscriptionService: SubscriptionService) {}
+  constructor(private subscriptionService: SubscriptionService,
+    private router: Router // Inject Router to navigate to the edit page
+  ) {}
 
   // Toggle visibility of existing subscriptions
   toggleExistingSubscriptions() {
@@ -62,10 +65,9 @@ export class SubscriptionDetailsBackOfficeComponent {
   }
 
   // Edit a subscription (populate form with selected subscription data)
+  // Navigate to the Edit Subscription page
   editSubscription(subscription: any) {
-    this.subscriptionType = subscription.subscriptionType;
-    this.subscriptionPrice = subscription.subscriptionPrice;
-    this.subscriptionDescription = subscription.subscriptionDescription;
+    this.router.navigate([`/back-office/subscription/edit/${subscription.subscriptionId}`]);  // Correct navigation to edit page
   }
 
   // Delete a subscription

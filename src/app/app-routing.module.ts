@@ -162,6 +162,7 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
 import { ForgotPasswordComponent } from './Shared/forgot-password/forgot-password.component';
 import { NotificationFrontOfficeComponent } from './Components/FrontOffice/notification/notification.component';
 import { ResetPasswordComponent } from './Shared/reset-password/reset-password.component';
+import { SubscriptionEditBackOfficeComponent } from './Components/BackOffice/subscription/subscription-edit/subscription-edit.component';
 
 
 
@@ -209,7 +210,7 @@ const routes: Routes = [
       { path: 'subscriptions/create', component: SubscriptionCreationFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'subscriptions/:id', component: SubscriptionDetailsFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'promotions/:id', component: PromotionDetailsFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
-      {path:'notifications',component:NotificationFrontOfficeComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
+      {path:'notifications',component:NotificationFrontOfficeComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser','Driver'] }},
 
       // BackOffice Routes
       { path: 'back-office/dashboard', component: DashboardComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
@@ -236,6 +237,7 @@ const routes: Routes = [
       { path: 'back-office/payments/history', component: PaymentHistoryBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/payments/method', component: PaymentMethodBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/subscriptions', component: SubscriptionDetailsBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+      {path: 'back-office/subscription/edit/:id', component: SubscriptionEditBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/trips', component: TripListBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/trips/:id', component: TripDetailBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/vehicles', component: VehicleListBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},

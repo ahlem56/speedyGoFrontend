@@ -33,4 +33,16 @@ export class SubscriptionService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getAuthToken()}`);
     return this.http.delete<any>(`${this.apiUrl}/deleteSubscription/${id}`, { headers });
   }
+
+  // Get a subscription by ID
+  getSubscriptionById(id: number): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getAuthToken()}`);
+    return this.http.get<any>(`${this.apiUrl}/getSubscription/${id}`, { headers });
+  }
+
+  // Update subscription
+  updateSubscription(id: number, subscriptionData: any): Observable<any> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getAuthToken()}`);
+    return this.http.put<any>(`${this.apiUrl}/updateSubscription/${id}`, subscriptionData, { headers });
+  }
 }
