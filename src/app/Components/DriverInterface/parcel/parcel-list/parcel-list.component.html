@@ -6,7 +6,7 @@
       <div class="col-md-4 mb-4" *ngFor="let parcel of parcels">
         <div class="card parcel-card shadow-sm">
           <div class="card-body">
-            <h5 class="card-title text-primary">Parcel #{{ parcel.parcelId }}</h5>
+            <h5 class="card-title text-primary">Parcel {{ parcel.parcelId }}</h5>
             <p class="card-text"><strong>📦 Category:</strong> {{ parcel.parcelCategory }}</p>
             <p class="card-text"><strong>📞 Sender:</strong> {{ parcel.senderPhoneNumber }}</p>
             <p class="card-text"><strong>📞 Recipient:</strong> {{ parcel.recepeientPhoneNumber }}</p>
@@ -43,6 +43,8 @@
 
   .parcel-card {
     border-radius: 10px;
+    background-color: #af3740; /* Rouge pour la carte */
+    color: white; /* Texte blanc */
     transition: transform 0.3s ease-in-out;
   }
 
