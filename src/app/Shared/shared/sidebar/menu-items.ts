@@ -38,7 +38,7 @@ export const ALL_ROUTES: RouteInfo[] = [
   {
     path: '/subscriptions/create',
     title: 'Subscriptions',
-    icon: 'bi bi-journal-bookmark',  
+    icon: 'bi bi-journal-bookmark',  // Bookmark icon for subscriptions
     class: '',
     extralink: false,
     submenu: []
@@ -54,16 +54,17 @@ export const ALL_ROUTES: RouteInfo[] = [
   {
     path: '/about',
     title: 'About',
-    icon: 'bi bi-info-circle',  // Info circle for About section
+    icon: 'bi bi-info-circle',  // Information circle for About section
     class: '',
     extralink: false,
     submenu: []
   },
+
   // Admin-specific routes
   {
     path: 'back-office/dashboard',
     title: 'Dashboard',
-    icon: 'bi bi-house-door',
+    icon: 'bi bi-grid',  // Dashboard grid icon
     class: '',
     extralink: false,
     submenu: []
@@ -71,7 +72,7 @@ export const ALL_ROUTES: RouteInfo[] = [
   {
     path: 'back-office/drivers',
     title: 'Drivers',
-    icon: 'bi bi-person-bounding-box',
+    icon: 'bi bi-person',  // Person icon for drivers
     class: '',
     extralink: false,
     submenu: []
@@ -79,12 +80,11 @@ export const ALL_ROUTES: RouteInfo[] = [
   {
     path: 'back-office/vehicles',
     title: 'Vehicles',
-    icon: 'bi bi-car',
+    icon: 'bi bi-truck',  // Truck icon for vehicles
     class: '',
     extralink: false,
     submenu: []
   },
-
   {
     path: 'back-office/trips',
     title: 'Trip',
@@ -120,21 +120,19 @@ export const ALL_ROUTES: RouteInfo[] = [
   {
     path: 'back-office/subscriptions',
     title: 'Subscriptions',
-    icon: 'bi bi-journal-bookmark',  
+    icon: 'bi bi-journal-bookmark',  // Bookmark icon for subscriptions
     class: '',
     extralink: false,
     submenu: []
   },
-
   {
     path: 'back-office/partners/create',
-    title: 'Subscriptions',
-    icon: 'bi bi-journal-bookmark',  
+    title: 'Partners',
+    icon: 'bi bi-handshake',  // Handshake icon for partners
     class: '',
     extralink: false,
     submenu: []
   },
-  
   {
     path: 'back-office/complaints',
     title: 'Complaints',
@@ -143,10 +141,9 @@ export const ALL_ROUTES: RouteInfo[] = [
     extralink: false,
     submenu: []
   },
-  
+
 
   // Driver-specific routes
-
   {
     path: 'driver-interface/trips',
     title: 'Trip',
@@ -164,12 +161,11 @@ export const ALL_ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
-    path: 'drivers/schedule',
+    path: 'driver-interface/schedule',
     title: 'Schedule',
-    icon: 'bi bi-calendar-check',  // Calendar icon for schedule
+    icon: 'bi bi-calendar-check',  // Calendar check icon for schedule
     class: '',
     extralink: false,
     submenu: []
   }
-  
 ];

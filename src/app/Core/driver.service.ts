@@ -8,6 +8,8 @@ export interface Driver {
   firstName: string;
   lastName: string;
   availabilityD: boolean;  // availability status
+  insuranceDetailsD:string;
+  driverLicenseNumber?: string;
 }
 
 @Injectable({

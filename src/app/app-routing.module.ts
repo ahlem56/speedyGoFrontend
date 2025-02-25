@@ -152,7 +152,7 @@ import { LoginComponent } from './Shared/login/login.component';
 import { AboutComponent } from './Shared/about/about.component';
 
 // Import components
-import { FullComponent } from './Shared/layouts/full/full.component'; // Template's FullComponent  
+import { FullComponent } from './Shared/layouts/full/full.component'; // Template's FullComponent
 import { PromotionDetailsBackOfficeComponent } from './Components/BackOffice/promotion/promotion-details/promotion-details.component';
 import { LandingPageComponent } from './Shared/landing-page/landing-page.component';
 import { AuthGuard } from './auth.guard';
@@ -162,6 +162,9 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
 import { ForgotPasswordComponent } from './Shared/forgot-password/forgot-password.component';
 import { NotificationFrontOfficeComponent } from './Components/FrontOffice/notification/notification.component';
 import { ResetPasswordComponent } from './Shared/reset-password/reset-password.component';
+import {
+  VehicleAssignComponent
+} from "./Components/BackOffice/vehicle/vehicle-assign/vehicle-assign/vehicle-assign.component";
 
 
 
@@ -179,7 +182,7 @@ const routes: Routes = [
       { path: 'about', component: AboutComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'signup', component: SignupComponent },
       { path: 'profile', component: ProfileComponent },
-      {path: 'forgot-password', component: ForgotPasswordComponent},  
+      {path: 'forgot-password', component: ForgotPasswordComponent},
       { path: 'reset-password/:token=', component: ResetPasswordComponent },
       { path: 'trips', component: TripListFrontOfficeComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] } },
       { path: 'trips/create', component: TripCreateFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
@@ -241,6 +244,7 @@ const routes: Routes = [
       { path: 'back-office/vehicles', component: VehicleListBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/vehicles/create', component: VehicleCreateBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/vehicles/edit/:id', component: VehicleEditBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+      {path:'back-office/vehicles/assign/:id', component : VehicleAssignComponent, canActivate:[AuthGuard],data:{roles:['Admin']}},
       { path: 'back-office/vehicles/:id', component: VehicleDetailBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       {path : 'back-office/drivers', component: DriversBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
 
@@ -257,6 +261,7 @@ const routes: Routes = [
       { path: 'driver-interface/vehicles', component: VehicleListDriverInterfaceComponent, canActivate: [AuthGuard], data: { roles: ['Driver'] } },
       { path: 'driver-interface/vehicles/:id', component: VehicleDetailDriverInterfaceComponent, canActivate: [AuthGuard], data: { roles: ['Driver'] } },
       {path:  'driver-interface/schedule',component : ScheduleDriverInterfaceComponent, canActivate: [AuthGuard], data: { roles: ['Driver'] }}
+
     ]
   },
 

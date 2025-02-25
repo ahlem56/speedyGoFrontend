@@ -112,16 +112,18 @@ import { ProfileComponent } from './Shared/profile/profile.component';
 import { ForgotPasswordComponent } from './Shared/forgot-password/forgot-password.component';
 import { NotificationFrontOfficeComponent } from './Components/FrontOffice/notification/notification.component';
 import { AccessDeniedComponent } from './Shared/access-denied/access-denied.component';
-
+import {
+  VehicleAssignComponent
+} from "./Components/BackOffice/vehicle/vehicle-assign/vehicle-assign/vehicle-assign.component";
 
 
 // Define routes
 @NgModule({
   declarations: [
-    
+
     AppComponent,
     TripListFrontOfficeComponent,
-    
+
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
     CarpoolingCreateFrontOfficeComponent,
@@ -148,7 +150,7 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
-    
+
 
     RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
@@ -170,7 +172,7 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-    
+
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
@@ -183,17 +185,16 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
     TripListDriverInterfaceComponent,
-    
+
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
     ParcelTrackDriverInterfaceComponent,
     VehicleListDriverInterfaceComponent,
     VehicleDetailDriverInterfaceComponent,
-    
-    NotFoundComponent,
-    
+    NotFoundComponent
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -201,7 +202,7 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     TripCreateFrontOfficeComponent,
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
-    
+
     ReactiveFormsModule,
     DashboardModule  ,
     FormsModule,
@@ -210,11 +211,8 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
     CommonModule,
     ForgotPasswordComponent,
     ProfileComponent,
-    AccessDeniedComponent,
     NotificationFrontOfficeComponent,
     FullComponent,   // Import standalone component
-    
-   
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
