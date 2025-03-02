@@ -26,7 +26,7 @@ import { ParcelDetailFrontOfficeComponent } from './Components/FrontOffice/parce
 
 import { VehicleDetailFrontOfficeComponent } from './Components/FrontOffice/vehicle/vehicle-detail/vehicle-detail.component';
 
-import { PaymentCreationFrontOfficeComponent } from './Components/FrontOffice/payment/payment-creation/payment-creation.component';
+import { PaymentCreationFrontOfficeComponent } from './Components/FrontOffice/payment/payment-creationFrontOffice/payment-creationFrontOffice.component';
 import { PaymentHistoryFrontOfficeComponent } from './Components/FrontOffice/payment/payment-history/payment-history.component';
 import { PaymentMethodFrontOfficeComponent } from './Components/FrontOffice/payment/payment-method/payment-method.component';
 
@@ -121,10 +121,10 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
 // Define routes
 @NgModule({
   declarations: [
-    
+
     AppComponent,
     TripListFrontOfficeComponent,
-    
+
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
     CarpoolingCreateFrontOfficeComponent,
@@ -135,7 +135,6 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ParcelCreateFrontOfficeComponent,
     ParcelDetailFrontOfficeComponent,
     VehicleDetailFrontOfficeComponent,
-    PaymentCreationFrontOfficeComponent,
     PaymentHistoryFrontOfficeComponent,
     PaymentMethodFrontOfficeComponent,
     EventListFrontOfficeComponent,
@@ -151,7 +150,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
-    
+
 
     RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
@@ -160,68 +159,41 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     EventCreateBackOfficeComponent,
     EventListBackOfficeComponent,
     EventDetailBackOfficeComponent,
-    EventNotifyBackOfficeComponent,
-    PartnerListBackOfficeComponent,
-    PartnerCreateBackOfficeComponent,
-    PartnerEditBackOfficeComponent,
-    CarpoolingListBackOfficeComponent,
-    CarpoolingDetailBackOfficeComponent,
-    ComplaintListBackOfficeComponent,
-    ComplaintDetailsBackOfficeComponent,
     ParcelListBackOfficeComponent,
-    ParcelDetailBackOfficeComponent,
-    ParcelTrackBackOfficeComponent,
-    PaymentHistoryBackOfficeComponent,
-    PaymentMethodBackOfficeComponent,
-    
-    TripListBackOfficeComponent,
-    TripDetailBackOfficeComponent,
-    VehicleListBackOfficeComponent,
-    VehicleCreateBackOfficeComponent,
-    VehicleEditBackOfficeComponent,
-    VehicleDetailBackOfficeComponent,
-
-    ChatDriverInterfaceComponent,
-    ChatListDriverInterfaceComponent,
-    ChatMessageCreationDriverInterfaceComponent,
-    ChatMessageEditDriverInterfaceComponent,
-    
-    
-    TripDetailDriverInterfaceComponent,
-    ParcelListDriverInterfaceComponent,
-    ParcelDetailDriverInterfaceComponent,
-    ParcelTrackDriverInterfaceComponent,
-    VehicleListDriverInterfaceComponent,
-    VehicleDetailDriverInterfaceComponent,
-  
-    NotFoundComponent,
-    
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
     TripCreateFrontOfficeComponent,
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
     TripListDriverInterfaceComponent,
     CreateDriverBackOfficeComponent,
     ResetPasswordComponent,
-    ReactiveFormsModule,
-    DashboardModule  ,
-    FormsModule,
-    HttpClientModule,
-    RouterModule,
-    CommonModule,
     ScheduleDriverInterfaceComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ProfileComponent,
-    AccessDeniedComponent,
     NotificationFrontOfficeComponent,
-    FullComponent,   // Import standalone component
-    
-   
+    FullComponent,
+    PaymentCreationFrontOfficeComponent,
+    TripDetailDriverInterfaceComponent,
+    ParcelListDriverInterfaceComponent,
+    ParcelDetailDriverInterfaceComponent,
+    ParcelTrackDriverInterfaceComponent,
+    VehicleListDriverInterfaceComponent,
+    VehicleDetailDriverInterfaceComponent,
+    NotFoundComponent,
+    LoginComponent,
+    AccessDeniedComponent
+  ],
+
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    DashboardModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule,
+    CommonModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
