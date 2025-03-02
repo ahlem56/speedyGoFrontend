@@ -193,6 +193,77 @@
   color: #e74c3c;
   font-weight: bold;
 }
+ /* Parcel History Section */
+ .parcel-history {
+  margin-top: 40px;
+  width: 100%;
+  text-align: left;
+}
+
+.toggle-parcel-history {
+  font-size: 28px;
+  color: #2e3b45;
+  margin-bottom: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.toggle-parcel-history:hover {
+  color: #e74c3c;
+}
+
+.parcel-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto; /* Make the container scrollable */
+  max-height: 0; /* Par défaut, la hauteur est 0 (masqué) */
+  transition: max-height 0.4s ease-out; /* Animation pour l'ouverture/fermeture */
+}
+
+.parcel-cards-container.open {
+  max-height: 500px; /* Ajustez cette valeur en fonction de votre contenu */
+}
+.parcel-cards-container:not(.open) {
+  display: none; /* Masque la section par défaut */
+}
+.parcel-card {
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.parcel-details p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.cancel-parcel-btn {
+  background-color: #ffb85a;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-parcel-btn:hover {
+  background-color: #e74c3c;
+}
+
+.canceled {
+  color: #e74c3c;
+  font-weight: bold;
+}
 
 @media (max-width: 768px) {
   .profile-container {
@@ -225,4 +296,23 @@
   .trip-card {
     padding: 15px;
   }
-}
+
+
+@media (max-width: 768px) {
+  .parcel-history {
+    padding: 20px;
+  }
+
+  .toggle-parcel-history {
+    font-size: 24px;
+  }
+
+  .parcel-card {
+    padding: 15px;
+  }
+
+  .cancel-parcel-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}}

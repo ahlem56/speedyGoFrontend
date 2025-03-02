@@ -29,8 +29,32 @@ export class ParcelService {
   getParcels(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}get-all-parcels`);
   }
-  assignParcelToDriver(parcelId: number, driverId: number): Observable<any> {
-    return this.http.put(`${this.apiUrl}assign/${parcelId}/${driverId}`, {});
+  assignParcelToDriver(parcelId: number, driverId: number) {
+    const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.put(`${this.apiUrl}parcels/assign/${parcelId}/${driverId}`, {}, { headers });
+}
+
+  getParcelsForUser(userId: number, headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}user/${userId}`;
+    return this.http.get<any[]>(url, { headers });
   }
+  deleteParcel(parcelId: number, headers: HttpHeaders): Observable<void> {
+    const url = `${this.apiUrl}delete/${parcelId}`;
+  return this.http.delete<void>(url, { headers });
+  }
+  // Filtrer les colis après une certaine date
+  getParcelsAfterDate(afterDate: string): Observable<any[]> {
+    const url = `${this.apiUrl}after?date=${afterDate}`;
+    return this.http.get<any[]>(url);
+  }
+
+  // Filtrer les colis avant une certaine date
+  getParcelsBeforeDate(beforeDate: string): Observable<any[]> {
+    const url = `${this.apiUrl}before?date=${beforeDate}`;
+    return this.http.get<any[]>(url);
+  }
+
 
 }

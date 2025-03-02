@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // Define the Driver interface
@@ -28,10 +28,15 @@ export class DriverService {
     return this.http.get<Driver[]>(`${this.baseUrl}get-available-drivers`);  // Updated URL
   }
 
-  getAllDrivers(): Observable<Driver[]> {  // Retourner un tableau générique
-    return this.http.get<any[]>(`${this.baseUrl}get-all-drivers`);
-  }
-
+  // getAllDrivers(): Observable<Driver[]> {  // Retourner un tableau générique
+  //   return this.http.get<any[]>(`${this.baseUrl}get-all-drivers`);
+  // }
+  getAllDrivers(): Observable<Driver[]> {
+    const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.get<Driver[]>(`${this.baseUrl}get-all-drivers`, { headers });
+}
   createDriver(driver: Driver): Observable<Driver> {
     return this.http.post<Driver>(`${this.baseUrl}createDriver`, driver);
   }
