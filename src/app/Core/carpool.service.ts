@@ -127,4 +127,19 @@ leaveCarpool(carpoolId: number, userId: number,headers: HttpHeaders): Observable
     );
   }
 
+
+
+// Ajoutez cette méthode dans la classe CarpoolService
+getCarpoolsJoinedByUser(userId: number, headers: HttpHeaders): Observable<any[]> {
+  const url = `${this.apiUrl}joined/${userId}`; // Endpoint pour récupérer les covoiturages rejoints
+  return this.http.get<any[]>(url, { headers }).pipe(
+    tap((data) => console.log("📥 Réponse API - Covoiturages rejoints par l'utilisateur:", data)),
+    catchError(error => {
+      console.error("Erreur lors de la récupération des covoiturages rejoints par l'utilisateur", error);
+      return throwError(() => error);
+    })
+  );
+}
+
+
 }

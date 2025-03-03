@@ -26,6 +26,8 @@ export class CarpoolingCreateFrontOfficeComponent implements OnInit {
   simpleUserId: number | null = null;
   errorMessage: string = '';
   successMessage: string = '';
+  myCarpools: any[] = [];  // Array to store joined carpools
+  filteredCarpools: any[] = [];  // Array to store future carpools
 
   constructor(
     private carpoolService: CarpoolService,
@@ -74,10 +76,65 @@ export class CarpoolingCreateFrontOfficeComponent implements OnInit {
   joinCarpool() {
     this.router.navigate(['/carpooling/']);
   }
-
+  
   showForm = false;
 
   displayForm() {
     this.showForm = true; 
 };
+
+
+
+
+
+
+
+
+
+
+showMyCarpools() {
+  if (!this.simpleUserId) {
+    this.errorMessage = 'User ID is not available.';
+    return;
+  }
+
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  this.carpoolService.getCarpoolsJoinedByUser(this.simpleUserId, headers).subscribe(
+    (carpools) => {
+      // Filtrage des covoiturages futurs
+      this.filteredCarpools = this.filterFutureCarpools(carpools);
+      console.log("My Future Carpools: ", this.filteredCarpools);
+    },
+    (error) => {
+      this.errorMessage = 'Error fetching your carpools.';
+      console.error(error);
+    }
+  );
+}
+
+// Filtrage des covoiturages futurs
+filterFutureCarpools(carpools: any[]): any[] {
+  const today = new Date();
+  console.log("Date d'aujourd'hui :", today);
+
+  return carpools.filter(carpool => {
+    const carpoolDate = new Date(carpool.carpoolDate);
+    console.log(`Comparaison : ${carpoolDate} >= ${today} ?`, carpoolDate >= today);
+    return carpoolDate >= today;  // On garde seulement les covoiturages futurs
+  });
+}
+
+
+
+viewCarpoolDetails(carpoolId: number) {
+  this.router.navigate([`/carpooling/join/${carpoolId}`]);
+}
+
+
+
+
+
+
 }

@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
       this.user = JSON.parse(storedUser);  // Parse and load user data from localStorage
       this.profileImageUrl = this.getProfileImage();  // Load profile image URL
       this.fetchTrips();  // Fetch trips for the logged-in user
-      this.fetchCarpoolOffers(); // Récupère aussi les offres de covoiturage
+      this.fetchCarpoolHistory(); // Récupère aussi les offres de covoiturage
 
     }
   }
@@ -121,35 +121,61 @@ export class ProfileComponent implements OnInit {
     this.isTripsVisible = !this.isTripsVisible; // Toggle the trip history visibility
   }
 
-  fetchCarpoolOffers() {
-    const userId = this.user.userId;
-    const token = localStorage.getItem('authToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+// Dans ProfileComponent
 
-    this.carpoolService.getCarpoolsForUser(userId, headers).subscribe({
-      next: (offers) => {
-        this.carpoolOffers = offers;
-      },
-      error: (error) => {
-        console.error('Erreur lors de la récupération des offres de covoiturage :', error);
-      }
-    });
-
-} /* deleteCarpoolOffer(offerId: number) {
+fetchCarpoolHistory() {
+  const userId = this.user.userId;
   const token = localStorage.getItem('authToken');
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-  this.carpoolService.deleteCarpool(offerId, headers).subscribe({
-    next: () => {
-      this.carpoolOffers = this.carpoolOffers.filter(offer => offer.offerId !== offerId);
-      console.log('Offre de covoiturage supprimée avec succès');
+  this.carpoolService.getCarpoolsJoinedByUser(userId, headers).subscribe({
+    next: (joinedCarpools) => {
+      this.carpoolOffers = joinedCarpools; // Assigner les résultats à la variable carpoolOffers
     },
     error: (error) => {
-      console.error('Erreur lors de la suppression de l’offre de covoiturage :', error);
+      console.error('Erreur lors de la récupération des carpools rejoins par l\'utilisateur:', error);
     }
   });
-}*/ 
+}
+
+
+isCarpoolVisible: boolean = false;
+
+toggleCarpoolHistory() {
+  this.isCarpoolVisible = !this.isCarpoolVisible;
+}
 
 
 
+
+
+
+// Method to cancel a carpool
+cancelCarpool(carpoolId: number) {
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  this.carpoolService.leaveCarpool(carpoolId, this.user.userId, headers).subscribe({
+    next: () => {
+      this.carpoolOffers = this.carpoolOffers.filter(offer => offer.carpoolId !== carpoolId); // Remove the carpool from the list
+      console.log('Carpool canceled successfully');
+    },
+    error: (error) => {
+      console.error('Error canceling carpool:', error);
+    }
+  });
+}
+
+
+
+
+// Dans ProfileComponent
+
+// Méthode pour vérifier si un covoiturage est dans le passé
+isCarpoolInPast(carpoolDate: string, carpoolTime: string): boolean {
+  const now = new Date(); // Date et heure actuelles
+  const carpoolDateTime = new Date(`${carpoolDate}T${carpoolTime}`); // Combiner date et heure du covoiturage
+
+  return carpoolDateTime < now; // Retourne true si le covoiturage est dans le passé
+}
 }

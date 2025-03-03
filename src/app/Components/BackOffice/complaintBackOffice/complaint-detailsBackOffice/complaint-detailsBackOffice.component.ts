@@ -41,11 +41,31 @@ export class ComplaintDetailsBackOfficeComponent implements OnInit {
       next: (response) => {
         this.complaint = response;
         this.isLoading = false; // Masquer l'indicateur de chargement
+
+        // Charger les informations de l'utilisateur associé à la réclamation
+        this.loadSimpleUserDetails(complaintId, headers);
       },
       error: (error) => {
         console.error('Erreur lors du chargement de la réclamation :', error);
         this.isLoading = false; // Masquer l'indicateur de chargement
         alert('Erreur lors du chargement de la réclamation.');
+      }
+    });
+  }
+
+  // Charger les informations de l'utilisateur (SimpleUser)
+  loadSimpleUserDetails(complaintId: number, headers: HttpHeaders): void {
+    this.complaintService.getUserByComplaintId(complaintId, headers).subscribe({
+      next: (user) => {
+        console.log('Informations du SimpleUser :', user);
+
+        // Associer les informations de l'utilisateur à la réclamation
+        if (this.complaint) {
+          this.complaint.simpleUser = user;
+        }
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des informations du SimpleUser :', error);
       }
     });
   }

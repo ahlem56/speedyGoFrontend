@@ -197,6 +197,7 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -221,7 +222,6 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     FormsModule,
     HttpClientModule,
     RouterModule,
-    CommonModule,
     ScheduleDriverInterfaceComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,

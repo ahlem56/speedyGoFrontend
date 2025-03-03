@@ -12,7 +12,7 @@
               <span [class]="{
                 'text-success': complaint.complaintStatus === 'resolved',
                 'text-warning': complaint.complaintStatus === 'pending',
-                'text-danger': complaint.complaintStatus === 'rejected'
+                'text-danger': complaint.complaintStatus === 'ignored'
               }">
                 {{ complaint.complaintStatus }}
               </span>

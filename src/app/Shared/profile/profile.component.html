@@ -62,5 +62,50 @@
         </div>
       </div>
     </div>
+ <!-- Carpool History Section -->
+<div class="trip-history">
+  <h3 class="toggle-trip-history" (click)="toggleCarpoolHistory()">
+    My Carpool History
+    <span *ngIf="isCarpoolVisible">▲</span>
+    <span *ngIf="!isCarpoolVisible">▼</span>
+  </h3>
+
+  <div [ngClass]="{'carpool-cards-container': true, 'open': isCarpoolVisible}">
+    <!-- Display carpool history as cards -->
+    <div *ngFor="let offer of carpoolOffers" class="carpool-card">
+      <div class="carpool-details">
+        <p><strong>Departure:</strong> {{ offer.carpoolDeparture }}</p>
+        <p><strong>Destination:</strong> {{ offer.carpoolDestination }}</p>
+        <p><strong>Date:</strong> {{ offer.carpoolDate | date }}</p>
+        <p><strong>Time:</strong> {{ offer.carpoolTime }}</p>
+        <p><strong>Price:</strong> ${{ offer.carpoolPrice }}</p>
+        <p>
+
+        </p>
+      </div>
+    
+      <!-- Afficher le bouton "Cancel Carpool" uniquement si le covoiturage n'est pas dans le passé -->
+      <button
+        *ngIf="!isCarpoolInPast(offer.carpoolDate, offer.carpoolTime)"
+        (click)="cancelCarpool(offer.carpoolId)"
+        class="cancel-carpool-btn"
+      >
+        Cancel Carpool
+      </button>
+    </div>
+    <!-- Message if no carpool offers -->
+    <p *ngIf="carpoolOffers.length === 0">No carpool history available.</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
   </div>
 </div>

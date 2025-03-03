@@ -1,9 +1,9 @@
 <div class="container">
-  <h2><i class="bi bi-car-front"></i> Mes Offres de Covoiturage <i class="bi bi-car-front"></i></h2>
+  <h2><i class="bi bi-car-front"></i>My carpooling offers  <i class="bi bi-car-front"></i></h2>
 <br>
   <!-- Bouton pour basculer entre les trajets futurs et l'historique -->
   <button class="btn btn-primary mb-3" style="margin-left: 400px;" (click)="togglePastCarpools()">
-    {{ showPastCarpools ? 'Voir les trajets futurs' : 'Voir l\'historique des trajets' }}
+    {{ showPastCarpools ? 'view upcoming carpools' : 'view carpools history ' }}
   </button>
 <br><br>  <!-- Liste des covoiturages -->
   @if (filteredCarpools.length > 0) {
@@ -36,16 +36,16 @@
                 </div>
               }<br>
               <button class="btn btn-danger" (click)="getUsers(carpool.carpoolId)">
-                <i class="bi bi-people"></i> Voir les utilisateurs
+                <i class="bi bi-people"></i> See users 
               </button>
               <!-- Afficher les utilisateurs ayant rejoint le covoiturage -->
               @if (getUsersCarpoolId === carpool.carpoolId) {
                 @if (isLoading) {
-                  <p>Chargement des utilisateurs...</p>
+                  <p>Loading users ...</p>
                 } 
                 @else {
                   @if (usersWhoJoined.length > 0) {
-                    <h5><i class="bi bi-people"></i> Utilisateurs ayant rejoint ce covoiturage</h5>
+                    <h5><i class="bi bi-people"></i> Users who joined this carpool</h5>
                     <ul class="list-group">
                       @for ( user of usersWhoJoined; track user.userId) {
                         <li class="list-group-item">
@@ -55,7 +55,7 @@
                     </ul>
                   }
                   @else {
-                    <p>Aucun utilisateur n'a rejoint ce covoiturage.</p>
+                    <p>No  one has joined this carpool .</p>
                   }
                 }
               }
@@ -67,19 +67,19 @@
     </div>
   }
   @else {
-    <p class="text-center">Aucune offre de covoiturage trouvée.</p>
+    <p class="text-center">No carpool offers found.</p>
   }
 
   <!-- Formulaire de modification (affiché uniquement lors de l'édition) -->
   @if (editingCarpoolId !== null) {
     <div class="card border-primary mt-3">
       <div class="card-header">
-        <h3><i class="bi bi-pencil"></i> Modifier le covoiturage</h3>
+        <h3><i class="bi bi-pencil"></i> update your carpool </h3>
       </div>
       <div class="card-body">
         <form>
           <div class="mb-3">
-            <label class="form-label"><i class="bi bi-geo"></i> Départ</label>
+            <label class="form-label"><i class="bi bi-geo"></i> Departure</label>
             <input class="form-control" [value]="updatedCarpool.carpoolDeparture" (input)="updateField('carpoolDeparture', $event)" placeholder="Départ" />
           </div>
           <div class="mb-3">
@@ -91,27 +91,27 @@
             <input class="form-control" [value]="updatedCarpool.carpoolDate" (input)="updateField('carpoolDate', $event)" type="date" />
           </div>
           <div class="mb-3">
-            <label class="form-label"><i class="bi bi-stopwatch"></i> Heure</label>
+            <label class="form-label"><i class="bi bi-stopwatch"></i> Time</label>
             <input class="form-control" [value]="updatedCarpool.carpoolTime" (input)="updateField('carpoolTime', $event)" type="time" />
           </div>
           <div class="mb-3">
-            <label class="form-label"><i class="bi bi-people"></i> Places restantes</label>
+            <label class="form-label"><i class="bi bi-people"></i>Capacity</label>
             <input class="form-control" [value]="updatedCarpool.carpoolCapacity" (input)="updateField('carpoolCapacity', $event)" type="number" />
           </div>
           <div class="mb-3">
-            <label class="form-label"><i class="bi bi-file-text"></i> Conditions</label>
+            <label class="form-label"><i class="bi bi-file-text"></i> Conditions </label>
             <input class="form-control" [value]="updatedCarpool.carpoolCondition" (input)="updateField('carpoolCondition', $event)" type="text" />
           </div>
           <div class="mb-3">
-            <label class="form-label"><i class="bi bi-cash"></i> Prix</label>
+            <label class="form-label"><i class="bi bi-cash"></i> Price </label>
             <input class="form-control" [value]="updatedCarpool.carpoolPrice" (input)="updateField('carpoolPrice', $event)" type="number" />
           </div>
           <div class="d-flex gap-2">
             <button class="btn btn-success" (click)="updateCarpool(editingCarpoolId, updatedCarpool)">
-              <i class="bi bi-check"></i> Enregistrer
+              <i class="bi bi-check"></i> Save
             </button>
             <button class="btn btn-secondary" (click)="cancelEditing()">
-              <i class="bi bi-x"></i> Annuler
+              <i class="bi bi-x"></i> Cancel
             </button>
           </div>
         </form>

@@ -1,30 +1,64 @@
-@if (isLoading) {
-  <div>
-    <p>Chargement en cours...</p>
+<div class="complaint-list-container">
+  <div class="header">
+    <h1>Complaints' List </h1>
   </div>
-} @else {
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Prénom</th>
-        <th>Nom</th>
-        <th>Description</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (complaint of complaints; track complaint.complaintId) {
-        <tr>
-          <td>{{ complaint.simpleUser?.userFirstName }}</td>
-          <td>{{ complaint.simpleUser?.userLastName }}</td>
-          <td>{{ complaint.complaintDescription }}</td>
-          <td>
-            <button (click)="viewDetails(complaint.complaintId)" class="btn btn-info">
-              Détails
-            </button>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
-}
+
+  <!-- Filtres -->
+  <div class="filter-controls">
+    <div class="filter-select">
+      <button class="btn btn-primary" (click)="applyFilter('all')" >All  </button> 
+     <button class="btn btn-warning" (click)="applyFilter('pending')" >Pending</button>
+      <button class="btn btn-danger" (click)="applyFilter('ignored')" >Ignored</button>
+      <button class="btn btn-success" (click)="applyFilter('resolved')" >Resolved</button>
+    </div>
+  </div>
+
+  <!-- Spinner de chargement -->
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <i class="fas fa-spinner fa-spin"></i> Loading...
+    </div>
+  }
+
+  <!-- Tableau des réclamations -->
+  @if (!isLoading && filteredComplaints.length > 0) {
+    <div class="complaint-table">
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            @if (filterType === 'resolved') {
+              <th>Admin's Response</th>
+            }
+            @if (filterType === 'pending') {
+              <th>Actions</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (complaint of filteredComplaints; track complaint.complaintId) {
+            <tr>
+              <td data-label="Prénom">{{ complaint.simpleUser?.firstName }}</td>
+              <td data-label="Nom">{{ complaint.simpleUser?.lastName }}</td>
+              <td data-label="Description">{{ complaint.complaintDescription }}</td>
+              <td data-label="Statut">{{ complaint.complaintStatus.charAt(0).toUpperCase() + complaint.complaintStatus.slice(1) }}</td>
+              @if (filterType === 'resolved') {
+                <td data-label="Réponse de l'admin">{{ complaint.response || 'Aucune réponse disponible' }}</td>
+              }
+              @if (filterType === 'pending') {
+                <td data-label="Actions">
+                  <button class="btn btn-danger" (click)="viewDetails(complaint.complaintId)">Détails</button>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else if (!isLoading) {
+    <p class="no-results">there are No Complaints .</p>
+  }
+</div>

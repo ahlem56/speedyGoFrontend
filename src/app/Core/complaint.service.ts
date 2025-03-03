@@ -51,7 +51,7 @@ export class ComplaintService {
     // Ignorer une réclamation (Admin uniquement)
     ignoreComplaint(complaintId: number,adminId:number, headers: HttpHeaders): Observable<any> {
       const url = `${this.apiUrl}${complaintId}/ignore/${adminId}`;
-      return this.http.post(url, {}, { headers });
+      return this.http.put(url, {}, { headers });
     }
 
     getComplaintById(complaintId: number, headers: HttpHeaders): Observable<any> {
@@ -59,4 +59,12 @@ export class ComplaintService {
       return this.http.get<any[]>(url, { headers });
     }
     
+
+
+    // Obtenir les informations du SimpleUser à partir de l'ID d'une réclamation
+    getUserByComplaintId(complaintId: number, headers: HttpHeaders): Observable<any> {
+  const url = `${this.apiUrl}${complaintId}/user`;
+  return this.http.get<any>(url, { headers });
+}
+
 }
