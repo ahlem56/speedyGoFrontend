@@ -68,5 +68,24 @@
         </div>
       </div>
     </div>
+        <!-- Parcel History Section -->
+        <div class="parcel-history">
+          <h3 class="toggle-parcel-history" (click)="toggleParcelHistory()">
+            My Parcel History
+            <span *ngIf="isParcelsVisible">▲</span>
+            <span *ngIf="!isParcelsVisible">▼</span>
+          </h3>
+          <div [ngClass]="{'parcel-cards-container': true, 'open': isParcelsVisible}">
+            <div *ngFor="let parcel of parcels" class="parcel-card">
+              <div class="parcel-details">
+                <p><strong>Departure:</strong> {{ parcel.parcelDeparture }}</p>
+                <p><strong>Destination:</strong> {{ parcel.parcelDestination }}</p>
+                <p><strong>Weight:</strong> {{ parcel.parcelWeight }} kg</p>
+                <p><strong>Price:</strong> DT{{ parcel.parcelPrice }}</p>
+              </div>
+              <button (click)="deleteParcel(parcel.parcelId)" class="cancel-parcel-btn">Cancel Parcel</button>
+            </div>
+          </div>
+        </div>
   </div>
 </div>

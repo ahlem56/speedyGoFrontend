@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ParcelService } from 'src/app/Core/parcel.service';
 import { DriverService } from 'src/app/Core/driver.service';  // Assurez-vous d'importer le service des conducteurs
+import { HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -13,7 +14,9 @@ export class ParcelListBackOfficeComponent {
   parcels: any[] = [];
   drivers: any[] = [];
   selectedDrivers: { [key: number]: number } = {}; // Stocke le driver sélectionné par colis
-
+  afterDate: string = ''; // Date après laquelle les colis seront filtrés
+  beforeDate: string = ''; // Date avant laquelle les colis seront filtrés
+  categorySearch: string = ''; // Texte de recherche par catégorie
   constructor(private parcelService: ParcelService, private driverService: DriverService) {}
 
   ngOnInit(): void {
@@ -36,7 +39,42 @@ export class ParcelListBackOfficeComponent {
           (error) => { console.error('Erreur lors de la récupération des conducteurs', error); }
       );
   }
-
+// Méthode de filtrage par date
+// Filtrer les colis selon les dates
+filterParcels() {
+    if (this.afterDate && this.beforeDate) {
+      // Si les deux dates sont définies, appliquer les deux filtres
+      this.parcelService.getParcelsAfterDate(this.afterDate).subscribe(
+        (afterData) => {
+          this.parcelService.getParcelsBeforeDate(this.beforeDate).subscribe(
+            (beforeData) => {
+              this.parcels = afterData.filter(parcel =>
+                beforeData.some(beforeParcel => beforeParcel.parcelId === parcel.parcelId)
+              );
+            },
+            (error) => { console.error('Erreur lors du filtrage avant la date', error); }
+          );
+        },
+        (error) => { console.error('Erreur lors du filtrage après la date', error); }
+      );
+    } else if (this.afterDate) {
+      // Filtrer uniquement après une date
+      this.parcelService.getParcelsAfterDate(this.afterDate).subscribe(
+        (data) => { this.parcels = data; },
+        (error) => { console.error('Erreur lors du filtrage des colis après date', error); }
+      );
+    } else if (this.beforeDate) {
+      // Filtrer uniquement avant une date
+      this.parcelService.getParcelsBeforeDate(this.beforeDate).subscribe(
+        (data) => { this.parcels = data; },
+        (error) => { console.error('Erreur lors du filtrage des colis avant date', error); }
+      );
+    } else {
+      // Si aucune date n'est sélectionnée, recharge tous les colis
+      this.loadParcels();
+    }
+  }
+  
   // Assigner un chauffeur à un colis
   assignParcel(parcelId: number) {
       const driverId = this.selectedDrivers[parcelId];
@@ -54,6 +92,23 @@ export class ParcelListBackOfficeComponent {
       } else {
           alert('Please select a driver!');
       }
+  }
+  deleteParcel(parcelId: number) {
+    if (confirm('Are you sure you want to delete this parcel?')) {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      });
+      this.parcelService.deleteParcel(parcelId, headers).subscribe(
+        () => {
+          alert('Parcel deleted successfully!');
+          this.loadParcels();
+        },
+        error => {
+          alert('Failed to delete parcel');
+          console.error(error);
+        }
+      );
+    }
   }
 
 }

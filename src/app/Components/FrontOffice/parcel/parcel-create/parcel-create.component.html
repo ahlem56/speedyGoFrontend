@@ -2,7 +2,7 @@
     <div class="row justify-content-center mb-4">
         <div class="col-md-8 text-center">
             <h2 class="section-title text-primary fw-bold">
-                <i class="fas fa-box-open me-2"></i>📦 Send Your Parcel
+                <i class="fas fa-box-open me-2"></i> 📦 Send Your Parcel
             </h2>
             <p class="lead text-muted">Fill out the form below to create a parcel for shipment. We ensure secure delivery!</p>
         </div>
@@ -10,61 +10,122 @@
 
     <div class="card shadow-lg p-4 border-0 rounded-4 bg-light">
         <div class="card-body">
-            <form>
+            <form #parcelForm="ngForm">
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label for="parcelDeparture" class="form-label">
+                            <i class="fas fa-map-marker-alt me-2"></i> Parcel Departure
+                        </label>
+                        <input type="text" class="form-control form-control-lg rounded-3" id="parcelDeparture"
+                               [(ngModel)]="parcel.parcelDeparture" name="parcelDeparture" required
+                               #parcelDeparture="ngModel">
+                        <div class="text-danger" *ngIf="parcelDeparture.invalid && parcelDeparture.touched">
+                            Departure is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="parcelDestination" class="form-label">
+                            <i class="fas fa-map-marked-alt me-2"></i> Parcel Destination
+                        </label>
+                        <input type="text" class="form-control form-control-lg rounded-3" id="parcelDestination"
+                               [(ngModel)]="parcel.parcelDestination" name="parcelDestination" required
+                               #parcelDestination="ngModel">
+                        <div class="text-danger" *ngIf="parcelDestination.invalid && parcelDestination.touched">
+                            Destination is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6">
+                        <label for="recepeientPhoneNumber" class="form-label">
+                            <i class="fas fa-phone-alt me-2"></i> Recipient's Phone Number
+                        </label>
+                        <input type="tel" class="form-control form-control-lg rounded-3" id="recepeientPhoneNumber"
+                               [(ngModel)]="parcel.recepeientPhoneNumber" name="recepeientPhoneNumber" required
+                               pattern="^\d{8,}$" #recepeientPhoneNumber="ngModel"
+                               (keypress)="onKeyPress($event)">
+                        <div class="text-danger" *ngIf="recepeientPhoneNumber.invalid && recepeientPhoneNumber.touched">
+                            <div *ngIf="recepeientPhoneNumber.errors?.['required']">
+                                Phone number is required.
+                            </div>
+                            <div *ngIf="recepeientPhoneNumber.errors?.['pattern']">
+                                Phone must contain at least 8 digits.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="senderPhoneNumber" class="form-label">
+                            <i class="fas fa-phone me-2"></i> Sender's Phone Number
+                        </label>
+                        <input type="tel" class="form-control form-control-lg rounded-3" id="senderPhoneNumber"
+                               [(ngModel)]="parcel.senderPhoneNumber" name="senderPhoneNumber" required
+                               pattern="^\d{8,}$" #senderPhoneNumber="ngModel"
+                               (keypress)="onKeyPress($event)">
+                        <div class="text-danger" *ngIf="senderPhoneNumber.invalid && senderPhoneNumber.touched">
+                            <div *ngIf="senderPhoneNumber.errors?.['required']">
+                                Phone number is required.
+                            </div>
+                            <div *ngIf="senderPhoneNumber.errors?.['pattern']">
+                                Phone must contain at least 8 digits.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row g-4">
                     <div class="col-md-6">
-                        <label for="parcelWeight" class="form-label"><i class="fas fa-weight-hanging me-2"></i> Parcel Weight</label>
-                        <input type="number" class="form-control form-control-lg rounded-3" id="parcelWeight" [(ngModel)]="parcel.parcelWeight" name="parcelWeight" placeholder="Enter weight (kg)" required>
+                        <label for="parcelWeight" class="form-label">
+                            <i class="fas fa-weight-hanging me-2"></i> Parcel Weight (kg)
+                        </label>
+                        <input type="number" class="form-control form-control-lg rounded-3" id="parcelWeight"
+                               [(ngModel)]="parcel.parcelWeight" name="parcelWeight" required min="0.1"
+                               #parcelWeight="ngModel">
+                        <div class="text-danger" *ngIf="parcelWeight.invalid && parcelWeight.touched">
+                            Weight must be a positive number.
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="parcelDimensions" class="form-label"><i class="fas fa-ruler-combined me-2"></i> Parcel Dimensions</label>
-                        <input type="text" class="form-control form-control-lg rounded-3" id="parcelDimensions" [(ngModel)]="parcel.parcelDimensions" name="parcelDimensions" placeholder="Enter dimensions (L x W x H)" required>
-                    </div>
-                </div>
-
-                <div class="row g-4 mt-2">
-                    <div class="col-md-6">
-                        <label for="parcelPrice" class="form-label"><i class="fas fa-dollar-sign me-2"></i> Parcel Price</label>
-                        <input type="number" class="form-control form-control-lg rounded-3" id="parcelPrice" [(ngModel)]="parcel.parcelPrice" name="parcelPrice" placeholder="Enter price" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="parcelCategory" class="form-label"><i class="fas fa-tags me-2"></i> Parcel Category</label>
-                        <select class="form-select form-select-lg rounded-3" id="parcelCategory" [(ngModel)]="parcel.parcelCategory" name="parcelCategory" required>
+                        <label for="parcelCategory" class="form-label">
+                            <i class="fas fa-tags me-2"></i> Parcel Category
+                        </label>
+                        <select class="form-select form-select-lg rounded-3" id="parcelCategory"
+                                [(ngModel)]="parcel.parcelCategory" name="parcelCategory" required
+                                #parcelCategory="ngModel">
+                            <option value="" disabled selected>Select a category</option>
                             <option value="FOOD">🍕 Food</option>
                             <option value="CLOTHING">👕 Clothing</option>
-                            <option value="FRAGILE">💎 Fragile</option>
+                            <option value="FRAGILE">❄️ Fragile</option>
+                            <option value="EXPRESS">⚡ EXPRESS</option>
+                            <option value="LARGE">🚚 LARGE</option>
+                            <option value="Oversized">🚛 Oversized</option>
                         </select>
+                        <div class="text-danger" *ngIf="parcelCategory.invalid && parcelCategory.touched">
+                            Please select a category.
+                        </div>
                     </div>
                 </div>
 
                 <div class="row g-4 mt-2">
                     <div class="col-md-6">
-                        <label for="recepeientPhoneNumber" class="form-label"><i class="fas fa-phone-alt me-2"></i> Recipient's Phone Number</label>
-                        <input type="number" class="form-control form-control-lg rounded-3" id="recepeientPhoneNumber" [(ngModel)]="parcel.recepeientPhoneNumber" name="recepeientPhoneNumber" placeholder="Enter recipient's phone number" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="senderPhoneNumber" class="form-label"><i class="fas fa-phone me-2"></i> Sender's Phone Number</label>
-                        <input type="number" class="form-control form-control-lg rounded-3" id="senderPhoneNumber" [(ngModel)]="parcel.senderPhoneNumber" name="senderPhoneNumber" placeholder="Enter sender's phone number" required>
-                    </div>
-                </div>
-
-                <div class="row g-4 mt-2">
-                    <div class="col-md-6">
-                        <label for="parcelDeparture" class="form-label"><i class="fas fa-map-marker-alt me-2"></i> Parcel Departure</label>
-                        <input type="text" class="form-control form-control-lg rounded-3" id="parcelDeparture" [(ngModel)]="parcel.parcelDeparture" name="parcelDeparture" placeholder="Enter departure location" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="parcelDestination" class="form-label"><i class="fas fa-map-marked-alt me-2"></i> Parcel Destination</label>
-                        <input type="text" class="form-control form-control-lg rounded-3" id="parcelDestination" [(ngModel)]="parcel.parcelDestination" name="parcelDestination" placeholder="Enter destination location" required>
+                        <label for="parcelPrice" class="form-label">
+                            <i class="fas fa-dollar-sign me-2"></i> Parcel Price (DT)
+                        </label>
+                        <input type="number" class="form-control form-control-lg rounded-3" id="parcelPrice"
+                               [(ngModel)]="parcel.parcelPrice" name="parcelPrice" required min="1"
+                               #parcelPrice="ngModel">
+                        <div class="text-danger" *ngIf="parcelPrice.invalid && parcelPrice.touched">
+                            Price must be at least 1DT.
+                        </div>
                     </div>
                 </div>
 
                 <div class="row justify-content-center mt-4">
                     <div class="col-md-6 d-grid">
-                        <button class="btn btn-danger btn-lg rounded-3 shadow-sm" type="button" (click)="createParcel()">
+                        <button class="btn btn-danger btn-lg rounded-3 shadow-sm" type="button"
+                                [disabled]="parcelForm.invalid" (click)="createParcel()">
                             <i class="fas fa-paper-plane me-2"></i> Send Parcel
                         </button>
-                        
                     </div>
                 </div>
             </form>
@@ -81,108 +142,3 @@
         <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
     </div>
 </div>
-<style>
-    /* Conteneur général */
-    .container {
-      max-width: 1100px;
-      margin: auto;
-    }
-  
-    /* Titre de la section */
-    .section-title {
-      font-size: 28px;
-      font-weight: bold;
-      color: #007bff;
-      margin-bottom: 15px;
-      animation: slideIn 1s ease-out; /* Animation d'entrée */
-    }
-  
-    /* Effet de dégradé dynamique pour la section */
-    .section-title i {
-      font-size: 30px;
-      transition: transform 0.3s ease;
-    }
-  
-    .section-title:hover i {
-      transform: rotate(15deg); /* Effet de rotation au survol */
-    }
-  
-    .section-title:hover {
-      background: linear-gradient(45deg, #ff6f61, #ffcc00);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-    }
-  
-    /* Formulaire de création de colis */
-    .card {
-      background-color: #f8f9fa;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-  
-    /* Effet de transformation au survol de la carte */
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    }
-  
-    /* Champs du formulaire */
-    .form-label {
-      font-weight: bold;
-      color: #333;
-    }
-  
-    .form-control, .form-select {
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 16px;
-      transition: border-color 0.3s ease;
-    }
-  
-    .form-control:focus, .form-select:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
-    }
-  
-    /* Bouton de soumission */
-    .btn-danger {
-      background-color: #ff4d4d;
-      border-color: #e60000;
-      color: white;
-      transition: background-color 0.3s ease;
-    }
-  
-    .btn-danger:hover {
-      background-color: #e60000;
-      border-color: #b30000;
-    }
-  
-    /* Alertes de succès et d'erreur */
-    .alert {
-      border-radius: 8px;
-    }
-  
-    /* Animation de l'alerte de succès et erreur */
-    .alert-success, .alert-danger {
-      animation: fadeIn 0.5s ease-out;
-    }
-  
-   /* Animation Ping-Pong */
-  @keyframes pingPong {
-    0%, 100% {
-      transform: translateX(0); /* Position initiale */
-    }
-    25% {
-      transform: translateX(10px); /* Se déplace vers la droite */
-    }
-    50% {
-      transform: translateX(-10px); /* Se déplace vers la gauche */
-    }
-    75% {
-      transform: translateX(10px); /* Se déplace vers la droite à nouveau */
-    }
-  }
-</style>

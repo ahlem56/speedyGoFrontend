@@ -14,7 +14,6 @@ import { UserService } from 'src/app/Core/user.service';
 export class ParcelCreateFrontOfficeComponent {
     parcel: any = {  // Form data for the parcel
         parcelWeight: null,
-        parcelDimensions: '',
         parcelPrice: null,
         parcelCategory: '', // Newly added
         recepeientPhoneNumber: null, // Newly added
@@ -43,7 +42,7 @@ export class ParcelCreateFrontOfficeComponent {
         const token = localStorage.getItem('authToken');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         
-        if (!this.parcel.parcelWeight || !this.parcel.parcelDimensions || !this.parcel.parcelPrice || !this.parcel.parcelCategory || !this.parcel.recepeientPhoneNumber || !this.parcel.senderPhoneNumber || !this.parcel.parcelDeparture || !this.parcel.parcelDestination) {
+        if (!this.parcel.parcelWeight || !this.parcel.parcelPrice || !this.parcel.parcelCategory || !this.parcel.recepeientPhoneNumber || !this.parcel.senderPhoneNumber || !this.parcel.parcelDeparture || !this.parcel.parcelDestination) {
           this.errorMessage = 'Please fill out all fields';
           return;
         }
@@ -66,4 +65,11 @@ export class ParcelCreateFrontOfficeComponent {
           }
         );
       }
+      onKeyPress(event: KeyboardEvent) {
+        const charCode = event.which ? event.which : event.keyCode;
+        // Vérifie si le caractère est un chiffre (0-9)
+        if (charCode < 48 || charCode > 57) {
+            event.preventDefault(); // Empêche la saisie
+        }
+    }
 }
