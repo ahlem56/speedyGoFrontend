@@ -61,11 +61,23 @@ input:focus, select:focus {
 /* Map section */
 #map {
     width: 100%;
-    height: 400px;
+    
+    max-height: 400px; /* Adjust if necessary */
     border-radius: 10px;
     margin-top: 30px;
     border: 2px solid #ddd;
+    margin-bottom: 20px; /* Add some space below the map */
 }
+
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    /* Adjust map height for smaller screens */
+    #map {
+        height: 300px; /* Adjust the height for smaller screens */
+    }
+}
+
 
 /* Submit Button */
 .btn-primary {

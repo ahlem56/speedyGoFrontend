@@ -45,6 +45,15 @@ export class TripService {
     const url = `${this.apiUrl}getAllTrips`;
     return this.http.get<any[]>(url, { headers });
   }
+
+  acceptTrip(tripId: number, headers: HttpHeaders) {
+    return this.http.put<any>(`http://localhost:8089/examen/trip/acceptTrip/${tripId}`, {}, { headers });
+  }
+  
+  refuseTrip(tripId: number, headers: HttpHeaders) {
+    return this.http.put<any>(`http://localhost:8089/examen/trip/refuseTrip/${tripId}`, {}, { headers });
+  }
+  
   
   
 }

@@ -25,20 +25,12 @@ export class UserService {
       localStorage.setItem('authToken', token);  // Store the token
       localStorage.setItem('userRole', response.role);  // Store the role
       localStorage.setItem('user', JSON.stringify(response.user));  // Store the full user object
-      
-
-
 
       return { token, role: response.role, user: response.user };
     })
   );
 }
 
-
-
-  
-  
-  
 
   // Signup method to register a new user
   signup(signupData: any): Observable<any> {
@@ -70,6 +62,10 @@ logout(): void {
 // API call to upload profile photo
 uploadProfileImage(formData: FormData, headers: HttpHeaders): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}/upload-profile-photo`, formData, { headers });
+}
+
+updateUserProfile(user: any, headers: HttpHeaders): Observable<any> {
+  return this.http.put<any>(`${this.apiUrl}/update-profile`, user, { headers });
 }
 
 }

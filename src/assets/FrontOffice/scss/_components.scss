@@ -79,10 +79,64 @@
   margin-bottom: 30px;  /* Add space between the first image and the content below */
 }
 #trip {
-  width: 70%;       /* Set width to 80% of the container width */
-  height: auto;  /* Maintain the image's aspect ratio */
+  width: 150%;        /* Increase the size */
+  height: auto;
+  padding-right: 10px;
+  animation: moveImage 6s ease-in-out infinite; /* Controlled animation */
 }
 
+/* Define the animation */
+@keyframes moveImage {
+  0% {
+    transform: translateX(0);  /* Start position */
+  }
+  50% {
+    transform: translateX(30%); /* Move 30% to the right */
+  }
+  100% {
+    transform: translateX(0);  /* Return to original position */
+  }
+}
+
+.moveImage {
+  width: 100%;   /* You can adjust the size as needed */
+  height: auto;
+  animation: moveUpDown 3s ease-in-out infinite; /* Vertical animation */
+}
+
+/* Define the vertical movement */
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px); /* Move 20px upwards */
+  }
+  100% {
+    transform: translateY(0); /* Back to the original position */
+  }
+}
+
+
+
+#carpool {
+  width: 100%;        /* Adjust the size */
+  height: auto;
+  animation: zoomMap 8s ease-in-out infinite; /* Zoom effect for the map */
+}
+
+/* Define the zoom animation for the map */
+@keyframes zoomMap {
+  0% {
+    transform: scale(1);  /* Original size */
+  }
+  50% {
+    transform: scale(1.1); /* Zoom in slightly */
+  }
+  100% {
+    transform: scale(1);  /* Return to original size */
+  }
+}
 
 .section-title {
   font-size: 2.5rem;        /* Large title */
@@ -201,5 +255,15 @@ input, select {
     margin-bottom: 20px;
   }
 }
+
+.profile-img {
+  width: 45px; /* Bigger size */
+  height: 45px; /* Maintain aspect ratio */
+  border-radius: 50%; /* Ensures it remains round */
+  object-fit: cover; /* Prevents stretching */
+  border: 2px solid #ffffff; /* Optional: White border for a clean look */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Optional: Adds subtle shadow */
+}
+
 
 

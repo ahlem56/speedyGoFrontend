@@ -1,143 +1,91 @@
-<div class="drivers-list">
-  <h2 class="title">List of Drivers</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Photo</th>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>CIN</th>
-        <th>Availability</th>
-        <th>Vehicle</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let driver of drivers">
-        <td>{{ driver.userId }}</td>
-        <td>
-          <img *ngIf="driver.userProfilePhoto; else noPhoto" 
-               [src]="driver.userProfilePhoto" 
-               alt="Driver Photo" class="profile-photo">
-          <ng-template #noPhoto>
-            <span class="no-photo">No Photo</span>
-          </ng-template>
-        </td>
-        <td>{{ driver.lastName }}</td>
-        <td>{{ driver.firstName }}</td>
-        <td>{{ driver.email }}</td>
-        <td>{{ driver.address }}</td>
-        <td>{{ driver.cin }}</td>
-        <td>
-          <span [class.available]="driver.availibilityD" [class.unavailable]="!driver.availibilityD">
-            {{ driver.availibilityD ? 'Available' : 'Unavailable' }}
-          </span>
-        </td>
-        <td>
-          {{ driver.vehicle ? driver.vehicle : 'N/A' }}
-        </td>
-        <td>
-          <button class="btn btn-edit">Edit</button>
-          <button class="btn btn-delete" (click)="deleteDriver(driver.userId)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="drivers-list-container">
+  <div class="header">
+    <h1>List of Drivers</h1>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filter-controls">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" [(ngModel)]="searchTerm"
+             (input)="applyFilters()"
+             placeholder="Search drivers...">
+    </div>
+
+    <div class="filter-select">
+      <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
+        <option *ngFor="let status of driverStatuses" [value]="status.value">
+          {{ status.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- État de chargement -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <i class="fas fa-spinner fa-spin"></i>
+    Loading drivers...
+  </div>
+
+  <!-- Message d'erreur -->
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Tableau des conducteurs -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <div *ngIf="filteredDrivers && filteredDrivers.length > 0; else noDrivers">
+      <table class="driver-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Photo</th>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>CIN</th>
+            <th>Availability</th>
+            <th>Vehicle</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let driver of filteredDrivers">
+            <td>{{ driver.userId }}</td>
+            <td>
+              <img *ngIf="driver.userProfilePhoto; else noPhoto" 
+                   [src]="driver.userProfilePhoto" 
+                   alt="Driver Photo" class="profile-photo">
+              <ng-template #noPhoto>
+                <span class="no-photo">No Photo</span>
+              </ng-template>
+            </td>
+            <td>{{ driver.lastName }}</td>
+            <td>{{ driver.firstName }}</td>
+            <td>{{ driver.email }}</td>
+            <td>{{ driver.address }}</td>
+            <td>{{ driver.cin }}</td>
+            <td>
+              <span [class.available]="driver.availibilityD" [class.unavailable]="!driver.availibilityD">
+                {{ driver.availibilityD ? 'Available' : 'Unavailable' }}
+              </span>
+            </td>
+            <td>
+              {{ driver.vehicle ? driver.vehicle : 'N/A' }}
+            </td>
+            <td class="action-buttons">
+              <button class="btn btn-edit">Edit</button>
+              <button class="btn btn-delete" (click)="deleteDriver(driver.userId)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Message si aucun conducteur n'est trouvé -->
+    <ng-template #noDrivers>
+      <p class="no-drivers-message">No drivers available.</p>
+    </ng-template>
+  </div>
 </div>
-
-<!-- Display success or error message -->
-<div *ngIf="successMessage" class="message success-message">
-  {{ successMessage }}
-</div>
-<div *ngIf="errorMessage" class="message error-message">
-  {{ errorMessage }}
-</div>
-
-<style>
-  .drivers-list {
-    max-width: 100%;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow: hidden;
-    border-radius: 8px;
-  }
-
-  .table th, .table td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .table th {
-    background: #007BFF;
-    color: white;
-    font-weight: bold;
-  }
-
-  .table tr:nth-child(even) {
-    background: #f9f9f9;
-  }
-
-  .profile-photo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .no-photo {
-    color: gray;
-    font-style: italic;
-  }
-
-  .available {
-    color: green;
-    font-weight: bold;
-  }
-
-  .unavailable {
-    color: red;
-    font-weight: bold;
-  }
-
-  .btn {
-    padding: 6px 12px;
-    margin: 2px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  .btn-edit {
-    background: #28a745;
-    color: white;
-  }
-
-  .btn-delete {
-    background: #dc3545;
-    color: white;
-  }
-
-  .btn:hover {
-    opacity: 0.8;
-  }
-</style>

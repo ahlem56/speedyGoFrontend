@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule,DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 
@@ -115,16 +116,18 @@ import { AccessDeniedComponent } from './Shared/access-denied/access-denied.comp
 import { ResetPasswordComponent } from './Shared/reset-password/reset-password.component';
 import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/schedule/schedule.component';
 import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers/create-driver/create-driver.component';
+import { EditProfileComponent } from './Shared/profile/edit-profile/edit-profile.component';
+import { FooterComponent } from './Shared/footer/footer.component';
 
 
 
 // Define routes
 @NgModule({
   declarations: [
-    
+
     AppComponent,
     TripListFrontOfficeComponent,
-    
+
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
     CarpoolingCreateFrontOfficeComponent,
@@ -151,7 +154,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
-    
+
 
     RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
@@ -173,7 +176,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-    
+
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
@@ -186,7 +189,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
     
-    
+
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
@@ -197,6 +200,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     NotFoundComponent,
     
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -208,8 +212,11 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     CreateDriverBackOfficeComponent,
     ResetPasswordComponent,
     ReactiveFormsModule,
+    FooterComponent,
     DashboardModule  ,
+    EditProfileComponent,
     FormsModule,
+   GoogleMapsModule,
     HttpClientModule,
     RouterModule,
     CommonModule,
@@ -217,13 +224,11 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ProfileComponent,
-    AccessDeniedComponent,
     NotificationFrontOfficeComponent,
     FullComponent,   // Import standalone component
-    
-   
   ],
   providers: [DatePipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [FooterComponent] 
 })
 export class AppModule { }

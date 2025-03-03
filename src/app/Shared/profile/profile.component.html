@@ -5,7 +5,7 @@
 
   <div class="profile-card">
     <div class="profile-photo-container">
-      <img src="assets/FrontOffice/images/users/user4.jpg" alt="Profile Photo" class="profile-photo" />
+      <img [src]="profileImageUrl" alt="Profile Photo" class="profile-photo" />
       <input type="file" id="fileInput" (change)="onFileChange($event)" style="display: none" />
       <button (click)="triggerFileInput()" class="change-photo-btn">Change Photo</button>
     </div>
@@ -38,12 +38,11 @@
     </div>
 
     <div class="profile-actions">
-      <button class="edit-btn">Edit Profile</button>
-      <button class="change-password-btn">Change Password</button>
+      <button class="edit-btn" (click)="navigateToEditProfile()">Edit Profile</button>
     </div>
 
-    <!-- Trip History Section -->
-    <div class="trip-history">
+    <!-- Trip History Section (Visible only for non-admin and non-driver users) -->
+    <div *ngIf="userRole !== 'Admin' && userRole !== 'Driver'" class="trip-history">
       <h3 class="toggle-trip-history" (click)="toggleTripHistory()">
         My Trip History
         <span *ngIf="isTripsVisible">▲</span>
@@ -55,9 +54,16 @@
             <p><strong>Departure:</strong> {{ trip.tripDeparture }}</p>
             <p><strong>Destination:</strong> {{ trip.tripDestination }}</p>
             <p><strong>Date:</strong> {{ trip.tripDate | date }}</p>
+            <p><strong>Number Of Passengers:</strong> {{ trip.numberOfPassengers }}</p>
             <p><strong>Price:</strong> ${{ trip.tripPrice }}</p>
-            <p><strong>Status:</strong> <span [ngClass]="{'canceled': trip.reservationStatus === 'CANCELED'}">{{ trip.reservationStatus }}</span></p>
-          </div>
+            <p><strong>Status:</strong> 
+              <span [ngClass]="{
+                'canceled': trip.reservationStatus === 'CANCELED', 
+                'confirmed': trip.reservationStatus === 'CONFIRMED',
+                'pending': trip.reservationStatus === 'PENDING'
+              }">{{ trip.reservationStatus }}</span>
+            </p>
+                      </div>
           <button (click)="deleteTrip(trip.tripId)" class="cancel-trip-btn">Cancel Trip</button>
         </div>
       </div>

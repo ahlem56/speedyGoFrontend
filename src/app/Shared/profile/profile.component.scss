@@ -108,7 +108,8 @@
   margin-top: 20px;
 }
 
-.edit-btn, .change-password-btn {
+.edit-btn {
+  position : center;
   background: #ad1d1d;
   color: #fff;
   font-size: 16px;
@@ -189,10 +190,22 @@
   background-color: #e74c3c;
 }
 
+/* Trip Status Colors */
 .canceled {
-  color: #e74c3c;
+  color: #e74c3c; /* Red color for canceled status */
   font-weight: bold;
 }
+
+.confirmed {
+  color: #2ecc71; /* Green color for confirmed status */
+  font-weight: bold;
+}
+
+.pending {
+  color: #f39c12; /* Yellow color for pending status */
+  font-weight: bold;
+}
+
 
 @media (max-width: 768px) {
   .profile-container {

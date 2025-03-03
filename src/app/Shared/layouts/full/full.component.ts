@@ -21,7 +21,7 @@ export class FullComponent implements OnInit {
   public showMobileMenu = false;
   public expandLogo = false;
   public sidebartype = "full";
-  public hideSidebarAndHeader: boolean = false;  // Flag to hide sidebar and header
+  public hideSidebarAndHeader: boolean = false;  // Flag to hide sidebar, header, and footer
 
   Logo() {
     this.expandLogo = !this.expandLogo;
@@ -34,7 +34,7 @@ export class FullComponent implements OnInit {
     // Listen for route changes and update hideSidebarAndHeader accordingly
     this.router.events.pipe(
       filter(event => event instanceof NavigationStart || event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
+    ).subscribe(() => {
       this.updateSidebarAndHeader();
     });
 
@@ -75,17 +75,18 @@ export class FullComponent implements OnInit {
     }
   }
 
-  // New method to update the visibility of the sidebar and header based on the route
+  // Update visibility of sidebar, header, and footer based on route
   private updateSidebarAndHeader() {
     const currentUrl = this.router.url;
 
-    this.hideSidebarAndHeader = 
+    // Set the flag to true for routes that should hide the sidebar, header, and footer
+    this.hideSidebarAndHeader =
       currentUrl === '/login' || 
       currentUrl === '/signup' || 
       currentUrl === '/forgot-password' ||
       currentUrl === '/reset-password';
 
-    // Detect changes after route change or on initial load to ensure proper updates
+    // Manually trigger change detection to update view
     this.cdRef.detectChanges();
   }
 }

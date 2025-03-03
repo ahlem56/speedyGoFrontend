@@ -20,18 +20,19 @@
       aria-haspopup="true"
       aria-expanded="false"
     >
-      <img
-        src="assets/FrontOffice/images/users/user4.jpg"
-        alt="user"
-        class="rounded-circle"
-        width="31"
-      />
+    <img
+    [src]="profileImageUrl || 'assets/FrontOffice/images/users/user4.jpg'"
+    alt="user"
+    class="profile-img"
+  />
+  
+
       <span class="ms-2">{{ username }}</span>
     </a>
     <div class="dropdown-menu-right" ngbDropdownMenu>
       <a class="dropdown-item" [routerLink]="'/profile'">My Profile</a> <!-- Added routerLink for profile -->
       <a class="dropdown-item" [routerLink]="'/chat'">Chat</a>
-      <a class="dropdown-item" href="javascript:void(0)">Settings</a>
+      <a class="dropdown-item" [routerLink]="'/settings'">Settings</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="javascript:void(0)" (click)="logout()">Logout</a>
     </div>

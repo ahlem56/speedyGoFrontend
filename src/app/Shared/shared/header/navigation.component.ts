@@ -15,6 +15,7 @@ export class NavigationComponent implements OnInit {
 
   public isLoggedIn: boolean = false;
   public username: string = '';
+  public profileImageUrl: string = 'assets/FrontOffice/images/users/user4.jpg'; // Default profile picture
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -27,31 +28,48 @@ export class NavigationComponent implements OnInit {
     ).subscribe(() => {
       this.checkLoginStatus();  // Re-check login status whenever the route changes
     });
+
+    // ✅ Listen for profile picture updates
+    document.addEventListener('updateProfileImage', () => {
+      this.updateProfileImage();
+    });
   }
 
-  // Check if user is logged in
+  // ✅ Fetch User Data and Update Profile Picture
   checkLoginStatus() {
     const token = localStorage.getItem('authToken');
     if (token) {
       this.isLoggedIn = true;
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       if (user) {
-        this.username = `${user.firstName} ${user.lastName}`;  // Set full name
+        this.username = `${user.firstName} ${user.lastName}`;
+        this.profileImageUrl = user.userProfilePhoto
+          ? `http://localhost:8089/examen/user/profile-photo/${user.userProfilePhoto}`
+          : 'assets/FrontOffice/images/users/user4.jpg';
       }
     } else {
       this.isLoggedIn = false;
       this.username = '';
+      this.profileImageUrl = 'assets/FrontOffice/images/users/user4.jpg'; // Reset to default
     }
   }
-  
 
-  // Logout method
+  // ✅ Update Profile Picture When User Uploads New One
+  updateProfileImage() {
+    const updatedUser = JSON.parse(localStorage.getItem('user') || '{}');
+    this.profileImageUrl = updatedUser.userProfilePhoto
+      ? `http://localhost:8089/examen/user/profile-photo/${updatedUser.userProfilePhoto}`
+      : 'assets/FrontOffice/images/users/user4.jpg';
+  }
+
+  // ✅ Logout Method
   logout() {
     this.userService.logout();
     this.isLoggedIn = false;
     this.username = '';
-    localStorage.removeItem('authToken');  // Remove the authToken from localStorage on logout
-    localStorage.removeItem('userRole');  // Remove the userRole from localStorage on logout
-    this.router.navigate(['/login']);  // Redirect to login page
+    this.profileImageUrl = 'assets/FrontOffice/images/users/user4.jpg'; // Reset on logout
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userRole');
+    this.router.navigate(['/login']);
   }
 }
