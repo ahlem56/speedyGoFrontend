@@ -48,4 +48,13 @@ export class DriversBackOfficeComponent {
     }
   }
 
+    // New method to handle the add driver action
+    openAddDriverForm(): void {
+      // You can open a form or navigate to another page to add the driver
+      // For example, let's just log it for now:
+      console.log('Open Add Driver Form');
+      // Or you can use Angular routing to navigate to a separate add-driver component
+      // this.router.navigate(['/add-driver']);
+    }
+
 }

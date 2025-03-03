@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripService } from 'src/app/Core/trip.service';
 import { UserService } from 'src/app/Core/user.service';
+import { PaymentService } from 'src/app/Core/payment.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,13 +15,16 @@ import { UserService } from 'src/app/Core/user.service';
 export class ProfileComponent implements OnInit {
   user: any = {};  // Store the user data
   trips: any[] = []; // Store the trips for the user
+  payments: any[] = []; // Store the payments for the user
   isTripsVisible: boolean = false; // To control the visibility of the trip history list
+  isPaymentsVisible: boolean = false; // To control the visibility of the payment history list
   defaultProfilePhoto: string = 'assets/FrontOffice/images/users/default.jpg';  // Default image path
   profileImageUrl: string = '';  // To store the profile image URL after upload
 
   constructor(private userService: UserService, 
     private router: Router,
-    private tripService: TripService,) {}
+    private tripService: TripService,
+    private paymentService: PaymentService,) {}
 
   ngOnInit() {
     const storedUser = localStorage.getItem('user');
@@ -28,6 +32,7 @@ export class ProfileComponent implements OnInit {
       this.user = JSON.parse(storedUser);  // Parse and load user data from localStorage
       this.profileImageUrl = this.getProfileImage();  // Load profile image URL
       this.fetchTrips();  // Fetch trips for the logged-in user
+      this.fetchPayments();  // Fetch payments for the logged-in user
     }
   }
 
@@ -95,6 +100,18 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  // Fetch the payments for the logged-in user
+  fetchPayments() {
+    this.paymentService.getPaymentHistory().subscribe({
+      next: (payments) => {
+        this.payments = payments;
+      },
+      error: (err) => {
+        console.error('Failed to fetch payment history', err);
+      }
+    });
+  }
+
   // Delete a trip
   deleteTrip(tripId: number) {
     const token = localStorage.getItem('authToken');
@@ -113,5 +130,9 @@ export class ProfileComponent implements OnInit {
 
   toggleTripHistory() {
     this.isTripsVisible = !this.isTripsVisible; // Toggle the trip history visibility
+  }
+
+  togglePaymentHistory() {
+    this.isPaymentsVisible = !this.isPaymentsVisible; // Toggle the payment history visibility
   }
 }
