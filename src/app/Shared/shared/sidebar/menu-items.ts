@@ -20,6 +20,14 @@ export const ALL_ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: 'offer',
+    title: 'My Carpool offers',
+    icon: 'bi bi-signpost',  // Car icon for carpooling
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: 'parcels/create',
     title: 'Parcel',
     icon: 'bi bi-box',  // Box icon for parcels
@@ -167,5 +175,6 @@ export const ALL_ROUTES: RouteInfo[] = [
     class: '',
     extralink: false,
     submenu: []
-  }
+  },
+
 ];

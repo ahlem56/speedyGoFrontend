@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule,DatePipe } from '@angular/common';
+
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -18,6 +19,7 @@ import { CarpoolingListFrontOfficeComponent } from './Components/FrontOffice/car
 import { CarpoolingCreateFrontOfficeComponent } from './Components/FrontOffice/carpool/carpooling-create/carpooling-create.component';
 import { CarpoolingDetailFrontOfficeComponent } from './Components/FrontOffice/carpool/carpooling-detail/carpooling-detail.component';
 import { CarpoolingJoinFrontOfficeComponent } from './Components/FrontOffice/carpool/carpooling-join/carpooling-join.component';
+import { CarpoolingOfferFrontOfficeComponent } from './Components/FrontOffice/carpool/carpooling-offer/carpooling-offer.component';
 
 import { ParcelListFrontOfficeComponent } from './Components/FrontOffice/parcel/parcel-list/parcel-list.component';
 import { ParcelTrackFrontOfficeComponent } from './Components/FrontOffice/parcel/parcel-track/parcel-track.component';
@@ -126,8 +128,8 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
-    CarpoolingCreateFrontOfficeComponent,
-    CarpoolingDetailFrontOfficeComponent,
+   // CarpoolingCreateFrontOfficeComponent,
+    //CarpoolingDetailFrontOfficeComponent,
     CarpoolingJoinFrontOfficeComponent,
     ParcelListFrontOfficeComponent,
     ParcelTrackFrontOfficeComponent,
@@ -144,9 +146,7 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     ChatListFrontOfficeComponent,
     ChatMessageCreationFrontOfficeComponent,
     ChatMessageEditFrontOfficeComponent,
-    ComplaintCreationFrontOfficeComponent,
-    ComplaintListFrontOfficeComponent,
-    ComplaintDetailsFrontOfficeComponent,
+    //ComplaintCreationFrontOfficeComponent,
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
@@ -163,10 +163,10 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     PartnerListBackOfficeComponent,
     PartnerCreateBackOfficeComponent,
     PartnerEditBackOfficeComponent,
+    
     CarpoolingListBackOfficeComponent,
     CarpoolingDetailBackOfficeComponent,
-    ComplaintListBackOfficeComponent,
-    ComplaintDetailsBackOfficeComponent,
+
     ParcelListBackOfficeComponent,
     ParcelDetailBackOfficeComponent,
     ParcelTrackBackOfficeComponent,
@@ -200,11 +200,22 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     TripCreateFrontOfficeComponent,
+    CarpoolingDetailFrontOfficeComponent,
+    //CarpoolingOfferFrontOfficeComponent,
+    CarpoolingOfferFrontOfficeComponent,
+    ComplaintDetailsFrontOfficeComponent,
+    ComplaintListFrontOfficeComponent,
+
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
     TripListDriverInterfaceComponent,
     ResetPasswordComponent,
+    ComplaintListBackOfficeComponent,
+    ComplaintDetailsBackOfficeComponent,
+    CarpoolingCreateFrontOfficeComponent,
+    ComplaintCreationFrontOfficeComponent,
     ReactiveFormsModule,
     DashboardModule  ,
     FormsModule,

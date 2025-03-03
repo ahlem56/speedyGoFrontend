@@ -58,11 +58,13 @@ export class SidebarComponent implements OnInit {
         this.sidebarnavItems = ALL_ROUTES.filter((sidebarnavItem: RouteInfo) =>
           sidebarnavItem.path === 'trips/create' ||
           sidebarnavItem.path === 'carpooling/create' ||
+          sidebarnavItem.path === 'offer' ||
           sidebarnavItem.path === 'parcels/create' ||
           sidebarnavItem.path === 'events' ||
           sidebarnavItem.path === '/subscriptions/create' ||
           sidebarnavItem.path === 'complaints/create' ||
           sidebarnavItem.path === '/about'
+          
         );
         break;
       default:

@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripService } from 'src/app/Core/trip.service';
 import { UserService } from 'src/app/Core/user.service';
+import { CarpoolService } from 'src/app/Core/carpool.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,13 +15,16 @@ import { UserService } from 'src/app/Core/user.service';
 export class ProfileComponent implements OnInit {
   user: any = {};  // Store the user data
   trips: any[] = []; // Store the trips for the user
+  carpoolOffers: any[] = []; // Store the carpools offers
+
   isTripsVisible: boolean = false; // To control the visibility of the trip history list
   defaultProfilePhoto: string = 'assets/FrontOffice/images/users/default.jpg';  // Default image path
   profileImageUrl: string = '';  // To store the profile image URL after upload
 
   constructor(private userService: UserService, 
     private router: Router,
-    private tripService: TripService,) {}
+    private tripService: TripService,
+  private carpoolService: CarpoolService) {}
 
   ngOnInit() {
     const storedUser = localStorage.getItem('user');
@@ -28,6 +32,8 @@ export class ProfileComponent implements OnInit {
       this.user = JSON.parse(storedUser);  // Parse and load user data from localStorage
       this.profileImageUrl = this.getProfileImage();  // Load profile image URL
       this.fetchTrips();  // Fetch trips for the logged-in user
+      this.fetchCarpoolOffers(); // Récupère aussi les offres de covoiturage
+
     }
   }
 
@@ -114,4 +120,36 @@ export class ProfileComponent implements OnInit {
   toggleTripHistory() {
     this.isTripsVisible = !this.isTripsVisible; // Toggle the trip history visibility
   }
+
+  fetchCarpoolOffers() {
+    const userId = this.user.userId;
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.carpoolService.getCarpoolsForUser(userId, headers).subscribe({
+      next: (offers) => {
+        this.carpoolOffers = offers;
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des offres de covoiturage :', error);
+      }
+    });
+
+} /* deleteCarpoolOffer(offerId: number) {
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  this.carpoolService.deleteCarpool(offerId, headers).subscribe({
+    next: () => {
+      this.carpoolOffers = this.carpoolOffers.filter(offer => offer.offerId !== offerId);
+      console.log('Offre de covoiturage supprimée avec succès');
+    },
+    error: (error) => {
+      console.error('Erreur lors de la suppression de l’offre de covoiturage :', error);
+    }
+  });
+}*/ 
+
+
+
 }

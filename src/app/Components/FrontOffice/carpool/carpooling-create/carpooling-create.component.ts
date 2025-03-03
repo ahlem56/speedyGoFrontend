@@ -1,46 +1,83 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CarpoolService } from 'src/app/Core/carpool.service';
+import { UserService } from 'src/app/Core/user.service';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { HttpHeaders } from '@angular/common/http';
+
 @Component({
-    selector: 'app-carpooling-create',
-    templateUrl: './carpooling-create.component.html',
-    styleUrls: ['./carpooling-create.component.css'],
-    standalone: false
+  selector: 'app-carpool-create',
+  templateUrl: './carpooling-create.component.html',
+  styleUrls: ['./carpooling-create.component.css'],
+  imports: [FormsModule, CommonModule]
 })
-export class CarpoolingCreateFrontOfficeComponent {
-    constructor(private router: Router) {}
+export class CarpoolingCreateFrontOfficeComponent implements OnInit {
+  carpool: any = {
+    carpoolDeparture: '',
+    carpoolDestination: '',
+    carpoolDate: '',
+    carpoolTime: '',
+    carpoolCapacity: null,
+    carpoolCondition:'',
+    carpoolPrice :null,
+    licensePlate:'',
+  };
+  simpleUserId: number | null = null;
+  errorMessage: string = '';
+  successMessage: string = '';
 
-    joinCarpool() {
-      this.router.navigate(['/carpooling/join']);
+  constructor(
+    private carpoolService: CarpoolService,
+    private userService: UserService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    // Récupérer l'utilisateur connecté depuis le localStorage
+    const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+    this.simpleUserId = currentUser.userId;
+
+    console.log("SimpleUser ID: ", this.simpleUserId);
+  }
+
+  createCarpool() {
+    if (!this.simpleUserId) {
+      this.errorMessage = 'User ID is not available.';
+      return;
     }
 
-    showForm = false;
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    displayForm() {
-      this.showForm = true; 
-}
+    this.carpoolService.createCarpool(this.carpool, this.simpleUserId, headers).subscribe(
+      (createdCarpool) => {
+        console.log('Carpool Created', createdCarpool);
+        this.successMessage = 'Your carpool has been created successfully!';
+        this.errorMessage = '';
 
-submitCarpool() {
-    console.log("Price:", this.tripPrice);
-    console.log("Conditions:", this.selectedConditions);
-    alert('carpool Created Successfully! \nPrice: ${this.tripPrice}TND \nConditions: ${this.selectedConditions.join(", ")}');
-    this.showForm = false;
+        // Réinitialiser le formulaire
+        this.carpool = {
+          carpoolDeparture: '',
+          carpoolDestination: '',
+          carpoolDate: '',
+          carpoolTime: '',
+          carpoolCapacity: null,
+          carpoolCondition:'',
+          carpoolPrice :null,
+          licensePlate:'',
+        };
+      },
+    
+    );
   }
-  
-  selectedConditions: string[] = [];
-  conditions = [
-    "Women only",
-    "No pets",
-    "No loud music",
-    "Non-smoking car",
-    "No food in the car",
-  ];
-
-  toggleCondition(condition: string) {
-    if (this.selectedConditions.includes(condition)) {
-      this.selectedConditions = this.selectedConditions.filter(c => c !== condition);
-    } else {
-      this.selectedConditions.push(condition);
-    }
+  joinCarpool() {
+    this.router.navigate(['/carpooling/']);
   }
-  tripPrice: number | null = null;
+
+  showForm = false;
+
+  displayForm() {
+    this.showForm = true; 
+};
 }

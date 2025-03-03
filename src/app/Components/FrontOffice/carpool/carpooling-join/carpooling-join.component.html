@@ -1,1 +1,10 @@
-<p>carpooling-join works!</p>
+<div class="container"><br>
+    <h2>your're joining please procceed to payment : </h2>
+    <button  class="btn btn-success">payment </button>
+<br><br>
+    <h2>leave carpool</h2>
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+    <button (click)="leaveCarpool()" class="btn btn-danger">Quitter</button>
+  </div>
+  

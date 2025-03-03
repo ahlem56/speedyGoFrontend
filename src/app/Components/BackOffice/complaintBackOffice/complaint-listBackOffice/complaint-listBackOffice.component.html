@@ -1,1 +1,30 @@
-<p>complaint-list works!</p>
+@if (isLoading) {
+  <div>
+    <p>Chargement en cours...</p>
+  </div>
+} @else {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (complaint of complaints; track complaint.complaintId) {
+        <tr>
+          <td>{{ complaint.simpleUser?.userFirstName }}</td>
+          <td>{{ complaint.simpleUser?.userLastName }}</td>
+          <td>{{ complaint.complaintDescription }}</td>
+          <td>
+            <button (click)="viewDetails(complaint.complaintId)" class="btn btn-info">
+              Détails
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
