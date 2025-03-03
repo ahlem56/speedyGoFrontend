@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // <-- Import CommonModule
 import { SubscriptionService } from 'src/app/Core/subscription.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-subscription-creation',
@@ -13,7 +14,7 @@ export class SubscriptionCreationFrontOfficeComponent implements OnInit {
 
   subscriptionOffers: any[] = [];  // Store fetched subscriptions from the backend
 
-  constructor(private subscriptionService: SubscriptionService) { }
+  constructor(private subscriptionService: SubscriptionService, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchSubscriptions();  // Fetch subscriptions from the backend
@@ -41,5 +42,7 @@ export class SubscriptionCreationFrontOfficeComponent implements OnInit {
   subscribe(offer: any) {
     console.log(`Subscribed to ${offer.subscriptionType} for ${this.formatPrice(offer.subscriptionPrice)}`);
     alert(`Subscribed to ${offer.subscriptionType} for ${this.formatPrice(offer.subscriptionPrice)}`);
+    this.router.navigate(['/payments/create']);
+
   }
 }

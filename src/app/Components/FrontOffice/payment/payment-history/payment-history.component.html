@@ -1,1 +1,23 @@
-<p>payment-history works!</p>
+<div class="payment-history">
+    <h2>Payment History</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Amount</th>
+          <th>Currency</th>
+          <th>Method</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payment of payments">
+          <td>{{ payment.amount }}</td>
+          <td>{{ payment.currency }}</td>
+          <td>{{ payment.paymentMethod }}</td>
+          <td [class]="payment.status">{{ payment.status }}</td>
+          <td>{{ payment.paymentDate | date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

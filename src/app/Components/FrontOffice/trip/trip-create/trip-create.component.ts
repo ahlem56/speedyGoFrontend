@@ -169,6 +169,9 @@ export class TripCreateFrontOfficeComponent implements OnInit, AfterViewInit {
         this.successMessage = 'Your trip has been created successfully!';
         this.errorMessage = '';
   
+        // Redirect to "payments/create" after trip creation
+        this.router.navigate(['/payments/create']);
+  
         // Reset form
         this.trip = {
           tripDeparture: '',
@@ -188,5 +191,4 @@ export class TripCreateFrontOfficeComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  
 }

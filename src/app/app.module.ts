@@ -124,10 +124,10 @@ import { FooterComponent } from './Shared/footer/footer.component';
 // Define routes
 @NgModule({
   declarations: [
-
+    
     AppComponent,
     TripListFrontOfficeComponent,
-
+    
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
     CarpoolingCreateFrontOfficeComponent,
@@ -138,7 +138,7 @@ import { FooterComponent } from './Shared/footer/footer.component';
     ParcelCreateFrontOfficeComponent,
     ParcelDetailFrontOfficeComponent,
     VehicleDetailFrontOfficeComponent,
-    PaymentCreationFrontOfficeComponent,
+    //PaymentCreationFrontOfficeComponent,
     PaymentHistoryFrontOfficeComponent,
     PaymentMethodFrontOfficeComponent,
     EventListFrontOfficeComponent,
@@ -154,7 +154,7 @@ import { FooterComponent } from './Shared/footer/footer.component';
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
-
+    
 
     RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
@@ -176,7 +176,7 @@ import { FooterComponent } from './Shared/footer/footer.component';
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-
+    
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
@@ -189,7 +189,6 @@ import { FooterComponent } from './Shared/footer/footer.component';
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
     
-
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
@@ -200,7 +199,6 @@ import { FooterComponent } from './Shared/footer/footer.component';
     NotFoundComponent,
     
   ],
-
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -209,7 +207,7 @@ import { FooterComponent } from './Shared/footer/footer.component';
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
     TripListDriverInterfaceComponent,
-    CreateDriverBackOfficeComponent,
+    PaymentCreationFrontOfficeComponent,
     ResetPasswordComponent,
     ReactiveFormsModule,
     FooterComponent,
@@ -224,8 +222,11 @@ import { FooterComponent } from './Shared/footer/footer.component';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ProfileComponent,
+    AccessDeniedComponent,
     NotificationFrontOfficeComponent,
     FullComponent,   // Import standalone component
+    
+   
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ParcelService } from 'src/app/Core/parcel.service';
 import { TripService } from 'src/app/Core/trip.service';
 import { UserService } from 'src/app/Core/user.service';
+import { PaymentService } from 'src/app/Core/payment.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,13 +22,17 @@ export class ProfileComponent implements OnInit {
   profileImageUrl: string = '';  // To store the profile image URL after upload
   userRole: string | null = null; // Store the user role
   parcels: any[] = []; // Store the parcels for the user
+  payments: any[] = []; // Store the payments for the user
+  isPaymentsVisible: boolean = false; // To control the visibility of the payment history
 
   constructor(
     private userService: UserService,
     private router: Router,
     private tripService: TripService,
-    private parcelService: ParcelService
-  ) {}
+    private parcelService: ParcelService,
+    private paymentService: PaymentService
+  )
+   {}
 
   ngOnInit() {
     const storedUser = localStorage.getItem('user');
@@ -41,6 +46,7 @@ export class ProfileComponent implements OnInit {
       this.fetchParcels();
       }
 
+      this.fetchPayments();  // Fetch payments for the logged-in user
     }
   }
 
@@ -128,6 +134,18 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  // Fetch the payments for the logged-in user
+  fetchPayments() {
+    this.paymentService.getPaymentHistory().subscribe({
+      next: (payments) => {
+        this.payments = payments;
+      },
+      error: (err) => {
+        console.error('Failed to fetch payment history', err);
+      }
+    });
+  }
+
   // Delete a trip
   deleteTrip(tripId: number) {
     const token = localStorage.getItem('authToken');
@@ -163,8 +181,11 @@ export class ProfileComponent implements OnInit {
 
   navigateToEditProfile() {
     this.router.navigate(['/edit-profile']); // Naviguer vers la page d'édition de profil
-  
-}
+  }
+  togglePaymentHistory() {
+    this.isPaymentsVisible = !this.isPaymentsVisible; // Toggle the payment history visibility
+  }
+
   toggleParcelHistory() {
     this.isParcelsVisible = !this.isParcelsVisible; 
   }

@@ -27,6 +27,7 @@ export class ParcelCreateFrontOfficeComponent {
       
       constructor(
         private parcelService: ParcelService,
+      private router: Router,
         private userService: UserService // Inject UserService to get the logged-in user's ID
       ) {}
     
@@ -37,7 +38,6 @@ export class ParcelCreateFrontOfficeComponent {
         console.log("SimpleUser ID: ", this.simpleUserId);  // Verify the SimpleUser ID
       }
     
-      // Call the backend API to create the parcel
       createParcel() {
         const token = localStorage.getItem('authToken');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -46,18 +46,23 @@ export class ParcelCreateFrontOfficeComponent {
           this.errorMessage = 'Please fill out all fields';
           return;
         }
-    
+      
         if (!this.simpleUserId) {
           this.errorMessage = 'User ID is not available.';
           return;
         }
-    
+      
         this.parcelService.createParcel(this.parcel, this.simpleUserId, headers).subscribe(
           (createdParcel: any) => {
             console.log('Parcel Created:', createdParcel);
             this.successMessage = 'Your parcel has been created successfully!';
             this.errorMessage = '';  // Clear any previous error message
-            this.parcel = { parcelName: '', parcelWeight: null, parcelDimensions: '', parcelPrice: null };  // Reset the form
+      
+            // Redirect to "payments/create" after parcel creation
+            this.router.navigate(['/payments/create']);
+      
+            // Reset the form
+            this.parcel = { parcelName: '', parcelWeight: null, parcelDimensions: '', parcelPrice: null };  
           },
           (error: any) => {
             this.errorMessage = 'Failed to create parcel. Please try again later.';
@@ -65,11 +70,12 @@ export class ParcelCreateFrontOfficeComponent {
           }
         );
       }
+      
       onKeyPress(event: KeyboardEvent) {
         const charCode = event.which ? event.which : event.keyCode;
         // Vérifie si le caractère est un chiffre (0-9)
         if (charCode < 48 || charCode > 57) {
             event.preventDefault(); // Empêche la saisie
         }
+      }
     }
-}
