@@ -197,12 +197,7 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     
   ],
   imports: [
-    CommonModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    TripCreateFrontOfficeComponent,
+    
     CarpoolingDetailFrontOfficeComponent,
     //CarpoolingOfferFrontOfficeComponent,
     CarpoolingOfferFrontOfficeComponent,
@@ -219,6 +214,11 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
     ComplaintCreationFrontOfficeComponent,
     ReactiveFormsModule,
     DashboardModule  ,
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    TripCreateFrontOfficeComponent,
     FormsModule,
     HttpClientModule,
     RouterModule,

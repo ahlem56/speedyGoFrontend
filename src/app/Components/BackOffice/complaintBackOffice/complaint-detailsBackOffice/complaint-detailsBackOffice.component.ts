@@ -57,7 +57,7 @@ export class ComplaintDetailsBackOfficeComponent implements OnInit {
   loadSimpleUserDetails(complaintId: number, headers: HttpHeaders): void {
     this.complaintService.getUserByComplaintId(complaintId, headers).subscribe({
       next: (user) => {
-        console.log('Informations du SimpleUser :', user);
+        console.log('Informations of SimpleUser :', user);
 
         // Associer les informations de l'utilisateur à la réclamation
         if (this.complaint) {
@@ -100,7 +100,7 @@ export class ComplaintDetailsBackOfficeComponent implements OnInit {
       headers
     ).subscribe({
       next: () => {
-        alert('Réclamation ignorée avec succès.');
+        alert(' Complaint ignored successfully.');
         this.router.navigate(['/back-office/complaints']);
         this.isLoading = false;
       },
@@ -121,7 +121,7 @@ export class ComplaintDetailsBackOfficeComponent implements OnInit {
   // Répondre à une réclamation
   respondComplaint(responseText: string): void {
     if (!responseText) {
-      alert('Veuillez saisir une réponse.');
+      alert('Please enter a response before submitting.');
       return;
     }
 
@@ -152,7 +152,7 @@ export class ComplaintDetailsBackOfficeComponent implements OnInit {
       headers
     ).subscribe({
       next: () => {
-        alert('Réponse envoyée avec succès.');
+        alert('Response sent successfully..');
         this.router.navigate(['/back-office/complaints']);
         this.isLoading = false;
       },
