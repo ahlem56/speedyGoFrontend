@@ -44,7 +44,9 @@ export class SidebarComponent implements OnInit {
           sidebarnavItem.path === 'back-office/parcels' ||
           sidebarnavItem.path === 'back-office/complaints' ||
           sidebarnavItem.path === 'back-office/events/create' ||
-          sidebarnavItem.path === 'back-office/subscriptions' 
+          sidebarnavItem.path === 'back-office/subscriptions' ||
+          sidebarnavItem.path === 'back-office/partners' 
+
         );
         break;
       case 'Driver':
@@ -58,11 +60,13 @@ export class SidebarComponent implements OnInit {
         this.sidebarnavItems = ALL_ROUTES.filter((sidebarnavItem: RouteInfo) =>
           sidebarnavItem.path === 'trips/create' ||
           sidebarnavItem.path === 'carpooling/create' ||
+          sidebarnavItem.path === 'offer' ||
           sidebarnavItem.path === 'parcels/create' ||
           sidebarnavItem.path === 'events' ||
           sidebarnavItem.path === '/subscriptions/create' ||
           sidebarnavItem.path === 'complaints/create' ||
           sidebarnavItem.path === '/about'
+          
         );
         break;
       default:

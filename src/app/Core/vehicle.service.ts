@@ -74,4 +74,8 @@ export class VehicleService {
       {}
     );
   }
+
+  getAvailableVehicles(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/getAvailableVehicles`);  // Ensure you have an endpoint for available vehicles
+  }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DriverService } from 'src/app/Core/driver.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-drivers',
@@ -24,7 +25,7 @@ export class DriversBackOfficeComponent {
   errorMessage: string = '';
   isLoading: boolean = true;  // Show loading indicator while fetching data
 
-  constructor(private driversService: DriverService) {}
+  constructor(private driversService: DriverService,private router :Router) {}
 
   ngOnInit(): void {
     this.loadDrivers();
@@ -74,12 +75,13 @@ export class DriversBackOfficeComponent {
     }
   }
 
+  editDriver(driverId: number): void {
+    this.router.navigate([`/back-office/drivers/edit/${driverId}`]); // Navigate to the edit driver page with driverId
+  }
+
   // New method to handle the add driver action
+  
   openAddDriverForm(): void {
-    // You can open a form or navigate to another page to add the driver
-    // For example, let's just log it for now:
-    console.log('Open Add Driver Form');
-    // Or you can use Angular routing to navigate to a separate add-driver component
-    // this.router.navigate(['/add-driver']);
+    this.router.navigate(['/back-office/drivers/create']);  // Navigate to the add driver page
   }
 }

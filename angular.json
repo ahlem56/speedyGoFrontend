@@ -37,7 +37,6 @@
             "styles": [
               "src/assets/FrontOffice/scss/style.scss",
               "src/assets/BackOffice/scss/style.scss",
-            
               "src/styles.scss"
             ],
             "scripts": [],

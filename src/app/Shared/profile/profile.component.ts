@@ -6,6 +6,7 @@ import { ParcelService } from 'src/app/Core/parcel.service';
 import { TripService } from 'src/app/Core/trip.service';
 import { UserService } from 'src/app/Core/user.service';
 import { PaymentService } from 'src/app/Core/payment.service';
+import { CarpoolService } from 'src/app/Core/carpool.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,8 @@ export class ProfileComponent implements OnInit {
   user: any = {};  // Store the user data
   trips: any[] = []; // Store the trips for the user
   isParcelsVisible: boolean = false; // Pour contrôler l'affichage des colis
+  carpoolOffers: any[] = []; // Store the carpools offers
+
   isTripsVisible: boolean = false; // To control the visibility of the trip history list
   defaultProfilePhoto: string = 'assets/FrontOffice/images/users/user4.jpg';  // Default image path
   profileImageUrl: string = '';  // To store the profile image URL after upload
@@ -30,9 +33,11 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private tripService: TripService,
     private parcelService: ParcelService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private carpoolService: CarpoolService
   )
    {}
+ 
 
   ngOnInit() {
     const storedUser = localStorage.getItem('user');
@@ -44,9 +49,12 @@ export class ProfileComponent implements OnInit {
       if (this.userRole !== 'Admin' && this.userRole !== 'Driver') {  // Load profile image URL
       this.fetchTrips();  // Fetch trips for the logged-in user
       this.fetchParcels();
-      }
+     
 
       this.fetchPayments();  // Fetch payments for the logged-in user
+      this.fetchCarpoolHistory(); // Récupère aussi les offres de covoiturage
+      }
+
     }
   }
 
@@ -189,5 +197,62 @@ export class ProfileComponent implements OnInit {
   toggleParcelHistory() {
     this.isParcelsVisible = !this.isParcelsVisible; 
   }
+// Dans ProfileComponent
+
+fetchCarpoolHistory() {
+  const userId = this.user.userId;
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  this.carpoolService.getCarpoolsJoinedByUser(userId, headers).subscribe({
+    next: (joinedCarpools) => {
+      this.carpoolOffers = joinedCarpools; // Assigner les résultats à la variable carpoolOffers
+    },
+    error: (error) => {
+      console.error('Erreur lors de la récupération des carpools rejoins par l\'utilisateur:', error);
+    }
+  });
+}
+
+
+isCarpoolVisible: boolean = false;
+
+toggleCarpoolHistory() {
+  this.isCarpoolVisible = !this.isCarpoolVisible;
+}
+
+
+
+
+
+
+// Method to cancel a carpool
+cancelCarpool(carpoolId: number) {
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  this.carpoolService.leaveCarpool(carpoolId, this.user.userId, headers).subscribe({
+    next: () => {
+      this.carpoolOffers = this.carpoolOffers.filter(offer => offer.carpoolId !== carpoolId); // Remove the carpool from the list
+      console.log('Carpool canceled successfully');
+    },
+    error: (error) => {
+      console.error('Error canceling carpool:', error);
+    }
+  });
+}
+
+
+
+
+// Dans ProfileComponent
+
+// Méthode pour vérifier si un covoiturage est dans le passé
+isCarpoolInPast(carpoolDate: string, carpoolTime: string): boolean {
+  const now = new Date(); // Date et heure actuelles
+  const carpoolDateTime = new Date(`${carpoolDate}T${carpoolTime}`); // Combiner date et heure du covoiturage
+
+  return carpoolDateTime < now; // Retourne true si le covoiturage est dans le passé
+}
 }
 

@@ -5,10 +5,10 @@
     gap: 20px; /* Espacement entre les éléments */
     padding: 20px;
     margin-top: 20px;
-  }
-  
-  /* Boîtes de filtrage avec bordure arrondie et ombre douce */
-  .filter-box {
+}
+
+/* Boîtes de filtrage avec bordure arrondie et ombre douce */
+.filter-box {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -17,23 +17,23 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
-  }
-  
-  .filter-box:hover {
+}
+
+.filter-box:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Ombre lors du survol */
     transform: translateY(-4px); /* Effet de soulèvement */
-  }
-  
-  /* Style des labels de date */
-  .filter-label {
+}
+
+/* Style des labels de date */
+.filter-label {
     font-size: 14px;
     color: #333;
     margin-bottom: 8px;
     font-weight: bold;
-  }
-  
-  /* Style des champs de saisie */
-  .filter-input {
+}
+
+/* Style des champs de saisie */
+.filter-input {
     width: 150px;
     padding: 8px;
     border: 1px solid #ddd;
@@ -41,13 +41,14 @@
     font-size: 14px;
     outline: none;
     transition: border-color 0.3s;
-  }
-  
-  /* Effet de focus sur le champ de saisie */
-  .filter-input:focus {
+}
+
+/* Effet de focus sur le champ de saisie */
+.filter-input:focus {
     border-color: #4CAF50; /* Bordure verte lors du focus */
     box-shadow: 0 0 4px rgba(76, 175, 80, 0.3); /* Ombre verte */
-  }
+}
+
 /* Base styles */
 .parcel-list {
     padding: 2rem 1.5rem;
@@ -62,6 +63,13 @@
     color: #2d3748;
     margin-bottom: 2rem;
     text-align: center;
+}
+
+/* Table wrapper to make it scrollable */
+.table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Table styles */
@@ -108,11 +116,10 @@ select {
     background-size: 0.65rem auto;
 }
 
-
 /* Actions container */
 .actions {
     display: flex;
-    justify-content: space-around; 
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -139,7 +146,6 @@ select {
 .btn-delete:hover {
     color: #f44336; /* Change la couleur de l'icône sur le survol */
 }
-
 
 /* Responsive Design */
 @media (max-width: 768px) {

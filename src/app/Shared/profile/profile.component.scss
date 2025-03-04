@@ -329,3 +329,57 @@
     margin-top: 10px;
   }
 }}
+
+/* Styles for the carpool history section */
+.carpool-history {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.toggle-carpool-history {
+  cursor: pointer;
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.carpool-cards-container {
+  display: none;
+  margin-top: 10px;
+}
+
+.carpool-cards-container.open {
+  display: block;
+}
+
+.carpool-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carpool-details p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.cancel-carpool-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.cancel-carpool-btn:hover {
+  background-color: #c82333;
+}

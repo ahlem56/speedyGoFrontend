@@ -13,6 +13,7 @@ export interface Driver {
   address: string;       // Added address field
   cin: string;           // Added contact field
 }
+const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export interface Driver {
 export class DriverService {
 
   private baseUrl = 'http://localhost:8089/examen/driver/'; // URL to the backend API
+
 
   constructor(private http: HttpClient) { }
 
@@ -38,10 +40,20 @@ export class DriverService {
     return this.http.get<Driver[]>(`${this.baseUrl}get-all-drivers`, { headers });
 }
   createDriver(driver: Driver): Observable<Driver> {
-    return this.http.post<Driver>(`${this.baseUrl}createDriver`, driver);
+    return this.http.post<Driver>(`${this.baseUrl}createDriver`, driver, { headers });
   }
 
   deleteDriver(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}delete/${id}`);
+  }
+
+  // Get a driver by ID
+  getDriverById(driverId: string): Observable<Driver> {
+    return this.http.get<Driver>(`${this.baseUrl}find-driver/${driverId}`, { headers });
+  }
+
+  // Update driver details
+  updateDriver(driverId: number, driver: Driver): Observable<Driver> {
+    return this.http.put<Driver>(`${this.baseUrl}update/${driverId}`, driver, { headers });
   }
 }

@@ -1,8 +1,8 @@
 export interface Partner {
-  id?: number;
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
+  parterId?: number;
+  partnerName: string;
+  partnerContactInfo: string;
+  partnerCode: Number;
+  partnershipDuration: Number;
   // Add other properties as needed
 }

@@ -1,6 +1,9 @@
 <div class="drivers-list-container">
   <div class="header">
     <h1>List of Drivers</h1>
+    <button class="primary-button" (click)="openAddDriverForm()">
+      <i class="fas fa-plus"></i> Add New Driver
+    </button>
   </div>
 
   <!-- Filtres -->
@@ -72,11 +75,23 @@
               </span>
             </td>
             <td>
-              {{ driver.vehicle ? driver.vehicle : 'N/A' }}
+              <span *ngIf="driver.vehicle; else noVehicle">
+                {{ driver.vehicle?.vehiculeId }}
+              </span>
+              <ng-template #noVehicle>
+                N/A
+              </ng-template>
             </td>
+            
+            
             <td class="action-buttons">
-              <button class="btn btn-edit">Edit</button>
-              <button class="btn btn-delete" (click)="deleteDriver(driver.userId)">Delete</button>
+              <button class="icon-button edit" (click)="editDriver(driver.userId)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <!-- Delete Icon -->
+              <button class="icon-button delete" (click)="deleteDriver(driver.userId)">
+                <i class="fas fa-trash"></i>
+              </button>
             </td>
           </tr>
         </tbody>

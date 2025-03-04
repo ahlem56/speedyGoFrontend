@@ -5,9 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule,DatePipe } from '@angular/common';
+
 import { HttpClientModule } from '@angular/common/http';
 import { GoogleMapsModule } from '@angular/google-maps';
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 // *************** FrontOffice Components ***************
@@ -19,6 +21,7 @@ import { CarpoolingListFrontOfficeComponent } from './Components/FrontOffice/car
 import { CarpoolingCreateFrontOfficeComponent } from './Components/FrontOffice/carpool/carpooling-create/carpooling-create.component';
 import { CarpoolingDetailFrontOfficeComponent } from './Components/FrontOffice/carpool/carpooling-detail/carpooling-detail.component';
 import { CarpoolingJoinFrontOfficeComponent } from './Components/FrontOffice/carpool/carpooling-join/carpooling-join.component';
+import { CarpoolingOfferFrontOfficeComponent } from './Components/FrontOffice/carpool/carpooling-offer/carpooling-offer.component';
 
 import { ParcelListFrontOfficeComponent } from './Components/FrontOffice/parcel/parcel-list/parcel-list.component';
 import { ParcelTrackFrontOfficeComponent } from './Components/FrontOffice/parcel/parcel-track/parcel-track.component';
@@ -118,7 +121,16 @@ import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/s
 import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers/create-driver/create-driver.component';
 import { EditProfileComponent } from './Shared/profile/edit-profile/edit-profile.component';
 import { FooterComponent } from './Shared/footer/footer.component';
-
+import { EditDriverComponent } from './Components/BackOffice/drivers/edit-driver/edit-driver.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSort } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/confirm-delete-component/confirm-delete-component.component';
 
 
 // Define routes
@@ -130,8 +142,8 @@ import { FooterComponent } from './Shared/footer/footer.component';
     
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
-    CarpoolingCreateFrontOfficeComponent,
-    CarpoolingDetailFrontOfficeComponent,
+   // CarpoolingCreateFrontOfficeComponent,
+    //CarpoolingDetailFrontOfficeComponent,
     CarpoolingJoinFrontOfficeComponent,
     ParcelListFrontOfficeComponent,
     ParcelTrackFrontOfficeComponent,
@@ -148,9 +160,7 @@ import { FooterComponent } from './Shared/footer/footer.component';
     ChatListFrontOfficeComponent,
     ChatMessageCreationFrontOfficeComponent,
     ChatMessageEditFrontOfficeComponent,
-    ComplaintCreationFrontOfficeComponent,
-    ComplaintListFrontOfficeComponent,
-    ComplaintDetailsFrontOfficeComponent,
+    //ComplaintCreationFrontOfficeComponent,
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
@@ -160,17 +170,15 @@ import { FooterComponent } from './Shared/footer/footer.component';
     RuleDetailsBackOfficeComponent,
     PromotionCreationBackOfficeComponent,
     PromotionEditBackOfficeComponent,
-    EventCreateBackOfficeComponent,
+    
     EventListBackOfficeComponent,
     EventDetailBackOfficeComponent,
     EventNotifyBackOfficeComponent,
-    PartnerListBackOfficeComponent,
     PartnerCreateBackOfficeComponent,
-    PartnerEditBackOfficeComponent,
+    
     CarpoolingListBackOfficeComponent,
     CarpoolingDetailBackOfficeComponent,
-    ComplaintListBackOfficeComponent,
-    ComplaintDetailsBackOfficeComponent,
+
     ParcelListBackOfficeComponent,
     ParcelDetailBackOfficeComponent,
     ParcelTrackBackOfficeComponent,
@@ -183,7 +191,7 @@ import { FooterComponent } from './Shared/footer/footer.component';
     VehicleCreateBackOfficeComponent,
     VehicleEditBackOfficeComponent,
     VehicleDetailBackOfficeComponent,
-
+    
     ChatDriverInterfaceComponent,
     ChatListDriverInterfaceComponent,
     ChatMessageCreationDriverInterfaceComponent,
@@ -200,24 +208,51 @@ import { FooterComponent } from './Shared/footer/footer.component';
     
   ],
   imports: [
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatSort,
+    MatPaginatorModule,
+    MatTableModule,
+    EventCreateBackOfficeComponent,
+    ConfirmDeleteComponentComponent,
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     TripCreateFrontOfficeComponent,
+    CarpoolingDetailFrontOfficeComponent,
+    //CarpoolingOfferFrontOfficeComponent,
+    CarpoolingOfferFrontOfficeComponent,
+    ComplaintDetailsFrontOfficeComponent,
+    ComplaintListFrontOfficeComponent,
+    PartnerListBackOfficeComponent,
+    
+
+
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
     TripListDriverInterfaceComponent,
     PaymentCreationFrontOfficeComponent,
     ResetPasswordComponent,
+    EditDriverComponent,
+    ComplaintListBackOfficeComponent,
+    ComplaintDetailsBackOfficeComponent,
+    CarpoolingCreateFrontOfficeComponent,
+    ComplaintCreationFrontOfficeComponent,
     ReactiveFormsModule,
     FooterComponent,
     DashboardModule  ,
     EditProfileComponent,
+
     FormsModule,
    GoogleMapsModule,
     HttpClientModule,
     RouterModule,
-    CommonModule,
     ScheduleDriverInterfaceComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,

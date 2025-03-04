@@ -20,6 +20,14 @@ export const ALL_ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: 'offer',
+    title: 'My Carpool offers',
+    icon: 'bi bi-signpost',  // Car icon for carpooling
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: 'parcels/create',
     title: 'Parcel',
     icon: 'bi bi-box',  // Box icon for parcels
@@ -126,13 +134,14 @@ export const ALL_ROUTES: RouteInfo[] = [
   submenu: []
 },
 {
-  path: 'back-office/partners/create',
+  path: 'back-office/partners',
   title: 'Partners',
-  icon: 'bi bi-handshake',  // Handshake icon for partners
+  icon: 'bi bi-person-lines-fill',  // Example: user icon for partners
   class: '',
   extralink: false,
   submenu: []
-},
+}
+,
 {
   path: 'back-office/complaints',
   title: 'Complaints',
@@ -167,5 +176,6 @@ export const ALL_ROUTES: RouteInfo[] = [
     class: '',
     extralink: false,
     submenu: []
-  }
+  },
+
 ];

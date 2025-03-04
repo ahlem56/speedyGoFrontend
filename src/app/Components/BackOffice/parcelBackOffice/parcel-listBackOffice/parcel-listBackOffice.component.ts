@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ParcelService } from 'src/app/Core/parcel.service';
 import { DriverService } from 'src/app/Core/driver.service';  // Assurez-vous d'importer le service des conducteurs
 import { HttpHeaders } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
