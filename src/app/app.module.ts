@@ -116,11 +116,21 @@ import { ResetPasswordComponent } from './Shared/reset-password/reset-password.c
 import { ScheduleDriverInterfaceComponent } from './Components/DriverInterface/schedule/schedule.component';
 import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers/create-driver/create-driver.component';
 
-
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import {ConfirmDeleteComponentComponent} from "./Components/BackOffice/event/confirm-delete-component/confirm-delete-component.component";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 // Define routes
 @NgModule({
   declarations: [
+
 
     AppComponent,
     TripListFrontOfficeComponent,
@@ -157,7 +167,6 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     RuleDetailsBackOfficeComponent,
     PromotionCreationBackOfficeComponent,
     PromotionEditBackOfficeComponent,
-    EventCreateBackOfficeComponent,
     EventListBackOfficeComponent,
     EventDetailBackOfficeComponent,
     EventNotifyBackOfficeComponent,
@@ -185,7 +194,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ChatListDriverInterfaceComponent,
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
-    
+
 
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
@@ -193,12 +202,22 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ParcelTrackDriverInterfaceComponent,
     VehicleListDriverInterfaceComponent,
     VehicleDetailDriverInterfaceComponent,
-  
+
     NotFoundComponent,
-    
   ],
 
   imports: [
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSortModule,
+    MatSort,
+    MatPaginatorModule,
+    MatTableModule,
+    EventCreateBackOfficeComponent,
+    ConfirmDeleteComponentComponent,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -209,7 +228,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     CreateDriverBackOfficeComponent,
     ResetPasswordComponent,
     ReactiveFormsModule,
-    DashboardModule  ,
+    DashboardModule,
     FormsModule,
     HttpClientModule,
     RouterModule,
@@ -219,7 +238,9 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
     ResetPasswordComponent,
     ProfileComponent,
     NotificationFrontOfficeComponent,
-    FullComponent,   // Import standalone component
+    FullComponent,
+    MatProgressSpinner,
+    // Import standalone component
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
