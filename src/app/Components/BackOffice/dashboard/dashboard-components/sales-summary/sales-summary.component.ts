@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';  // Import HttpClient
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -28,26 +29,18 @@ export type salesChartOptions = {
 };
 
 @Component({
-    selector: 'app-sales-summary',
-    templateUrl: './sales-summary.component.html',
-    standalone: false
+  selector: 'app-sales-summary',
+  templateUrl: './sales-summary.component.html',
+  standalone: false
 })
 export class SalesSummaryComponent implements OnInit {
 
   @ViewChild("chart") chart: ChartComponent = Object.create(null);
   public salesChartOptions: Partial<salesChartOptions>;
-  constructor() {
+
+  constructor(private http: HttpClient) {
     this.salesChartOptions = {
-      series: [
-        {
-          name: "Iphone 13",
-          data: [0, 31, 40, 28, 51, 42, 109, 100],
-        },
-        {
-          name: "Oneplue 9",
-          data: [0, 11, 32, 45, 32, 34, 52, 41],
-        },
-      ],
+      series: [],
       chart: {
         fontFamily: 'Nunito Sans,sans-serif',
         height: 250,
@@ -61,31 +54,49 @@ export class SalesSummaryComponent implements OnInit {
       },
       stroke: {
         curve: 'smooth',
-        width: '1',
+        width: 1,
       },
       grid: {
         strokeDashArray: 3,
       },
-
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "Aug",
-        ],
+        categories: []
       },
       tooltip: {
         theme: 'dark'
+      },
+      legend: {
+        show: false
       }
     };
   }
 
   ngOnInit(): void {
+    this.getSalesData();  // Fetch sales data on component load
   }
 
+  getSalesData(): void {
+    this.http.get<any>('http://localhost:8089/examen/Admin/revenue/monthly')
+      .subscribe({
+        next: (data) => {
+          this.updateChartOptions(data);
+        },
+        error: (err) => {
+          console.error('Error fetching sales data', err);
+        }
+      });
+  }
+
+  updateChartOptions(data: any): void {
+    // Here, you directly map the received data to the chart
+    const revenueData = Object.values(data);  // All revenue values (e.g., 0 for months with no revenue)
+    const months = Object.keys(data);  // All months from the response (e.g., JANUARY, FEBRUARY, etc.)
+
+    this.salesChartOptions.series = [{
+      name: 'Monthly Revenue',
+      data: revenueData
+    }];
+
+    this.salesChartOptions.xaxis.categories = months;  // Set months as x-axis categories
+  }
 }

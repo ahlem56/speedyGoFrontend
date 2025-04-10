@@ -21,6 +21,8 @@ export class CreateDriverBackOfficeComponent implements OnInit {
     cin: string; 
     address: string; 
     vehicle: Vehicle | null;  // Here it can be either a Vehicle or null
+    licenseNumberD: string;  // Added licenseNumberD
+    insuranceDetailsD: string;  // Added insuranceDetailsD
   } = {
     firstName: '',
     lastName: '',
@@ -29,7 +31,9 @@ export class CreateDriverBackOfficeComponent implements OnInit {
     availabilityD: false,
     cin: '',    // Added contact field
     address: '',     // Added address field
-    vehicle: null  // Initialize with null
+    vehicle: null , // Initialize with null
+    licenseNumberD: '',  // Initialize licenseNumberD
+  insuranceDetailsD: ''  // Initialize insuranceDetailsD
   };
   availableVehicles: Vehicle[] = []; // Specify the type of availableVehicles as Vehicle[]
   successMessage = '';  // Variable to store success message

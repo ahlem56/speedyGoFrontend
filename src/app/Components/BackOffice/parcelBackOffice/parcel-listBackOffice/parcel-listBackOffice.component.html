@@ -43,7 +43,7 @@
                     <td>
                         <select [(ngModel)]="selectedDrivers[parcel.parcelId]" (change)="assignParcel(parcel.parcelId)">
                             <option [value]="null" disabled>Select a driver</option>
-                            <option *ngFor="let driver of drivers" [value]="driver.id">
+                            <option *ngFor="let driver of drivers" [value]="driver.userId">
                                 {{ driver.firstName }} {{ driver.lastName }}
                             </option>
                         </select>

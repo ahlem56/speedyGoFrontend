@@ -131,6 +131,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/confirm-delete-component/confirm-delete-component.component';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastNotificationComponent } from './Shared/toast-notification/toast-notification.component';
 
 
 // Define routes
@@ -231,9 +233,18 @@ import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/c
     ComplaintDetailsFrontOfficeComponent,
     ComplaintListFrontOfficeComponent,
     PartnerListBackOfficeComponent,
-    
+    DashboardModule  ,
+    ToastrModule.forRoot({
+      progressBar: true,
+      closeButton: true,
+      newestOnTop: true,
+      tapToDismiss: true,
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
 
-
+    ToastNotificationComponent,
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
     TripListDriverInterfaceComponent,
@@ -246,7 +257,7 @@ import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/c
     ComplaintCreationFrontOfficeComponent,
     ReactiveFormsModule,
     FooterComponent,
-    DashboardModule  ,
+    
     EditProfileComponent,
 
     FormsModule,

@@ -83,7 +83,11 @@ export class TripListDriverInterfaceComponent implements OnInit {
       const matchesStatus = this.selectedStatus === 'all' || trip.reservationStatus === this.selectedStatus;
       return matchesSearch && matchesStatus;
     });
+  
+    // Sort trips by date in descending order (newest first)
+    this.filteredTrips.sort((a, b) => new Date(b.tripDate).getTime() - new Date(a.tripDate).getTime());
   }
+  
 
   // Accepter un voyage
   acceptTrip(trip: any): void {
@@ -119,4 +123,22 @@ export class TripListDriverInterfaceComponent implements OnInit {
       }
     });
   }
+
+  completeTrip(trip: any): void {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    });
+  
+    this.tripService.completeTrip(trip.tripId, headers).subscribe({
+      next: () => {
+        trip.reservationStatus = 'COMPLETED';  // Update the trip status to "COMPLETED"
+        alert("Trip completed! The passenger will be notified to rate the driver.");
+      },
+      error: (error) => {
+        console.error('Error completing trip:', error);
+        alert('Failed to complete the trip. Please try again.');
+      }
+    });
+  }
+  
 }

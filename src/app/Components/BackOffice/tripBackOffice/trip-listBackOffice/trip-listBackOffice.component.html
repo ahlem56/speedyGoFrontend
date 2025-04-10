@@ -37,7 +37,9 @@
           <th>Destination</th>
           <th>Date</th>
           <th>Duration</th>
-          <th>Passengers</th>
+          <th>Passenger</th>
+          <th>Driver</th>
+          <th>Number Of Passengers</th>
           <th>Price</th>
           <th>Status</th>
           <th>Actions</th>
@@ -49,6 +51,8 @@
           <td data-label="Destination">{{ trip.tripDestination }}</td>
           <td data-label="Date">{{ trip.tripDate | date: 'short' }}</td>
           <td data-label="Duration">{{ trip.tripDuration || 'N/A' }} hrs</td>
+          <td data-label="Passenger">{{ trip.simpleUser?.userId || 'N/A' }}</td>
+    <td data-label="Driver">{{ trip.driver?.userId || 'N/A' }}</td>
           <td data-label="Passengers">{{ trip.numberOfPassengers || 'N/A' }}</td>
           <td data-label="Price">{{ trip.tripPrice | currency:'USD' }}</td>
           <td data-label="Status">

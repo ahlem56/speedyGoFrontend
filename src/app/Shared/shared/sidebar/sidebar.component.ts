@@ -10,6 +10,7 @@ import { LoginPopupComponent } from '../../login-popup/login-popup.component';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
   standalone: true,  // If you're using standalone component
   imports: [CommonModule, RouterModule, LoginPopupComponent]  // Import the modal component
 })

@@ -4,10 +4,12 @@ import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { UserService } from 'src/app/Core/user.service';
 import { filter } from 'rxjs/operators';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService } from 'src/app/Core/notification-service.service';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
+  styleUrl:'./navigation.component.css',
   imports: [CommonModule, RouterModule, NgbDropdownModule],
 })
 export class NavigationComponent implements OnInit {
@@ -16,8 +18,11 @@ export class NavigationComponent implements OnInit {
   public isLoggedIn: boolean = false;
   public username: string = '';
   public profileImageUrl: string = 'assets/FrontOffice/images/users/user4.jpg'; // Default profile picture
+  public hasNewNotification: boolean = false; // Add this property to track new notifications
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router,   
+     private notificationService: NotificationService // Inject the service
+  ) {}
 
   ngOnInit() {
     this.checkLoginStatus();  // Check login status when the component is initialized
@@ -29,6 +34,9 @@ export class NavigationComponent implements OnInit {
       this.checkLoginStatus();  // Re-check login status whenever the route changes
     });
 
+    this.notificationService.getNewNotificationStatus().subscribe((isNew) => {
+      this.hasNewNotification = isNew;
+    });
     // ✅ Listen for profile picture updates
     document.addEventListener('updateProfileImage', () => {
       this.updateProfileImage();

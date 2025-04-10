@@ -78,15 +78,16 @@ export class FullComponent implements OnInit {
   // Update visibility of sidebar, header, and footer based on route
   private updateSidebarAndHeader() {
     const currentUrl = this.router.url;
-
+  
     // Set the flag to true for routes that should hide the sidebar, header, and footer
     this.hideSidebarAndHeader =
       currentUrl === '/login' || 
       currentUrl === '/signup' || 
       currentUrl === '/forgot-password' ||
       currentUrl === '/reset-password';
-
-    // Manually trigger change detection to update view
+  
+    // Manually trigger change detection to update the view
     this.cdRef.detectChanges();
   }
+  
 }

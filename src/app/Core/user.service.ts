@@ -68,4 +68,33 @@ updateUserProfile(user: any, headers: HttpHeaders): Observable<any> {
   return this.http.put<any>(`${this.apiUrl}/update-profile`, user, { headers });
 }
 
+
+sendSOS() {
+  const phoneNumber = '50695322';  // Replace with actual phone number
+  const carrierGateway = 'vtext.com'; // Replace with the actual carrier gateway
+  const message = 'SOS Alert! My location is: https://www.google.com/maps?q=LAT,LONG'; // You can dynamically set latitude and longitude
+
+  // Retrieve the user from localStorage
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  // Make sure the user exists
+  if (user && user.id) {
+    // Correcting to use POST request instead of GET
+    this.http.post(`http://localhost:8089/examen/sos/sendSos`, {
+      phoneNumber: phoneNumber,
+      carrierGateway: carrierGateway,
+      message: message,
+      userId: user.id  // Use user.id from localStorage
+    }).subscribe(response => {
+      console.log('SOS sent:', response);
+    }, error => {
+      console.log('Error sending SOS:', error);
+    });
+  } else {
+    console.log('User not found');
+  }
+}
+
+
+
 }

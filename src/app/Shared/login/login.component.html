@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <style>
-    /* Ensure no global styles from other templates are affecting the page */
+    /* Global reset */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -16,83 +16,117 @@
     /* Body styling */
     body {
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(45deg, #ff8c00, #ff6f61); /* Subtle gradient background */
-      margin: 0;
-      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
+      background: linear-gradient(45deg, #792929, #6b0303);
+      color: #fff;
       overflow: hidden;
+      font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;   
+
     }
 
-    /* Remove all inherited styles from global CSS like header or sidebar */
-    header, footer, nav, aside {
-      display: none;  /* Ensures that header, footer, sidebar do not appear */
+    .welcome{
+      color:#251d1d;
     }
-
-    /* Container for the login form */
-    .login-container {
-      max-width: 450px;
+    /* Full-page container */
+    .login-page {
+      display: flex;
       width: 100%;
-      padding: 40px;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-      text-align: center;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      margin-right: 30px;
+    }
+
+    /* Left side: abstract design or image */
+    .left-section {
+      flex: 0.6;
       position: relative;
+      background: 
+    linear-gradient(to right, rgba(61, 8, 11, 0.85), rgba(59, 13, 5, 0.85)),
+    url('/assets/FrontOffice/images/bg/delivery1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+      border-radius: 10px 0 0 10px;
+    }
+
+    /* Right side: login form container */
+    .right-section {
+      flex: 0.4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(248, 248, 248, 0.671);
+      padding: 30px;
+      border-radius: 0 10px 10px 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Login form */
+    .login-container {
+      width: 100%;
+      text-align: center;
+      color: #f1f1f1;
+    }
+
+    /* Logo styling */
+    .logo {
+      width: 120px;
+      margin-bottom: 25px;
     }
 
     h2 {
-      font-size: 30px;
-      color: #333;
-      margin-bottom: 35px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: #ff6f61;
+      font-size: 34px;
+      font-weight: bold;
+      margin-bottom: 20px;
     }
 
-    /* Styling for the input groups */
-    .input-group {
+    p {
       margin-bottom: 25px;
+      font-size: 18px;
+      font-weight: 300;
+      color: #251d1d;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
       position: relative;
     }
 
     .input-group label {
       font-size: 14px;
-      color: #555;
-      margin-bottom: 8px;
+      color: #251d1d;
+      margin-bottom: 10px;
+      display: block;
       font-weight: 500;
     }
 
-    /* Input fields styling */
     .input-field {
       width: 100%;
-      padding: 15px;
+      padding: 12px 20px;
       font-size: 16px;
-      border: 1px solid #ddd;
+      border: 2px solid #524a4a;
       border-radius: 8px;
       outline: none;
-      transition: border-color 0.3s ease;
+      background-color: #fffefe;
+      color: #220d0d;
+      transition: 0.3s;
     }
 
     .input-field:focus {
-      border-color: #f0766d;
+      border-color: #fff;
     }
 
-    /* Error messages styling */
-    .error-message {
-      color: #e74c3c;
-      font-size: 12px;
-      margin-top: 5px;
-    }
-
-    /* Submit button styling */
     .submit-button {
       width: 100%;
-      padding: 16px;
-      background-color: #db3434;
-      color: white;
+      padding: 14px;
+      background-color: #251d1d;
+      color: #dfd8d8;
       border: none;
       border-radius: 8px;
       font-size: 18px;
@@ -102,23 +136,20 @@
       font-weight: 600;
     }
 
-    .submit-button:disabled {
-      background-color: #bdc3c7;
-      cursor: not-allowed;
+    .submit-button:hover {
+      background-color: #bd2121;
     }
 
-    .submit-button:hover:not(:disabled) {
-      background-color: #9e0f0f;
-    }
-
-    /* Link styling for 'Forgot Password?' and 'Don't have an account?' */
+    /* Links section */
     .link-container {
-      margin-top: 15px;
+      margin-top: 20px;
       font-size: 14px;
+      font-weight: 300;
+      color: #251d1d;
     }
 
     .link-container a {
-      color: #ff6f61;
+      color: #942525;
       text-decoration: none;
     }
 
@@ -126,60 +157,81 @@
       text-decoration: underline;
     }
 
-    /* Responsive design for smaller screens */
+    /* Mobile design */
     @media (max-width: 768px) {
-      .login-container {
-        padding: 30px;
+      .left-section {
+        display: none;
+      }
+
+      .right-section {
+        padding: 20px;
+        max-width: 350px;
       }
 
       h2 {
-        font-size: 24px;
+        font-size: 28px;
       }
 
       .input-field {
-        font-size: 15px;
+        font-size: 14px;
+      }
+
+      .submit-button {
+        font-size: 16px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="login-container">
-    <!-- SpeedyGo Logo - clickable to navigate to landing page -->
-    <a href="/landingPage">
-      <img src="assets/FrontOffice/images/logos/SpeedyGo (10).png" alt="SpeedyGo Logo" style="width: 100px; margin-bottom: 30px; cursor: pointer;" />
-    </a>
+  <div class="login-page">
+    <!-- Left side: abstract design or image -->
+    <div class="left-section"></div>
 
-    <h2>Login to Your Account</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
-      <!-- Email -->
-      <div class="input-group">
-        <label for="email">Email Address</label>
-        <input id="email" formControlName="email" type="email" placeholder="Enter your email" class="input-field">
-        <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="error-message">
-          <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
-          <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</small>
-        </div>
+    <!-- Right side: login form -->
+    <div class="right-section">
+      <div class="login-container">
+        <!-- Logo -->
+        <a href="/landingPage">
+          <img src="assets/FrontOffice/images/logos/logoSpeedy.png" alt="SpeedyGo Logo" class="logo" />
+        </a>
+
+        <h2 class="welcome">Welcome Back!</h2>
+        <p>Please sign in to continue</p>
+
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+          <!-- Email Input -->
+          <div class="input-group">
+            <label for="email">Email Address</label>
+            <input id="email" formControlName="email" type="email" placeholder="Enter your email" class="input-field">
+            <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="error-message">
+              <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
+              <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</small>
+            </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input id="password" formControlName="password" type="password" placeholder="Enter your password" class="input-field">
+            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="error-message">
+              <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</small>
+              <small *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</small>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" [disabled]="loginForm.invalid" class="submit-button">Sign In</button>
+
+          <!-- Forgot Password and Signup Links -->
+          <div class="link-container">
+            <a href="/forgot-password">Forgot Password?</a> | 
+            <a href="/signup">Create a new account</a>
+          </div>
+        </form>
       </div>
-
-      <!-- Password -->
-      <div class="input-group">
-        <label for="password">Password</label>
-        <input id="password" formControlName="password" type="password" placeholder="Enter your password" class="input-field">
-        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="error-message">
-          <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</small>
-          <small *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</small>
-        </div>
-      </div>
-
-      <button type="submit" [disabled]="loginForm.invalid" class="submit-button">Login</button>
-
-      <!-- Links for 'Forgot Password' and 'Don't have an account' -->
-      <div class="link-container">
-        <a href="/forgot-password">Forgot Password?</a> | 
-        <a href="/signup">Don't have an account? Sign up</a>
-      </div>
-    </form>
+    </div>
   </div>
 </body>
 

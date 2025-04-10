@@ -54,6 +54,9 @@ export class TripService {
     return this.http.put<any>(`http://localhost:8089/examen/trip/refuseTrip/${tripId}`, {}, { headers });
   }
   
+  completeTrip(tripId: number, headers: HttpHeaders) {
+    return this.http.put<any>(`http://localhost:8089/examen/trip/completeTrip/${tripId}`, {}, { headers });
+  }
   
   
 }

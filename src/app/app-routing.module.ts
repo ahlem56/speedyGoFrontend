@@ -171,6 +171,7 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
 import { SettingsComponent } from './Shared/settings/settings.component';
 import { EditProfileComponent } from './Shared/profile/edit-profile/edit-profile.component';
 import { EditDriverComponent } from './Components/BackOffice/drivers/edit-driver/edit-driver.component';
+import { DriverProfileComponent } from './Shared/profile/driver-profile/driver-profile.component';
 
 
 
@@ -223,6 +224,7 @@ const routes: Routes = [
       { path: 'subscriptions/:id', component: SubscriptionDetailsFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'promotions/:id', component: PromotionDetailsFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       {path:'notifications',component:NotificationFrontOfficeComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser','Driver'] }},
+      { path: 'driver-profile/:id', component: DriverProfileComponent },
 
       // BackOffice Routes
       { path: 'back-office/dashboard', component: DashboardComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},

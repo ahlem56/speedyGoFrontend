@@ -1,4 +1,27 @@
-<app-top-cards></app-top-cards>
+<!-- ============================================================== -->
+<!-- Dashboard Overview -->
+<!-- ============================================================== -->
+<app-top-cards [totalUsers]="totalUsers" [totalTrips]="totalTrips"></app-top-cards>
+
+<!-- ============================================================== -->
+<!-- Map Section: Display the map with trips -->
+<!-- ============================================================== -->
+ 
+<div class="row">
+  <div class="col-12">
+    <!-- Map Title -->
+    <h2 class="text-center" margin-right="500px">Most Visited Locations</h2>
+    
+    <!-- Google Map -->
+    <google-map width="50%" height="500px" [center]="center" [zoom]="zoom">
+      <!-- Display markers for each trip -->
+      <map-marker *ngFor="let trip of trips" [position]="{ lat: trip.latitude, lng: trip.longitude }">
+        <map-info-window>{{ trip.location }} (Trips: {{ trip.tripCount }})</map-info-window>
+      </map-marker>
+    </google-map>
+  </div>
+</div>
+
 <!-- ============================================================== -->
 <!-- Sales chart -->
 <!-- ============================================================== -->
@@ -10,25 +33,17 @@
     <app-feeds></app-feeds>
   </div>
 </div>
+
 <!-- ============================================================== -->
-<!-- Sales chart -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- Table -->
+<!-- Table Section: Display Top Selling Items -->
 <!-- ============================================================== -->
 <div class="row">
-  <!-- column -->
   <div class="col-12">
     <app-top-selling></app-top-selling>
   </div>
 </div>
+
 <!-- ============================================================== -->
-<!-- Table -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- cards -->
+<!-- Cards Section: Display Blog Cards -->
 <!-- ============================================================== -->
 <app-blog-cards></app-blog-cards>
-<!-- ============================================================== -->
-<!-- cards -->
-<!-- ============================================================== -->

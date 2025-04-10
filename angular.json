@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            
             "allowedCommonJsDependencies": [
               "ng-apexcharts",
               "apexcharts"
@@ -68,20 +69,26 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "speedyGoFrontend:build:production"
-            },
-            "development": {
-              "buildTarget": "speedyGoFrontend:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
+  "builder": "@angular-devkit/build-angular:dev-server",
+  "options": {
+    "proxyConfig": "proxy.conf.json"
+  },
+  "configurations": {
+    "production": {
+      "buildTarget": "speedyGoFrontend:build:production"
+    },
+    "development": {
+      "buildTarget": "speedyGoFrontend:build:development"
+    }
+  },
+  "defaultConfiguration": "development"
+}
+,
+
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
+            
             "buildTarget": "speedyGoFrontend:build"
           }
         },

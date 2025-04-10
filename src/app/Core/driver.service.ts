@@ -12,6 +12,11 @@ export interface Driver {
   availabilityD: boolean;  // availability status
   address: string;       // Added address field
   cin: string;           // Added contact field
+  profileImageUrl?: string;  // Add this line
+  licenseNumberD?: string;
+  insuranceDetailsD?: string;
+
+
 }
 const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -55,5 +60,9 @@ export class DriverService {
   // Update driver details
   updateDriver(driverId: number, driver: Driver): Observable<Driver> {
     return this.http.put<Driver>(`${this.baseUrl}update/${driverId}`, driver, { headers });
+  }
+
+  getDriverProfile(driverId: number): Observable<Driver> {
+    return this.http.get<Driver>(`${this.baseUrl}view-driver-profile/${driverId}`);
   }
 }

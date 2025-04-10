@@ -8,16 +8,16 @@ export interface topcard {
 export const topcards: topcard[] = [
 
     {
-        bgcolor: 'success',
-        icon: 'bi bi-wallet',
-        title: '$21k',
-        subtitle: 'Yearly Earning'
+        bgcolor: 'warning',
+        icon: 'bi-person',
+        title: 'Total Users',
+        subtitle: '0'
     },
     {
-        bgcolor: 'danger',
-        icon: 'bi bi-coin',
-        title: '$1k',
-        subtitle: 'Refund given'
+        bgcolor: 'success',
+        icon: 'bi bi-car-front',
+        title: 'Total Trips',
+        subtitle: '0'
     },
     {
         bgcolor: 'warning',

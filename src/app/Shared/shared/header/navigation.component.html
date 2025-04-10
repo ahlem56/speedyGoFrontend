@@ -3,11 +3,26 @@
   <!-- ============================================================== -->
   <!-- Notification icon (Only shown when logged in) -->
   <!-- ============================================================== -->
-  <li class="nav-item" *ngIf="isLoggedIn">
-    <a class="nav-link waves-effect waves-dark" [routerLink]="'/notifications'">
-      <i class="bi bi-bell fs-4"></i> <!-- Notification bell icon -->
-    </a>
-  </li>
+  <ul class="navbar-nav float-end">
+    <li class="nav-item" *ngIf="isLoggedIn">
+      <a class="nav-link waves-effect waves-dark" [routerLink]="'/notifications'">
+        <div class="notification-container">
+          <i class="bi bi-bell fs-4"
+             [ngClass]="{
+               'text-danger': hasNewNotification,  
+               'bi-bell': !hasNewNotification,     
+               'bi-bell-fill': hasNewNotification   
+             }">
+          </i>
+          <span *ngIf="hasNewNotification" class="notification-badge"></span> <!-- Badge next to the bell -->
+        </div>
+      </a>
+    </li>
+    
+    <!-- Other code for user profile and login/signup -->
+  </ul>
+  
+  
 
   <!-- ============================================================== -->
   <!-- User profile (Only shown when logged in) -->

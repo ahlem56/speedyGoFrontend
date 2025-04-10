@@ -33,7 +33,7 @@ export class ParcelService {
     const headers = new HttpHeaders({
         'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
-    return this.http.put(`${this.apiUrl}parcels/assign/${parcelId}/${driverId}`, {}, { headers });
+    return this.http.put(`${this.apiUrl}assign/${parcelId}/${driverId}`, {}, { headers });
 }
 
   getParcelsForUser(userId: number, headers: HttpHeaders): Observable<any[]> {

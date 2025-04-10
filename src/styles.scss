@@ -42,4 +42,21 @@ body.dark-mode {
   body.dark-mode .save-btn:hover {
     background: #0056b3;
   }
+  .toast-bottom-right {
+    bottom: 20px !important;
+    right: 20px !important;
+  }
+  
+  .toast {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+  }
+  
+  .toast-success {
+    background-color: #4caf50 !important;
+  }
+  
+  .toast-error {
+    background-color: #f44336 !important;
+  }
   

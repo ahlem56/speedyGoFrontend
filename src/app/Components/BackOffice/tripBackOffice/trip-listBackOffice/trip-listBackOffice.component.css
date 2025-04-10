@@ -102,12 +102,16 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   overflow: hidden;
   border: 1px solid #f1f5f9;
+  width: 100%; /* Ensure it takes up the full width */
+
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   background: white;
+  table-layout: fixed; /* Ensure table is responsive */
+  overflow-x: auto; /* Allow horizontal scrolling if necessary */
 }
 
 th, td {
