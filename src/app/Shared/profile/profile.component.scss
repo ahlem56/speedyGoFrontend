@@ -246,20 +246,33 @@
   margin-bottom: 10px;
 }
 
+/* Styling for the Cancel Parcel button */
 .cancel-parcel-btn {
-  background-color: #ffb85a;
+  background-color: #ff4c4c; /* Red color */
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 10px 20px;
+  font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  margin-top: 15px;
   transition: background-color 0.3s ease;
 }
 
 .cancel-parcel-btn:hover {
-  background-color: #e74c3c;
+  background-color: #e00000; /* Darker red */
+}
+
+/* Disabled button styling */
+.cancel-parcel-btn:disabled {
+  background-color: #ccc; /* Grey color for disabled state */
+  cursor: not-allowed;
+}
+
+/* Additional class to apply when status is SHIPPED */
+.disabled-btn {
+  background-color: #ccc; /* Grey out button */
+  color: #666; /* Light grey text */
+  cursor: not-allowed;
 }
 
 .canceled {

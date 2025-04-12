@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { ParcelService } from 'src/app/Core/parcel.service';
+//declare var require: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -14,12 +16,13 @@ export class DashboardComponent implements OnInit {
   center: google.maps.LatLngLiteral = { lat: 33.8869, lng: 9.5375 };
   zoom: number = 7;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private parcelService: ParcelService) {}
 
   ngOnInit(): void {
     this.getTotalUsers();
     this.getTotalTrips();
     this.getTripsByLocation();  // Fetch trips by location
+    this.getStatistics();
   }
 
   getTotalUsers(): void {
@@ -81,5 +84,28 @@ export class DashboardComponent implements OnInit {
     }
 
     return icon;
+  }
+  totalDeliveredToday: number = 0;
+  totalDeliveredThisWeek: number = 0;
+  totalDeliveredThisMonth: number = 0;
+
+
+ 
+  // Récupérer les statistiques pour aujourd'hui, cette semaine et ce mois
+  getStatistics(): void {
+    const currentDate = new Date().toISOString().split('T')[0]; // Formater la date au format 'YYYY-MM-DD'
+
+    // Appeler le service pour récupérer les statistiques
+    this.parcelService.getDeliveredParcelsByDay(currentDate).subscribe(count => {
+      this.totalDeliveredToday = count;
+    });
+
+    this.parcelService.getDeliveredParcelsByWeek(currentDate).subscribe(count => {
+      this.totalDeliveredThisWeek = count;
+    });
+
+    this.parcelService.getDeliveredParcelsByMonth(currentDate).subscribe(count => {
+      this.totalDeliveredThisMonth = count;
+    });
   }
 }

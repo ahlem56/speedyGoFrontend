@@ -214,13 +214,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  deleteParcel(parcelId: number): void {
-    const headers = this.getAuthHeaders();
-    this.parcelService.deleteParcel(parcelId, headers).subscribe({
-      next: () => this.parcels = this.parcels.filter(parcel => parcel.id !== parcelId),
-      error: (error) => console.error('Error deleting parcel:', error)
-    });
-  }
+ 
 
   cancelCarpool(carpoolId: number): void {
     const headers = this.getAuthHeaders();
@@ -363,9 +357,28 @@ export class ProfileComponent implements OnInit {
 
   checkAvailability() {
     if (this.userRole === 'Driver') {
-      this.isAvailable = this.user.availabilityD || false;  // If available, set true
-    }
+      this.isAvailable = this.user.availabilityD || false;
+      }}  // If available, set true
+    
+  deleteParcel(parcelId: number) {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.parcelService.deleteParcel(parcelId, headers).subscribe(
+      () => {
+        this.parcels = this.parcels.filter(parcel => parcel.parcelId !== parcelId); // Supprimer le colis de la liste
+        console.log('Parcel deleted successfully');
+      },
+      (error) => {
+        console.error('Error deleting parcel:', error);
+      }
+    );
   }
+
+ 
+  
+// Dans ProfileComponent
+
+
   
  
 
