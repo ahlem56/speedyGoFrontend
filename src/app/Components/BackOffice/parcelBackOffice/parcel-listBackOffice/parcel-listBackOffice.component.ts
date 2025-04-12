@@ -19,6 +19,8 @@ export class ParcelListBackOfficeComponent {
   afterDate: string = ''; // Date après laquelle les colis seront filtrés
   beforeDate: string = ''; // Date avant laquelle les colis seront filtrés
   categorySearch: string = ''; // Texte de recherche par catégorie
+  statusFilter: string = '';  // Pour stocker le statut sélectionné
+
   constructor(private parcelService: ParcelService, private driverService: DriverService) {}
 
   ngOnInit(): void {
@@ -112,5 +114,24 @@ filterParcels() {
       );
     }
   }
+ // Méthode de filtrage par statut
+filterByStatus(): void {
+  if (this.statusFilter) {
+    // Si un statut est sélectionné, appeler l'API avec ce statut
+    this.parcelService.getParcelsByStatus(this.statusFilter).subscribe(
+      (data) => {
+        this.parcels = data;  // Mettre à jour la liste des colis avec les résultats filtrés
+      },
+      (error) => {
+        console.error('Erreur lors du filtrage des colis par statut', error);
+      }
+    );
+  } else {
+    // Si aucun statut n'est sélectionné, charger tous les colis
+    this.loadParcels();
+  }
+}
+
+  
 
 }

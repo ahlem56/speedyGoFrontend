@@ -80,7 +80,7 @@
                         </label>
                         <input type="number" class="form-control form-control-lg rounded-3" id="parcelWeight"
                                [(ngModel)]="parcel.parcelWeight" name="parcelWeight" required min="0.1"
-                               #parcelWeight="ngModel">
+                               #parcelWeight="ngModel" (ngModelChange)="updateParcelPrice()">
                         <div class="text-danger" *ngIf="parcelWeight.invalid && parcelWeight.touched">
                             Weight must be a positive number.
                         </div>
@@ -112,13 +112,14 @@
                             <i class="fas fa-dollar-sign me-2"></i> Parcel Price (DT)
                         </label>
                         <input type="number" class="form-control form-control-lg rounded-3" id="parcelPrice"
-                               [(ngModel)]="parcel.parcelPrice" name="parcelPrice" required min="1"
+                               [(ngModel)]="parcel.parcelPrice" name="parcelPrice" required min="1" disabled
                                #parcelPrice="ngModel">
                         <div class="text-danger" *ngIf="parcelPrice.invalid && parcelPrice.touched">
                             Price must be at least 1DT.
                         </div>
                     </div>
                 </div>
+                
 
                 <div class="row justify-content-center mt-4">
                     <div class="col-md-6 d-grid">

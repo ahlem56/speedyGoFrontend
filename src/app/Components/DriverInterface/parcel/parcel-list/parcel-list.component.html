@@ -15,11 +15,24 @@
             <p class="card-text"><strong>⚖️ Weight:</strong> {{ parcel.parcelWeight }} kg</p>
             <p class="card-text"><strong>📅 Date:</strong> {{ parcel.parcelDate | date:'dd/MM/yyyy HH:mm' }}</p>
             <p class="card-text"><strong>💰 Price:</strong> {{ parcel.parcelPrice | currency:'TND' }}</p>
-
              <!-- Icon button at the bottom of the card -->
-             <div class="d-flex justify-content-end mt-3">
-              <button class="btn btn-success">
-                <i class="fa fa-check-circle"></i> <!-- Font Awesome info icon -->
+            <div class="d-flex justify-content-end mt-3">
+              <!-- Bouton SHIPPED: Désactivé si le statut est "SHIPPED" -->
+              <button mat-raised-button
+                      color="accent"
+                      class="me-2"
+                      (click)="markAsShipped(parcel.parcelId)"
+                      [disabled]="parcel.status === 'SHIPPED'">
+                <mat-icon>local_shipping</mat-icon> SHIPPED
+              </button>
+              
+              <!-- Bouton DELIVERED -->
+              <button mat-raised-button
+                      color="primary"
+                      class="ms-2"
+                      (click)="markParcelAsDelivered(parcel.parcelId)"
+                      [disabled]="parcel.status === 'DELIVERED'">
+                <mat-icon>check_circle</mat-icon> DELIVERED
               </button>
             </div>
           </div>

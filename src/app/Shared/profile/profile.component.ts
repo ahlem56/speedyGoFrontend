@@ -174,7 +174,7 @@ export class ProfileComponent implements OnInit {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.parcelService.deleteParcel(parcelId, headers).subscribe(
       () => {
-        this.parcels = this.parcels.filter(parcel => parcel.id !== parcelId); // Supprimer le colis de la liste
+        this.parcels = this.parcels.filter(parcel => parcel.parcelId !== parcelId); // Supprimer le colis de la liste
         console.log('Parcel deleted successfully');
       },
       (error) => {

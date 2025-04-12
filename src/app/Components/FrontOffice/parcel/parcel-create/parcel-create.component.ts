@@ -78,4 +78,16 @@ export class ParcelCreateFrontOfficeComponent {
             event.preventDefault(); // Empêche la saisie
         }
       }
+      // Method to update the parcel price based on the weight
+    updateParcelPrice() {
+      const weight = this.parcel.parcelWeight;
+
+      if (weight >= 0.1 && weight <= 5) {
+          this.parcel.parcelPrice = 10;  // Price for 0.1-5 kg
+      } else if (weight > 5 && weight <= 20) {
+          this.parcel.parcelPrice = 20;  // Price for 5-20 kg
+      } else if (weight > 20) {
+          this.parcel.parcelPrice = 30;  // Price for >20 kg
+      }
+  }
     }

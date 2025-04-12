@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class ParcelService {
     const headers = new HttpHeaders({
         'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
-    return this.http.put(`${this.apiUrl}parcels/assign/${parcelId}/${driverId}`, {}, { headers });
+    return this.http.put(`${this.apiUrl}assign/${parcelId}/${driverId}`, {}, { headers });
 }
 
   getParcelsForUser(userId: number, headers: HttpHeaders): Observable<any[]> {
@@ -55,6 +55,36 @@ export class ParcelService {
     const url = `${this.apiUrl}before?date=${beforeDate}`;
     return this.http.get<any[]>(url);
   }
+ // Nombre de livraisons par jour
+ getDeliveredParcelsByDay(date: string): Observable<number> {
+  return this.http.get<number>(`${this.apiUrl}/countDeliveredParcelsByDay?date=${date}`);
+}
 
+// Nombre de livraisons par semaine
+getDeliveredParcelsByWeek(date: string): Observable<number> {
+  return this.http.get<number>(`${this.apiUrl}/countDeliveredParcelsByWeek?date=${date}`);
+}
+
+// Nombre de livraisons par mois
+getDeliveredParcelsByMonth(date: string): Observable<number> {
+  return this.http.get<number>(`${this.apiUrl}/countDeliveredParcelsByMonth?date=${date}`);
+}
+// Méthode pour marquer un colis comme expédié (SHIPPED)
+// Méthode pour marquer un colis comme expédié (SHIPPED)
+markParcelAsShipped(parcelId: number): Observable<any> {
+  return this.http.put(`${this.apiUrl}${parcelId}/shipped`, {});
+}
+// Méthode pour marquer un colis comme  (DELIVERED)
+markParcelAsDelivered(parcelId: number): Observable<any> {
+  return this.http.put(`${this.apiUrl}${parcelId}/delivered`, {});
+}
+ 
+getParcelsByStatus(status: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}byStatus?status=${status}`);
+}
+getRevenueByMonth(): Observable<any> {
+  const url = `${this.apiUrl}get-revenue-by-month`;
+  return this.http.get<any>(url); // On suppose que l'API renvoie un objet avec les revenus par mois
+}
 
 }
