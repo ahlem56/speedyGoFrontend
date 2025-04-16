@@ -28,7 +28,12 @@ export class NotificationService {
         try {
           const messageData = JSON.parse(event.data);
           this.emitNewNotification(true);
-  
+           // Shiped Parcel notification
+          if (messageData.parcelStatus) {
+            this.toastSubject.next(
+              `Parcel #${messageData.parcelId}: Status updated to ${messageData.parcelStatus}`
+            );
+          }
           // Handle trip refusal notification
           if (messageData.refused) {
             this.toastSubject.next(

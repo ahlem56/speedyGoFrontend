@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ParcelService } from 'src/app/Core/parcel.service';
 import { UserService } from 'src/app/Core/user.service';
+import { EstimatePriceService } from 'src/app/Core/estimate-price.service';
+
 
 @Component({
     selector: 'app-parcel-create',
@@ -28,7 +30,8 @@ export class ParcelCreateFrontOfficeComponent {
       constructor(
         private parcelService: ParcelService,
       private router: Router,
-        private userService: UserService // Inject UserService to get the logged-in user's ID
+        private userService: UserService ,
+        private  estimatePriceService:EstimatePriceService
       ) {}
     
       ngOnInit() {
@@ -79,7 +82,7 @@ export class ParcelCreateFrontOfficeComponent {
         }
       }
       // Method to update the parcel price based on the weight
-    updateParcelPrice() {
+    /*updateParcelPrice() {
       const weight = this.parcel.parcelWeight;
 
       if (weight >= 0.1 && weight <= 5) {
@@ -89,5 +92,24 @@ export class ParcelCreateFrontOfficeComponent {
       } else if (weight > 20) {
           this.parcel.parcelPrice = 30;  // Price for >20 kg
       }
-  }
+  }*/
+  // Méthode pour estimer le prix en appelant l'API IA via le nouveau service
+  estimateParcelPrice() {
+    if (this.parcel.parcelWeight && this.parcel.parcelCategory) {
+      this.estimatePriceService.estimatePrice(this.parcel.parcelWeight, this.parcel.parcelCategory).subscribe({
+        next: (res) => {
+          if (res && res.predicted_price !== undefined) {
+            this.parcel.parcelPrice = res.predicted_price;
+            console.log('Prix estimé par IA:', res.predicted_price);
+          } else {
+            console.warn('Réponse IA invalide:', res);
+          }
+        },
+        error: (err) => {
+          console.error('Erreur estimation IA:', err);
+          this.errorMessage = 'Failed to fetch the estimated price.';
+        }
+      });
+    
     }
+  }}

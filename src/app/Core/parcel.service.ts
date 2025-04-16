@@ -86,5 +86,11 @@ getRevenueByMonth(): Observable<any> {
   const url = `${this.apiUrl}get-revenue-by-month`;
   return this.http.get<any>(url); // On suppose que l'API renvoie un objet avec les revenus par mois
 }
+/*estimatePrice(weight: number, category: string): Observable<any> {
+  const url = 'http://localhost:5000/predict_price'; // API Python
+  const body = { weight, category };
+
+  return this.http.post<any>(url, body);
+}*/
 
 }

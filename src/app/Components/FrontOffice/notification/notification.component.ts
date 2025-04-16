@@ -47,6 +47,16 @@ export class NotificationFrontOfficeComponent implements OnInit, OnDestroy {
             time: new Date()
           });
         }
+        else if (message.parcelStatus) {
+          this.notifications.push({
+            type: 'parcel',
+            parcelId: message.parcelId,
+            status: message.parcelStatus,
+            message: `Your parcel #${message.parcelId} is now marked as '${message.parcelStatus}'.`,
+            time: new Date()
+          });
+        }
+        
       },
       (error) => {
         console.error('SSE connection error', error);
