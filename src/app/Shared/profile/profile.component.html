@@ -67,7 +67,7 @@
             <p><strong>Destination:</strong> {{ trip.tripDestination }}</p>
             <p><strong>Date:</strong> {{ trip.tripDate | date }}</p>
             <p><strong>Number Of Passengers:</strong> {{ trip.numberOfPassengers }}</p>
-            <p><strong>Price:</strong> ${{ trip.tripPrice }}</p>
+            <p><strong>Price:</strong> {{ trip.tripPrice }} DT </p>
             <p><strong>Driver :</strong> {{ trip.driver.firstName }} {{ trip.driver.lastName }}</p>
             <p><strong>Status:</strong> 
               <span [ngClass]="{
@@ -79,35 +79,47 @@
           </div>
           
           <!-- Display the rate button or the rating -->
-          <div *ngIf="trip.reservationStatus === 'COMPLETED'">
-            <div *ngIf="canRate(trip)">
-              <button (click)="openRatingModal(trip)">Rate Trip</button>
-            </div>
-            <div *ngIf="!canRate(trip)">
-              <div class="star-rating">
-                <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= trip.ratingScore">★</span>
-                ({{ trip.ratingScore }} / 5)
-              </div>
-            </div>
-          </div>
+  <div *ngIf="trip.reservationStatus === 'COMPLETED'">
+    <div *ngIf="canRate(trip)">
+      <button (click)="openRatingModal(trip)" class="rate-button">Rate Trip</button>
+    </div>
+    <div *ngIf="!canRate(trip)">
+      <div class="star-rating">
+        <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= trip.ratingScore">★</span>
+        ({{ trip.ratingScore }} / 5)
+      </div>
+    </div>
+  </div>
         
           <!-- Rating Modal -->
-          <div *ngIf="isRatingModalOpen && tripToRate === trip" class="rating-modal">
-            <div class="modal-content">
-              <span class="close-btn" (click)="closeRatingModal()">&times;</span>
-              <h3>Rate Your Trip</h3>
+<div *ngIf="isRatingModalOpen && tripToRate === trip" class="rating-modal">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeRatingModal()">&times;</span>
+    <h3>Rate Your Trip</h3>
+    
+    <!-- Dynamic Star Rating -->
+    <div class="star-rating">
+      <span *ngFor="let star of [1, 2, 3, 4, 5]" 
+            class="star"
+            [class.filled]="star <= currentRating" 
+            (click)="setRating(star)">★</span>
+    </div>
+
+    <!-- Display the rating based on sentiment analysis -->
+    <p *ngIf="ratingComment" class="rating-info">
+      Rating: {{ currentRating }} out of 5 stars.
+    </p>
+
+    <!-- Textarea for review -->
+    <textarea [(ngModel)]="ratingComment" 
+              placeholder="Leave a comment (optional)" 
+              rows="4" 
+              (input)="autoRateFromComment()"></textarea>
               
-              <div class="star-rating">
-                <span *ngFor="let star of [1,2,3,4,5]" class="star" 
-                      [class.filled]="star <= currentRating"
-                      (click)="setRating(star)">★</span>
-              </div>
-              
-              <textarea [(ngModel)]="ratingComment" placeholder="Leave a comment (optional)" rows="4"></textarea>
-              
-              <button (click)="submitRating()">Submit Rating</button>
-            </div>
-          </div>
+    <button (click)="submitRating()">Submit Rating</button>
+  </div>
+</div>
+
         
         
 
@@ -120,12 +132,18 @@
     </div>
   </div>
  
-  <div *ngIf="trip.reservationStatus !== 'COMPLETED'">
+  <div *ngIf="trip.reservationStatus !== 'COMPLETED' && trip.reservationStatus !== 'CANCELED'">
           <button (click)="deleteTrip(trip.tripId)" class="cancel-trip-btn">Cancel Trip</button>
         </div>
       </div>
     </div>
   </div>
+
+
+
+
+
+  
         <!-- Parcel History Section -->
          <div *ngIf="userRole !== 'Admin' && 'Driver' " class="parcel-history">
           

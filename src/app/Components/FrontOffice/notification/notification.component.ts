@@ -1,5 +1,5 @@
-// Notification Frontend Component
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NotificationService } from 'src/app/Core/notification-service.service';
 
@@ -10,42 +10,44 @@ import { NotificationService } from 'src/app/Core/notification-service.service';
   imports: [CommonModule],
 })
 export class NotificationFrontOfficeComponent implements OnInit, OnDestroy {
-  notifications: any[] = [];  // Changed to hold structured data
+  notifications: any[] = [];
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private http: HttpClient
+  ) {}
 
-  ngOnInit(): void {
-    this.notificationService.connectToNotifications().subscribe(
+  async ngOnInit(): Promise<void> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userId = user.userId;
+
+    // Load stored notifications first
+    try {
+      const storedNotifications = await this.notificationService
+        .getStoredNotifications(userId)
+        .toPromise();
+      
+      if (storedNotifications) { // Add this null check
+        this.notifications = storedNotifications.map(notification => {
+          try {
+            const content = JSON.parse(notification.notificationContent);
+            return this.mapNotification(content);
+          } catch (e) {
+            console.error('Error parsing notification content', e);
+            return null;
+          }
+        }).filter(n => n !== null) as any[]; // Explicit type assertion
+      }
+    } catch (error) {
+      console.error('Error loading stored notifications', error);
+    }
+
+    // Then subscribe to new notifications
+    this.notificationService.connectToNotifications(userId).subscribe(
       (message: any) => {
-        if (message.refused) {
-          // Trip refusal notification
-          this.notifications.push({
-            type: 'refusal',
-            departure: message.departure,
-            destination: message.destination,
-            message: `Your trip from ${message.departure} to ${message.destination} has been refused by the driver. Please try booking another trip.`,
-            time: new Date()
-          });
-        } else if (message.eventDescription) {
-          // Event creation notification
-          this.notifications.push({
-            type: 'event',
-            eventDescription: message.eventDescription,
-            message: `A new event titled '${message.eventDescription}' has been created!`,
-            time: new Date()
-          });
-        } else if (message.details) {
-          // Trip acceptance notification - ACCESS DETAILS OBJECT
-          const details = message.details;
-          this.notifications.push({
-            type: 'acceptance',
-            departure: details.departure,
-            destination: details.destination,
-            price: details.price,
-            passengers: details.passengers,
-            message: `Your trip from ${details.departure} to ${details.destination} has been confirmed!`,
-            time: new Date()
-          });
+        const newNotification = this.mapNotification(message);
+        if (newNotification) {
+          this.notifications.unshift(newNotification);
         }
       },
       (error) => {
@@ -54,7 +56,38 @@ export class NotificationFrontOfficeComponent implements OnInit, OnDestroy {
     );
   }
 
-  
+  private mapNotification(message: any): any {
+    if (!message) return null;
+
+    if (message.refused) {
+      return {
+        type: 'refusal',
+        departure: message.departure,
+        destination: message.destination,
+        message: `Your trip from ${message.departure} to ${message.destination} has been refused.`,
+        time: new Date(message.timestamp || Date.now())
+      };
+    } else if (message.eventDescription) {
+      return {
+        type: 'event',
+        eventDescription: message.eventDescription,
+        message: `A new event titled '${message.eventDescription}' has been created!`,
+        time: new Date(message.timestamp || Date.now())
+      };
+    } else if (message.details) {
+      const details = message.details;
+      return {
+        type: 'acceptance',
+        departure: details.departure,
+        destination: details.destination,
+        price: details.price,
+        passengers: details.passengers,
+        message: `Your trip from ${details.departure} to ${details.destination} has been confirmed!`,
+        time: new Date(message.timestamp || Date.now())
+      };
+    }
+    return null;
+  }
 
   ngOnDestroy(): void {
     this.notificationService.closeConnection();

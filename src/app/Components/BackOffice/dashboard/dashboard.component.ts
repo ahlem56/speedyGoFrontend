@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ParcelService } from 'src/app/Core/parcel.service';
+import { RatingService } from 'src/app/Core/rating.service';
 //declare var require: any;
 
 @Component({
@@ -15,14 +16,18 @@ export class DashboardComponent implements OnInit {
   trips: any[] = [];
   center: google.maps.LatLngLiteral = { lat: 33.8869, lng: 9.5375 };
   zoom: number = 7;
+  topRatedDrivers: any[] = [];
 
-  constructor(private http: HttpClient,private parcelService: ParcelService) {}
+
+  constructor(private http: HttpClient,private parcelService: ParcelService, private ratingService : RatingService) {}
 
   ngOnInit(): void {
     this.getTotalUsers();
     this.getTotalTrips();
     this.getTripsByLocation();  // Fetch trips by location
     this.getStatistics();
+    this.getTopRatedDrivers();
+
   }
 
   getTotalUsers(): void {
@@ -108,4 +113,31 @@ export class DashboardComponent implements OnInit {
       this.totalDeliveredThisMonth = count;
     });
   }
+
+  getTopRatedDrivers(): void {
+    this.ratingService.getTopRatedDrivers(3).subscribe({
+      next: (drivers) => {
+        this.topRatedDrivers = drivers;
+        console.log('Top 3 rated drivers:', this.topRatedDrivers);  // Check the data
+      },
+      error: (err) => {
+        console.error('Error fetching top-rated drivers', err);
+      }
+      
+    });
+  }
+
+
+  getStars(rating: number): string[] {
+    const fullStars = Math.floor(rating); // Full stars
+    const halfStar = rating % 1 >= 0.5 ? 1 : 0; // Half star if remainder is 0.5 or more
+    const emptyStars = 5 - (fullStars + halfStar); // Remaining empty stars
+  
+    return [
+      ...new Array(fullStars).fill('full'),
+      ...new Array(halfStar).fill('half'),
+      ...new Array(emptyStars).fill('empty'),
+    ];
+  }
+  
 }

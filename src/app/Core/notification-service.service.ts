@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ToastNotificationComponent } from '../Shared/toast-notification/toast-notification.component';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -10,15 +11,16 @@ export class NotificationService {
   private toastSubject = new Subject<string>(); // Will emit toast messages
   private newNotificationSubject = new Subject<boolean>();
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
   public emitNewNotification(isNew: boolean) {
     this.newNotificationSubject.next(isNew);
   }
+
   // Connect to the SSE notifications
-  // Notification Service
-  public connectToNotifications(): Observable<any> {
+  public connectToNotifications(userId: string): Observable<any> {
     return new Observable<any>((observer) => {
-      this.sseEmitter = new EventSource('http://localhost:8089/examen/notifications/stream');
+      this.sseEmitter = new EventSource(`http://localhost:8089/examen/notifications/stream?userId=${userId}`);
   
       this.sseEmitter.onmessage = (event) => {
         if (event.data === 'Connected to SSE stream.') {
@@ -57,19 +59,21 @@ export class NotificationService {
         }
       };
 
-    this.sseEmitter.onerror = (error) => {
-      observer.error(error);
-    };
+      // Handle error event properly
+      this.sseEmitter.onerror = (error) => {
+        console.error('SSE connection error:', error);
+        observer.error(error);
+      };
+  
+      this.sseEmitter.onopen = () => {
+        console.log('Connection opened');
+      };
+    });
+  }
 
-    this.sseEmitter.onopen = () => {
-      console.log('Connection opened');
-    };
-  });
-}
-
-public getNewNotificationStatus(): Observable<boolean> {
-  return this.newNotificationSubject.asObservable();
-}
+  public getNewNotificationStatus(): Observable<boolean> {
+    return this.newNotificationSubject.asObservable();
+  }
 
   // Method to subscribe to toast messages
   public getToastMessages(): Observable<string> {
@@ -83,6 +87,7 @@ public getNewNotificationStatus(): Observable<boolean> {
     }
   }
 
-
-  
+  public getStoredNotifications(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8089/examen/notifications/all?userId=${userId}`);
+  }
 }

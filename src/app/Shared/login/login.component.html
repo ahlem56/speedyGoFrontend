@@ -21,38 +21,44 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background: linear-gradient(45deg, #792929, #6b0303);
+      background: #f5f3f3;
       color: #fff;
       overflow: hidden;
       font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;   
-
     }
 
-    .welcome{
-      color:#251d1d;
+    .welcome {
+      color: #251d1d;
     }
+
     /* Full-page container */
-    .login-page {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      justify-content: center;
-      align-items: center;
-      margin-right: 30px;
-    }
+    /* Full-page container */
+.login-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0px;
+  background-image: url('src/assets/FrontOffice/images/bg/back2.png'); /* Your background image */
+  background-size: cover; /* Ensure it covers the whole section */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Don't repeat the image */
+}
+
 
     /* Left side: abstract design or image */
     .left-section {
       flex: 0.6;
       position: relative;
-      background: 
-    linear-gradient(to right, rgba(61, 8, 11, 0.85), rgba(59, 13, 5, 0.85)),
-    url('/assets/FrontOffice/images/bg/delivery1.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
-      border-radius: 10px 0 0 10px;
+      height: 100vh;  /* Full height of the page */
+    }
+
+    /* Full image that covers the section */
+    .left-section img {
+      width: 100%;  /* Make the image fill the width */
+      height: 100%;  /* Make the image fill the height */
+      object-fit: cover;  /* Ensure the image maintains aspect ratio and fills the area */
     }
 
     /* Right side: login form container */
@@ -61,25 +67,31 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: rgba(248, 248, 248, 0.671);
+      background-color: rgba(248, 248, 248, 0.514);
       padding: 30px;
       border-radius: 0 10px 10px 0;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      position: relative;
     }
 
+    
     /* Login form */
     .login-container {
       width: 100%;
       text-align: center;
       color: #f1f1f1;
+      background: rgba(255, 255, 255, 0.7); /* Optional: Light background for the login container to stand out */
+      padding: 30px;
+      border-radius: 10px;
     }
 
     /* Logo styling */
-    .logo {
+        .logo {
       width: 120px;
       margin-bottom: 25px;
     }
 
+    
     h2 {
       font-size: 34px;
       font-weight: bold;
@@ -179,14 +191,20 @@
       .submit-button {
         font-size: 16px;
       }
+
+      
     }
   </style>
 </head>
 
 <body>
   <div class="login-page">
+    
     <!-- Left side: abstract design or image -->
-    <div class="left-section"></div>
+    <div class="left-section">
+      <!-- The image now fills the full height and width of the section -->
+      <img src="assets/FrontOffice/images/bg/back.png" alt="SpeedyGo Logo" />
+    </div>
 
     <!-- Right side: login form -->
     <div class="right-section">

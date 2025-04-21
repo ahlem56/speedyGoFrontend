@@ -402,6 +402,28 @@
   margin-bottom: 25px;
 }
 
+/* Style for the 'Rate Trip' button */
+.rate-button {
+  background-color: #007bff; /* Blue background */
+  color: white;              /* White text */
+  border: none;              /* No border */
+  border-radius: 5px;        /* Rounded corners */
+  padding: 10px 20px;        /* Padding for size */
+  font-size: 16px;           /* Font size */
+  cursor: pointer;          /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.rate-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05);     /* Slight scale effect on hover */
+}
+
+.rate-button:active {
+  background-color: #004085; /* Even darker blue when clicked */
+  transform: scale(1);       /* Reset scale when clicked */
+}
+
 .rating-subsection h4 {
   font-size: 20px;
   color: #2e3b45;
@@ -558,4 +580,24 @@ textarea {
 
 .sos-btn:hover {
   background-color: darkred;
+}
+.star-rating {
+  display: flex;
+  font-size: 2em;
+  color: #d3d3d3;
+  cursor: pointer;
+}
+
+.star-rating .star.filled {
+  color: #ff9900; /* Gold color for filled stars */
+}
+
+.star-rating .star:hover {
+  color: #ffaa00; /* Slightly different color on hover */
+}
+
+.rating-info {
+  font-size: 1.2em;
+  color: #555;
+  margin-top: 10px;
 }

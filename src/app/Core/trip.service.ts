@@ -57,6 +57,11 @@ export class TripService {
   completeTrip(tripId: number, headers: HttpHeaders) {
     return this.http.put<any>(`http://localhost:8089/examen/trip/completeTrip/${tripId}`, {}, { headers });
   }
+
+  getTripById(tripId: number, headers: HttpHeaders): Observable<any> {
+    const url = `${this.apiUrl}getTrip/${tripId}`;
+    return this.http.get<any>(url, { headers });
+  }
   
   
 }

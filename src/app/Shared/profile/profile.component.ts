@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
   currentRating = 0;  // Store the selected rating
   ratingComment = ''; // Store the comment
   tripToRate: any = {};  // Add this line to define the tripToRate property
+  predictedScore = 0; // Store the predicted score from sentiment analysis
 
   // Trip Data
   trips: any[] = [];
@@ -251,84 +252,137 @@ export class ProfileComponent implements OnInit {
   }
 
 
+
+
+
+
+
+
    // This method is called when the user clicks on "Rate This Trip"
-   openRatingModal(trip: any): void {
-    this.isRatingModalOpen = true;
-    this.tripToRate = trip;  // Store the trip that the user is rating
-    
-    console.log('Before opening modal, isRated:', this.tripToRate.isRated);
-  
-    // Ensure `isRated` is initialized before using it
-    if (typeof this.tripToRate.isRated === 'undefined') {
-      this.tripToRate.isRated = false;  // Initialize if undefined
-    }
-  
-    // Reset rating state to prepare for new rating
-    this.currentRating = 0;
-    this.ratingComment = '';  // Reset comment if any
-  }
-  
-  
-  // Close the rating modal
-  closeRatingModal(): void {
-    this.isRatingModalOpen = false;
-    this.currentRating = 0;  // Reset rating
-    this.ratingComment = '';  // Reset comment
-    
+ // This method is called when the user clicks on "Rate This Trip"
+ openRatingModal(trip: any): void {
+  this.isRatingModalOpen = true;
+  this.tripToRate = trip;  // Store the trip that the user is rating
+
+  // Ensure `isRated` is initialized before using it
+  if (typeof this.tripToRate.isRated === 'undefined') {
+    this.tripToRate.isRated = false;  // Initialize if undefined
   }
 
-  // Set the rating value when a star is clicked
-  setRating(rating: number): void {
-    this.currentRating = rating;
-  }
+  // Reset rating state to prepare for new rating
+  this.currentRating = 0;
+  this.ratingComment = '';  // Reset comment if any
+  this.predictedScore = 0;  // Reset predicted score
+}
 
-  // Submit the rating
-  submitRating(): void {
-    if (this.currentRating === 0) {
-      alert('Please provide a rating!');
-      return;
-    }
-  
-    const ratingData = {
-      tripId: this.tripToRate.tripId,
-      score: this.currentRating,
-      comment: this.ratingComment,
-      userId: this.user.userId,
-    };
-  
-    const headers = this.getAuthHeaders();
-  
-    const ratedId = this.tripToRate.driver.userId;  // Change this according to your data structure
-    const raterId = this.user.userId;  // The user providing the rating
-  
-    this.ratingService.createRating(ratingData, this.tripToRate.tripId, raterId, ratedId, headers).subscribe({
-      next: (response) => {
-        console.log('Rating submitted successfully:', response);
-        console.log('Before submitting rating:', this.tripToRate);
-  
-        // Set `isRated` to true after the rating is successfully submitted
-        this.tripToRate.isRated = true;
-  
-        console.log('After submitting rating:', this.tripToRate);
-        this.closeRatingModal();  // Close the modal after submission
+// Close the rating modal
+closeRatingModal(): void {
+  this.isRatingModalOpen = false;
+  this.currentRating = 0;  // Reset rating
+  this.ratingComment = '';  // Reset comment
+}
+
+// Set the rating value when a star is clicked
+setRating(rating: number): void {
+  this.currentRating = rating;
+  this.predictedScore = rating; // Allow users to adjust the rating
+}
+
+// Automatically rate based on the sentiment of the comment as the user types
+// Automatically rate based on the sentiment of the comment as the user types
+autoRateFromComment(): void {
+  if (this.ratingComment.trim().length > 0) {
+    this.ratingService.getSentimentAnalysis(this.ratingComment).subscribe({
+      next: (sentimentResponse) => {
+        // Validate if the score is a number and within the expected range (1-5)
+        let score = Math.round(sentimentResponse.predicted_score);
+        if (isNaN(score) || score < 1 || score > 5) {
+          score = 3; // Default to 3 if invalid score
+        }
+
+        this.predictedScore = score;
+        this.currentRating = this.predictedScore; // Dynamically update the stars
       },
       error: (error) => {
-        console.error('Error submitting rating:', error);
+        console.error('Error analyzing sentiment:', error);
+        this.predictedScore = 3; // Default to neutral score if sentiment analysis fails
+        this.currentRating = 3; // Update stars to neutral (3 stars)
       }
     });
   }
-  
-  
-  
-  // Check if the user can rate this trip
-  canRate(trip: any): boolean {
-    return trip && trip.reservationStatus === 'COMPLETED' && !this.isTripRated(trip);
+}
+
+// Submit the rating to the backend
+submitRating(): void {
+  if (this.currentRating === 0) {
+    alert('Please provide a rating!');
+    return;
   }
-  
-  isTripRated(trip: any): boolean {
-    return this.ratingsGiven.some(rating => rating.tripId === trip.tripId) || trip.isRated;
-  }
-  
+
+  const ratingData = {
+    score: this.currentRating, // Use the rating from the stars
+    comment: this.ratingComment, // Send the comment
+    sentiment: '',               // Sentiment will be updated after analysis
+    sentimentScore: 0,           // Sentiment score will also be set after analysis
+    trip: { tripId: this.tripToRate.tripId },
+    rater: { userId: this.user.userId },
+    rated: { userId: this.tripToRate.driver.userId }
+  };
+
+  // Analyze sentiment before submitting the rating
+  this.ratingService.getSentimentAnalysis(this.ratingComment).subscribe({
+    next: (sentimentResponse) => {
+      ratingData.sentiment = sentimentResponse.sentiment;
+      ratingData.sentimentScore = sentimentResponse.predicted_score;
+
+      // Submit the rating to the backend
+      this.ratingService.createRating(ratingData, this.tripToRate.tripId, this.user.userId, this.tripToRate.driver.userId, this.getAuthHeaders()).subscribe({
+        next: (response) => {
+          console.log('Rating submitted successfully:', response);
+          this.tripToRate.isRated = true;  // Mark the trip as rated
+          this.refreshTripData(this.tripToRate.tripId);  // Refresh the trip data from backend
+          this.closeRatingModal();  // Close the modal after submission
+        },
+        error: (error) => {
+          console.error('Error submitting rating:', error);
+        }
+      });
+    },
+    error: (error) => {
+      console.error('Error occurred while analyzing sentiment:', error);
+    }
+  });
+}
+
+
+
+// Fetch updated trip data after rating submission
+refreshTripData(tripId: number): void {
+  this.tripService.getTripById(tripId, this.getAuthHeaders()).subscribe(
+    (updatedTrip) => {
+      this.tripToRate = updatedTrip;  // Update the trip with the latest data
+    },
+    (error) => {
+      console.error('Error fetching trip data:', error);
+    }
+  );
+}
+
+// Helper method to check if the user can rate the trip
+canRate(trip: any): boolean {
+  return trip && trip.reservationStatus === 'COMPLETED' && !this.isTripRated(trip);
+}
+
+// Check if the trip has already been rated
+isTripRated(trip: any): boolean {
+  return trip.isRated;  // If the trip has been rated, the `isRated` flag will be true
+}
+
+
+
+
+
+
   
 
   // Method to toggle availability
@@ -376,7 +430,6 @@ export class ProfileComponent implements OnInit {
 
  
   
-// Dans ProfileComponent
 
 
   
@@ -402,9 +455,9 @@ export class ProfileComponent implements OnInit {
             longitude: longitude,
             simpleUser: {
               userId: this.user?.userId || 0,  // Ensure this is populated
-              firstName: this.user?.userFirstName || "Unknown",
-              lastName: this.user?.userLastName || "Unknown",
-              email: this.user?.userEmail || "Unknown",
+              firstName: this.user?.firstName || "Unknown",
+              lastName: this.user?.lastName || "Unknown",
+              email: this.user?.email || "Unknown",
               emergencyContactEmail: this.user?.emergencyContactEmail || "Unknown"
             }
           };

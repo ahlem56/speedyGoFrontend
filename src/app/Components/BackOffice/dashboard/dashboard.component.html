@@ -23,6 +23,52 @@
 </div>
 
 <!-- ============================================================== -->
+<!-- Top Rated Drivers Section -->
+<!-- ============================================================== -->
+<div class="row">
+  <div class="col-12">
+    <h3 class="text-center mb-4 text-dark font-weight-bold">Top 3 Rated Drivers</h3>
+    <div class="row">
+      <!-- Loop through topRatedDrivers -->
+      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let driver of topRatedDrivers">
+        <div class="card driver-card shadow-lg border-0 rounded-lg hover-card">
+          <!-- Profile Photo -->
+          <div class="profile-photo-container">
+            <img 
+              [src]="'http://localhost:8089/examen/user/profile-photo/' + driver.userProfilePhoto" 
+              class="profile-photo" 
+              alt="{{ driver.firstName }} {{ driver.lastName }} profile photo">
+          </div>
+          <div class="card-body text-center">
+            <!-- Driver Name -->
+            <h5 class="card-title text-dark font-weight-bold">{{ driver.firstName }} {{ driver.lastName }}</h5>
+            
+            <!-- Driver Availability -->
+            <p class="card-text mb-2">
+              <span class="text-muted">Availability:</span> 
+              <span [ngClass]="{'text-success': driver.availabilityD, 'text-danger': !driver.availabilityD}">
+                {{ driver.availabilityD ? 'Available' : 'Not Available' }}
+              </span>
+            </p>
+
+            <!-- Star Rating -->
+            <div class="star-rating">
+              <span *ngFor="let star of getStars(driver.performanceRatingD)" class="star" [ngClass]="star"></span>
+            </div>
+
+            <!-- Rating Value -->
+            <p class="card-text mt-3">
+              <strong>Average Rating : </strong> 
+              <span class="rating-value">{{ driver.performanceRatingD | number: '1.0-1' }} / 5</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
 <!-- Sales chart -->
 <!-- ============================================================== -->
 <div class="row">
@@ -47,3 +93,120 @@
 <!-- Cards Section: Display Blog Cards -->
 <!-- ============================================================== -->
 <app-blog-cards></app-blog-cards>
+
+<style>
+ /* Styling the Card with Hover and Shadow Effects */
+.card {
+  border-radius: 15px;
+  background-color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 20px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: #343a40;
+  margin-top: 10px;
+}
+
+/* Profile photo container */
+.profile-photo-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Star Rating */
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.star {
+  font-size: 1.5rem;
+  margin-right: 5px;
+  color: #ffd700; /* Gold color */
+}
+
+.star.full {
+  color: #ffd700;
+}
+
+.star.half {
+  background: linear-gradient(90deg, #ffd700 50%, #e0e0e0 50%);
+}
+
+.star.empty {
+  color: #e0e0e0;
+}
+
+/* Text Styling */
+.text-muted {
+  color: #6c757d;
+}
+
+.text-warning {
+  color: #f39c12;
+}
+
+.text-success {
+  color: #28a745;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+/* Rating Value Styling */
+.rating-value {
+  font-size: 1.1rem;
+  color: #f39c12;
+  font-weight: bold;
+}
+
+/* Custom Hover Effect for Card */
+.hover-card {
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensure the content looks good on smaller screens */
+@media (max-width: 768px) {
+  .col-lg-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .profile-photo-container {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+</style>
