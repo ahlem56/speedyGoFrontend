@@ -172,6 +172,7 @@ import { SettingsComponent } from './Shared/settings/settings.component';
 import { EditProfileComponent } from './Shared/profile/edit-profile/edit-profile.component';
 import { EditDriverComponent } from './Components/BackOffice/drivers/edit-driver/edit-driver.component';
 import { DriverProfileComponent } from './Shared/profile/driver-profile/driver-profile.component';
+import { StripePaymentComponent } from './Components/FrontOffice/stripe/stripe.component';
 
 
 
@@ -201,7 +202,7 @@ const routes: Routes = [
       { path: 'carpooling/:id', component: CarpoolingDetailFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'carpooling/join/:id', component: CarpoolingJoinFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'offer', component: CarpoolingOfferFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
-
+{path:'stripe', component : StripePaymentComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels', component: ParcelListFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels/track', component: ParcelTrackFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels/create', component: ParcelCreateFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},

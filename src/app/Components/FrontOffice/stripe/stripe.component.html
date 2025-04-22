@@ -1,0 +1,12 @@
+<!-- stripe.component.html -->
+<div class="card-container">
+    <label>Card Details</label>
+    <div #cardElement class="StripeElement" style="padding: 10px; border: 1px solid #ccc;"></div>
+  </div>
+  
+  <div *ngIf="cardError" class="error">
+    {{ cardError }}
+  </div>
+  
+  <button (click)="payWithCard()">💳 Pay {{ amount }} $</button>
+  

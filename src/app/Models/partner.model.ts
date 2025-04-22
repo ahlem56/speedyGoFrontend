@@ -1,5 +1,5 @@
 export interface Partner {
-  parterId?: number;
+  partnerId?: number;
   partnerName: string;
   partnerContactInfo: string;
   partnerCode: Number;
