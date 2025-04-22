@@ -171,7 +171,11 @@ import { CreateDriverBackOfficeComponent } from './Components/BackOffice/drivers
 import { SettingsComponent } from './Shared/settings/settings.component';
 import { EditProfileComponent } from './Shared/profile/edit-profile/edit-profile.component';
 import { EditDriverComponent } from './Components/BackOffice/drivers/edit-driver/edit-driver.component';
-
+import {VehicleMapComponent} from "./Components/BackOffice/vehicle/vehicle-map/vehicle-map.component";
+import {VehicleService} from "./Core/vehicle.service";
+import {
+  VehicleTravelHistoryComponent
+} from "./Components/BackOffice/vehicle/vehicle-travel-history/vehicle-travel-history.component";
 
 
 // Define routes
@@ -189,7 +193,7 @@ const routes: Routes = [
       { path: 'signup', component: SignupComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'edit-profile', component: EditProfileComponent },
-      {path: 'forgot-password', component: ForgotPasswordComponent},  
+      {path: 'forgot-password', component: ForgotPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent },
       { path: 'settings', component: SettingsComponent },
       { path: 'trips', component: TripListFrontOfficeComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] } },
@@ -254,8 +258,10 @@ const routes: Routes = [
       { path: 'back-office/trips/:id', component: TripDetailBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/vehicles', component: VehicleListBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/vehicles/create', component: VehicleCreateBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+      {path: 'back-office/vehicles/map/:id', component: VehicleMapComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/vehicles/edit/:id', component: VehicleEditBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       {path:'back-office/vehicles/assign/:id', component : VehicleAssignComponent, canActivate:[AuthGuard],data:{roles:['Admin']}},
+      { path: 'back-office/vehicles/travel-history/:id', component: VehicleTravelHistoryComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/vehicles/:id', component: VehicleDetailBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       {path : 'back-office/drivers', component: DriversBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       {path: 'back-office/drivers/create', component: CreateDriverBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},

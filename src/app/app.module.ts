@@ -131,15 +131,15 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/confirm-delete-component/confirm-delete-component.component';
-
+import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/vehicle-travel-history/vehicle-travel-history.component";
 
 // Define routes
 @NgModule({
   declarations: [
-    
+
     AppComponent,
     TripListFrontOfficeComponent,
-    
+
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
    // CarpoolingCreateFrontOfficeComponent,
@@ -164,18 +164,18 @@ import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/c
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
-    
+
 
     RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
     PromotionCreationBackOfficeComponent,
     PromotionEditBackOfficeComponent,
-    
+
     EventListBackOfficeComponent,
     EventDetailBackOfficeComponent,
     EventNotifyBackOfficeComponent,
     PartnerCreateBackOfficeComponent,
-    
+
     CarpoolingListBackOfficeComponent,
     CarpoolingDetailBackOfficeComponent,
 
@@ -184,28 +184,28 @@ import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/c
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-    
+
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
     VehicleCreateBackOfficeComponent,
     VehicleEditBackOfficeComponent,
     VehicleDetailBackOfficeComponent,
-    
+
     ChatDriverInterfaceComponent,
     ChatListDriverInterfaceComponent,
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
-    
+
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
     ParcelTrackDriverInterfaceComponent,
     VehicleListDriverInterfaceComponent,
     VehicleDetailDriverInterfaceComponent,
-  
+
     NotFoundComponent,
-    
+
   ],
   imports: [
     MatDialogModule,
@@ -231,7 +231,7 @@ import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/c
     ComplaintDetailsFrontOfficeComponent,
     ComplaintListFrontOfficeComponent,
     PartnerListBackOfficeComponent,
-    
+
 
 
     SubscriptionCreationFrontOfficeComponent,
@@ -260,11 +260,11 @@ import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/c
     AccessDeniedComponent,
     NotificationFrontOfficeComponent,
     FullComponent,   // Import standalone component
-    
-   
+
+
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
-  exports: [FooterComponent] 
+  exports: [FooterComponent]
 })
 export class AppModule { }

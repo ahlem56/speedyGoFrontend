@@ -18,18 +18,18 @@ export class CarpoolingDetailBackOfficeComponent implements OnInit {
     errorMessage: string = '';
 
 
-  
+
     constructor(private carpoolService: CarpoolService, private route: ActivatedRoute) {}
-  
+
     ngOnInit(): void {
       const carpoolId = Number(this.route.snapshot.paramMap.get('id'));
       this.loadCarpoolDetails(carpoolId);
     }
-  
+
     loadCarpoolDetails(carpoolId: number): void {
       const token = localStorage.getItem('authToken');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-   
+
       // Fetch carpool details
       this.carpoolService.getCarpoolById(carpoolId, headers).subscribe({
         next: (data) => {
@@ -43,7 +43,7 @@ export class CarpoolingDetailBackOfficeComponent implements OnInit {
         }
       });
     }
-  
+
     loadUsersJoined(carpoolId: number, headers: HttpHeaders): void {
       this.carpoolService.getUsersWhoJoinedCarpool(carpoolId, headers).subscribe({
         next: (data) => {

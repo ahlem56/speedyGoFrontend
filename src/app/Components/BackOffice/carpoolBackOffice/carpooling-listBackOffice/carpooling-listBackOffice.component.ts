@@ -26,13 +26,13 @@ export class CarpoolingListBackOfficeComponent implements OnInit {
   loadAllCarpools(): void {
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  
+
     this.carpoolService.getAllCarpools().subscribe({
       next: (data) => {
         this.allCarpools = data;
         this.filteredCarpools = data;
         this.isLoading = false;
-  
+
         // Charger les informations de l'offreur pour chaque covoiturage
         this.allCarpools.forEach((carpool) => {
           if (carpool?.carpoolId) { // Vérifiez si carpoolId existe
@@ -49,9 +49,9 @@ export class CarpoolingListBackOfficeComponent implements OnInit {
       }
     });
   }
-  
-  
-  
+
+
+
   // Charger les informations de l'offreur
   loadOffererDetails(carpoolId: number, headers: HttpHeaders): void {
     console.log("🔍 Tentative de récupération de l'offreur pour le covoiturage ID :", carpoolId);
@@ -59,7 +59,7 @@ export class CarpoolingListBackOfficeComponent implements OnInit {
       console.warn("❌ carpoolId non valide :", carpoolId);
       return;
     }
-  
+
     this.carpoolService.getCarpoolOfferer(carpoolId, headers).subscribe({
       next: (offerer) => {
         console.log(`🔍 Offreur récupéré pour le covoiturage ${carpoolId}:`, offerer);
@@ -73,8 +73,8 @@ export class CarpoolingListBackOfficeComponent implements OnInit {
       }
     });
   }
-  
-  
+
+
   // Appliquer le filtre
   applyFilter(filterType: string): void {
     this.filterType = filterType;
@@ -102,5 +102,5 @@ export class CarpoolingListBackOfficeComponent implements OnInit {
     this.router.navigate(['/back-office/carpool/', carpoolId]);
   }
 
-  
+
 }

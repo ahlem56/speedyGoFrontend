@@ -9,11 +9,9 @@
   <div class="filter-controls">
     <div class="search-box">
       <i class="fas fa-search"></i>
-      <input type="text" [(ngModel)]="searchTerm"
-             (input)="applyFilters()"
+      <input type="text" [(ngModel)]="searchTerm" (input)="applyFilters()"
              placeholder="Search vehicles...">
     </div>
-
     <div class="filter-select">
       <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
         <option *ngFor="let type of vehicleTypes" [value]="type.value">
@@ -58,13 +56,17 @@
             </span>
         </td>
         <td class="actions">
-          <button class="icon-button edit" (click)="editVehicle(vehicle.vehiculeId!)">
+          <button class="icon-button edit" (click)="editVehicle(vehicle.vehiculeId!)" title="Edit">
             <i class="fas fa-edit"></i>
           </button>
-          <button class="icon-button assign" (click)="assignVehicle(vehicle.vehiculeId!)">
-            <i class="fas fa-user-tag"></i>
+          <button class="icon-button location" (click)="MapVehicle(vehicle.vehiculeId!)" title="Localiser">
+            <i class="fas fa-map-marker-alt"></i>
           </button>
-          <button class="icon-button delete" (click)="deleteVehicle(vehicle.vehiculeId!)">
+          <!-- Bouton pour consulter l'historique du trajet -->
+          <button class="icon-button history" (click)="consultTravelHistory(vehicle.vehiculeId!)" title="Historique de trajet">
+            <i class="fas fa-history"></i>
+          </button>
+          <button class="icon-button delete" (click)="deleteVehicle(vehicle.vehiculeId!)" title="Delete">
             <i class="fas fa-trash"></i>
           </button>
         </td>

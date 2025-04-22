@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import {Vehicle, VehicleService} from "../../../../Core/vehicle.service";
-import {Router} from "@angular/router";
+import { Vehicle, VehicleService } from "../../../../Core/vehicle.service";
+import { Router } from "@angular/router";
 
 @Component({
-    selector: 'app-vehicle-list',
-    templateUrl: './vehicle-list.component.html',
-    styleUrls: ['./vehicle-list.component.css'],
-    standalone: false
+  selector: 'app-vehicle-list',
+  templateUrl: './vehicle-list.component.html',
+  styleUrls: ['./vehicle-list.component.css'],
+  standalone: false
 })
 export class VehicleListBackOfficeComponent {
-
   vehicles: Vehicle[] = [];
   filteredVehicles: Vehicle[] = [];
   searchTerm: string = '';
@@ -17,7 +16,7 @@ export class VehicleListBackOfficeComponent {
   isLoading: boolean = true;
   errorMessage: string | null = null;
 
-  // Define vehicle types based on your backend enum
+  // Types de véhicule basés sur l'enum back-end
   vehicleTypes = [
     { value: 'all', label: 'All Vehicles' },
     { value: 'CAR', label: 'Cars' },
@@ -78,5 +77,13 @@ export class VehicleListBackOfficeComponent {
 
   assignVehicle(id: number): void {
     this.router.navigate([`/back-office/vehicles/assign/${id}`]);
+  }
+
+  MapVehicle(id: number): void {
+    this.router.navigate([`/back-office/vehicles/map/${id}`]);
+  }
+
+  consultTravelHistory(id: number): void {
+    this.router.navigate([`/back-office/vehicles/travel-history/${id}`]);
   }
 }
