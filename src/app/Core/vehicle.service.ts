@@ -1,8 +1,7 @@
-// vehicle.service.ts
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {catchError, map, Observable} from 'rxjs';
-import {Driver} from "./driver.service";
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Driver } from './driver.service';
 
 export interface Vehicle {
   vehiculeId?: number;
@@ -13,8 +12,17 @@ export interface Vehicle {
   vehiculeInsuranceStatus: boolean;
   vehiculeInsuranceDate: Date;
   driver?: Driver;
+  latitude?: number;
+  longitude?: number;
+  updateTime?: Date;
+  travelHistory?: LocationRecord[]; // Optionnel : pour récupérer l’historique dans le même objet
 }
 
+export interface LocationRecord {
+  latitude: number;
+  longitude: number;
+  updateTime: Date;
+}
 
 @Injectable({ providedIn: 'root' })
 export class VehicleService {
@@ -24,12 +32,11 @@ export class VehicleService {
 
   // CREATE
   createVehicle(vehicleData: any): Observable<Vehicle> {
-    // Match Postman's exact payload structure
     const payload = {
       vehicleType: vehicleData.vehicleType,
       vehicleModel: vehicleData.vehicleModel,
       vehicleCapacity: vehicleData.vehicleCapacity,
-      vehiculeMaintenanceDate: vehicleData.vehiculeMaintenanceDate.split('T')[0], // Date without time
+      vehiculeMaintenanceDate: vehicleData.vehiculeMaintenanceDate.split('T')[0],
       vehiculeInsuranceStatus: vehicleData.vehiculeInsuranceStatus,
       vehiculeInsuranceDate: vehicleData.vehiculeInsuranceStatus
         ? vehicleData.vehiculeInsuranceDate.split('T')[0]
@@ -42,7 +49,6 @@ export class VehicleService {
       {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-          // Add other headers from Postman if needed
         })
       }
     );
@@ -75,7 +81,24 @@ export class VehicleService {
     );
   }
 
-  getAvailableVehicles(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/getAvailableVehicles`);  // Ensure you have an endpoint for available vehicles
+  getAvailableVehicles(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(`${this.baseUrl}/getAvailableVehicles`);
+  }
+
+  updateLocation(vehicleId: number, latitude: number, longitude: number): Observable<Vehicle> {
+    const params = new HttpParams()
+      .set('latitude', latitude.toString())
+      .set('longitude', longitude.toString());
+
+    return this.http.put<Vehicle>(
+      `${this.baseUrl}/updateLocation/${vehicleId}`,
+      null,
+      { params }
+    );
+  }
+
+  // Récupérer l'historique du trajet du véhicule
+  getTravelHistory(vehicleId: number): Observable<LocationRecord[]> {
+    return this.http.get<LocationRecord[]>(`${this.baseUrl}/getTravelHistory/${vehicleId}`);
   }
 }

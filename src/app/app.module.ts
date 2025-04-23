@@ -134,14 +134,15 @@ import { ConfirmDeleteComponentComponent } from './Components/BackOffice/event/c
 import { ToastrModule } from 'ngx-toastr';
 import { ToastNotificationComponent } from './Shared/toast-notification/toast-notification.component';
 
+import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/vehicle-travel-history/vehicle-travel-history.component";
 
 // Define routes
 @NgModule({
   declarations: [
-    
+
     AppComponent,
     TripListFrontOfficeComponent,
-    
+
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
    // CarpoolingCreateFrontOfficeComponent,
@@ -166,18 +167,18 @@ import { ToastNotificationComponent } from './Shared/toast-notification/toast-no
 
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
-    
+
 
     RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
     PromotionCreationBackOfficeComponent,
     PromotionEditBackOfficeComponent,
-    
+
     EventListBackOfficeComponent,
     EventDetailBackOfficeComponent,
     EventNotifyBackOfficeComponent,
     PartnerCreateBackOfficeComponent,
-    
+
     CarpoolingListBackOfficeComponent,
     CarpoolingDetailBackOfficeComponent,
 
@@ -186,28 +187,28 @@ import { ToastNotificationComponent } from './Shared/toast-notification/toast-no
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-    
+
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
     VehicleCreateBackOfficeComponent,
     VehicleEditBackOfficeComponent,
     VehicleDetailBackOfficeComponent,
-    
+
     ChatDriverInterfaceComponent,
     ChatListDriverInterfaceComponent,
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
-    
+
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
     ParcelTrackDriverInterfaceComponent,
     VehicleListDriverInterfaceComponent,
     VehicleDetailDriverInterfaceComponent,
-  
+
     NotFoundComponent,
-    
+
   ],
   imports: [
     MatDialogModule,
@@ -244,6 +245,8 @@ import { ToastNotificationComponent } from './Shared/toast-notification/toast-no
       preventDuplicates: true,
     }),
 
+
+
     ToastNotificationComponent,
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
@@ -271,11 +274,11 @@ import { ToastNotificationComponent } from './Shared/toast-notification/toast-no
     AccessDeniedComponent,
     NotificationFrontOfficeComponent,
     FullComponent,   // Import standalone component
-    
-   
+
+
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
-  exports: [FooterComponent] 
+  exports: [FooterComponent]
 })
 export class AppModule { }

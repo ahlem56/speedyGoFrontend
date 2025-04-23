@@ -1,0 +1,16 @@
+<!-- vehicle-map.component.html -->
+<div class="map-container">
+  <div class="map-header">
+    <h2>Real-time Vehicle Tracking</h2>
+    <button class="back-button" (click)="cancel()">
+      <i class="fas fa-arrow-left"></i> Back to List
+    </button>
+  </div>
+
+  <div id="map"></div>
+
+  <div class="map-info">
+    <p>Tracking Vehicle ID: {{ vehicleId }}</p>
+    <p>Updates every 5 seconds</p>
+  </div>
+</div>

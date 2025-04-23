@@ -1,0 +1,39 @@
+<div class="travel-history-container">
+  <div class="header">
+    <h2>Historique de trajet pour le véhicule {{ vehicleId }}</h2>
+    <button (click)="back()" class="back-button">
+      <i class="fas fa-arrow-left"></i> Retour
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <i class="fas fa-spinner fa-spin"></i> Chargement de l’historique…
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && travelHistory.length > 0">
+    <table>
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let record of travelHistory">
+        <td>{{ record.updateTime}}</td>
+        <td>{{ record.latitude }}</td>
+        <td>{{ record.longitude }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && travelHistory.length === 0" class="no-data">
+    Aucun enregistrement trouvé.
+  </div>
+</div>

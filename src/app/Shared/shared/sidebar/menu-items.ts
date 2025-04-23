@@ -118,7 +118,7 @@ export const ALL_ROUTES: RouteInfo[] = [
   submenu: []
 },
 {
-  path: 'back-office/events/create',
+  path: 'back-office/events/list',
   title: 'Events',
   icon: 'bi bi-calendar-event',  // Calendar icon for events
   class: '',

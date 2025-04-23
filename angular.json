@@ -34,10 +34,13 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
+
             ],
             "styles": [
               "src/assets/FrontOffice/scss/style.scss",
               "src/assets/BackOffice/scss/style.scss",
+              "src/styles.scss",
+              "node_modules/leaflet/dist/leaflet.css",
               "src/styles.scss"
             ],
             "scripts": [],
