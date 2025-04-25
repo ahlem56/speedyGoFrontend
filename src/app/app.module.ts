@@ -169,7 +169,6 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     PromotionDetailsFrontOfficeComponent,
 
 
-    RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
     PromotionCreationBackOfficeComponent,
     PromotionEditBackOfficeComponent,
@@ -178,7 +177,6 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     EventDetailBackOfficeComponent,
     EventNotifyBackOfficeComponent,
     PartnerCreateBackOfficeComponent,
-
     CarpoolingListBackOfficeComponent,
     CarpoolingDetailBackOfficeComponent,
 
@@ -187,19 +185,16 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
     VehicleCreateBackOfficeComponent,
     VehicleEditBackOfficeComponent,
     VehicleDetailBackOfficeComponent,
-
     ChatDriverInterfaceComponent,
     ChatListDriverInterfaceComponent,
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
-
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
@@ -219,6 +214,8 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     MatProgressSpinnerModule,
     MatSort,
     MatPaginatorModule,
+    RuleCreationBackOfficeComponent,
+
     MatTableModule,
     EventCreateBackOfficeComponent,
     ConfirmDeleteComponentComponent,
@@ -233,6 +230,8 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     CarpoolingOfferFrontOfficeComponent,
     ComplaintDetailsFrontOfficeComponent,
     ComplaintListFrontOfficeComponent,
+    RuleCreationBackOfficeComponent,
+
     PartnerListBackOfficeComponent,
     DashboardModule  ,
     ToastrModule.forRoot({

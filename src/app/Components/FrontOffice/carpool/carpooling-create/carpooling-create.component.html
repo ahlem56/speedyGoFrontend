@@ -115,7 +115,6 @@
                     <li *ngFor="let carpool of filteredCarpools" class="list-group-item">
                         <strong>{{ carpool.carpoolDeparture }} - {{ carpool.carpoolDestination }}</strong><br>
                         <small>Date: {{ carpool.carpoolDate }} | Time: {{ carpool.carpoolTime }}</small><br>
-                        <small>Status: {{ carpool.carpoolStatus }}</small><br>
                         <small>Price: {{ carpool.carpoolPrice }} TND</small><br>
                         <button class="btn btn-info mt-2" (click)="viewCarpoolDetails(carpool.carpoolId)">Detail</button>
                     </li>

@@ -14,10 +14,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class ComplaintCreationFrontOfficeComponent implements OnInit {
   complaint: any = {
-    complaintTitle: '',
     complaintDescription: null,
-    complaintCategory: '',
-    complaintDate: '',
   };
   simpleUserId: number | null = null;
   errorMessage: string = '';
@@ -54,10 +51,7 @@ export class ComplaintCreationFrontOfficeComponent implements OnInit {
   
         // Reset the form after successful creation
         this.complaint = {
-          complaintTitle: '',
           complaintDescription: '',
-          complaintCategory: '',
-          complaintDate: '',
         };
       },
       (error) => {

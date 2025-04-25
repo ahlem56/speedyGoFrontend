@@ -18,6 +18,10 @@
                 <option value="GOLD">Gold</option>
               </select>
             </div>
+<<<<<<< HEAD
+=======
+            <!-- Display validation error -->
+>>>>>>> e01aa485e4e7c4ecea926c98b542738f475541d9
             <div *ngIf="subscriptionTypeField.invalid && subscriptionTypeField.touched" class="text-danger">
               Subscription Type is required.
             </div>
@@ -30,6 +34,10 @@
               <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
               <input type="number" id="subscriptionPrice" [(ngModel)]="subscriptionPrice" name="subscriptionPrice" class="form-control" placeholder="Enter price" required min="1" #subscriptionPriceField="ngModel"/>
             </div>
+<<<<<<< HEAD
+=======
+            <!-- Display validation error -->
+>>>>>>> e01aa485e4e7c4ecea926c98b542738f475541d9
             <div *ngIf="subscriptionPriceField.invalid && subscriptionPriceField.touched" class="text-danger">
               Price is required and must be greater than 0.
             </div>
@@ -42,11 +50,16 @@
               <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
               <input type="text" id="subscriptionDescription" [(ngModel)]="subscriptionDescription" name="subscriptionDescription" class="form-control" placeholder="Enter description" required minlength="4" #subscriptionDescriptionField="ngModel"/>
             </div>
+<<<<<<< HEAD
+=======
+            <!-- Display validation error -->
+>>>>>>> e01aa485e4e7c4ecea926c98b542738f475541d9
             <div *ngIf="subscriptionDescriptionField.invalid && subscriptionDescriptionField.touched" class="text-danger">
               Description is required and must have at least 4 characters.
             </div>
           </div>
 
+<<<<<<< HEAD
           <!-- Subscription Duration -->
           <div class="form-group">
             <label for="durationInMonths" class="text-dark">Duration (Months)</label>
@@ -59,6 +72,8 @@
             </div>
           </div>
 
+=======
+>>>>>>> e01aa485e4e7c4ecea926c98b542738f475541d9
           <!-- Submit Button -->
           <button type="submit" class="btn btn-primary btn-lg w-100 shadow-lg mt-3" [disabled]="!subscriptionForm.valid">
             <i class="fas fa-check"></i> Create Subscription

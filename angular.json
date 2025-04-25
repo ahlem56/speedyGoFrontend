@@ -34,7 +34,6 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
-
             ],
             "styles": [
               "src/assets/FrontOffice/scss/style.scss",

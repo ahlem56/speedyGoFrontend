@@ -43,10 +43,12 @@ export class SidebarComponent implements OnInit {
           sidebarnavItem.path === 'back-office/trips' ||
           sidebarnavItem.path === 'back-office/carpool/list' ||
           sidebarnavItem.path === 'back-office/parcels' ||
+          sidebarnavItem.path === 'back-office/rules/create' ||
           sidebarnavItem.path === 'back-office/complaints' ||
-          sidebarnavItem.path === 'back-office/events/list' ||
+          sidebarnavItem.path === 'back-office/events/create' ||
           sidebarnavItem.path === 'back-office/subscriptions' ||
           sidebarnavItem.path === 'back-office/partners'
+           
 
         );
         break;
@@ -67,7 +69,6 @@ export class SidebarComponent implements OnInit {
           sidebarnavItem.path === '/subscriptions/create' ||
           sidebarnavItem.path === 'complaints/create' ||
           sidebarnavItem.path === '/about'
-
         );
         break;
       default:
@@ -79,7 +80,6 @@ export class SidebarComponent implements OnInit {
   // Handle sidebar item click and check for login
   handleSidebarItemClick(path: string) {
     const isLoggedIn = localStorage.getItem('authToken'); // Check if token exists
-
     if (!isLoggedIn) {
       // If user is not logged in, show the modal
       this.showModal = true;

@@ -150,6 +150,14 @@ export const ALL_ROUTES: RouteInfo[] = [
   extralink: false,
   submenu: []
 },
+{
+  path: 'back-office/rules/create',
+  title: 'rules',
+  icon: "bi bi-clipboard-check",  // Exclamation circle for complaints
+  class: '',
+  extralink: false,
+  submenu: []
+},
 
 
   // Driver-specific routes

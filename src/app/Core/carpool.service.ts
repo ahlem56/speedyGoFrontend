@@ -8,32 +8,26 @@ import { environment } from 'src/environments/environment';
 })
 export class CarpoolService {
 
-  private apiUrl = `http://localhost:8089/examen/carpools/`; // URL correcte
+  private apiUrl = `http://localhost:8089/examen/carpools/`;
 
   constructor(private http: HttpClient) { }
 
-  // Créer un covoiturage entre utilisateurs
   createCarpool(carpoolData: any, simpleUserId: number, headers: HttpHeaders): Observable<any> {
     const url = `${this.apiUrl}add/${simpleUserId}`;
     return this.http.post(url, carpoolData, { headers, responseType: 'text' as 'json' });
   }
-  
-  
-  // Récupérer tous les covoiturages d'un utilisateur spécifique
   getCarpoolsForUser(simpleUserId: number, headers: HttpHeaders): Observable<any[]> {
     const url = `${this.apiUrl}getCarpoolsForUser/${simpleUserId}`;
     return this.http.get<any[]>(url, { headers });
   }
 
-  // Supprimer un covoiturage par son ID
-  deleteCarpool(carpoolId: number,offerId: number,headers: HttpHeaders): Observable<void> {
+  deleteCarpool(carpoolId: number, offerId: number, headers: HttpHeaders): Observable<void> {
     const url = `${this.apiUrl}delete/${carpoolId}/${offerId}`;
     return this.http.delete<void>(url, { headers });
   }
 
   getAllCarpools(): Observable<any[]> {
     const token = localStorage.getItem('authToken');
-    
     if (!token) {
       console.error("❌ Aucun token trouvé !");
       return new Observable(observer => {
@@ -41,71 +35,60 @@ export class CarpoolService {
         observer.complete();
       });
     }
-  
+
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json');
-  
-    console.log("🔍 Headers envoyés:", headers); // Vérifie les headers
-    
+
+    console.log("🔍 Headers envoyés:", headers);
     const url = `${this.apiUrl}get`;
     return this.http.get<any[]>(url, { headers }).pipe(
       tap((data) => console.log("📥 Réponse API - Tous les Carpools:", data))
     );
   }
-  
-  
-  
 
-  // Rejoindre un covoiturage
-  joinCarpool(carpoolId: number, simpleUserId: number, headers: HttpHeaders): Observable<any> {
+  joinCarpool(carpoolId: number, simpleUserId: number, numberOfPlaces: number, headers: HttpHeaders): Observable<any> {
     const url = `${this.apiUrl}join/${carpoolId}/${simpleUserId}`;
-    return this.http.post<any>(url, {}, { headers });
+    return this.http.post<any>(url, numberOfPlaces, { headers }).pipe(
+      tap((data) => console.log("📥 Réponse API - Covoiturage rejoint:", data)),
+      catchError(error => {
+        console.error("Erreur lors de l'inscription au covoiturage", error);
+        return throwError(() => error);
+      })
+    );
   }
 
-  // Ajout d'une méthode pour récupérer les futurs covoiturages
-getFutureCarpools(): Observable<any[]> {
-  const token = localStorage.getItem('authToken');
-
-  if (!token) {
-    console.error("❌ Aucun token trouvé !");
-    return new Observable(observer => {
-      observer.error("No authentication token found");
-      observer.complete();
-    });
+  getFutureCarpools(userId: number, headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}future?userId=${userId}`;
+    return this.http.get<any[]>(url, { headers }).pipe(
+      tap((data) => console.log("📥 Réponse API - Futurs Carpools:", data)),
+      catchError(error => {
+        console.error("Erreur lors du chargement des futurs covoiturages", error);
+        return throwError(() => error);
+      })
+    );
   }
 
-  const headers = new HttpHeaders()
-    .set('Authorization', `Bearer ${token}`)
-    .set('Content-Type', 'application/json');
+  getCarpoolById(carpoolId: number, headers: HttpHeaders): Observable<any> {
+    const url = `${this.apiUrl}get/${carpoolId}`;
+    return this.http.get(url, { headers });
+  }
 
-  console.log("🔍 Headers envoyés:", headers);
+  getCarpoolOfferer(carpoolId: number, headers: HttpHeaders): Observable<any> {
+    const url = `${this.apiUrl}${carpoolId}/offreur`;
+    return this.http.get<any>(url, { headers });
+  }
 
-  const url = `${this.apiUrl}future`;
-  return this.http.get<any[]>(url, { headers }).pipe(
-    tap((data) => console.log("📥 Réponse API - Futurs Carpools:", data))
-  );
-}
+  getCarpoolsByUser(userId: number, headers: HttpHeaders): Observable<any> {
+    const url = `${this.apiUrl}user/${userId}`;
+    return this.http.get<any>(url, { headers });
+  }
 
-getCarpoolById(carpoolId: number, headers: HttpHeaders): Observable<any> {
-  const url = `${this.apiUrl}get/${carpoolId}`; // Utilisez `this.apiUrl`
-  return this.http.get(url, { headers });
-}
-getCarpoolOfferer(carpoolId: number, headers: HttpHeaders): Observable<any> {
-  const url = `${this.apiUrl}${carpoolId}/offreur`;
-  return this.http.get<any>(url, { headers });
-}
+  leaveCarpool(carpoolId: number, userId: number, headers: HttpHeaders): Observable<void> {
+    const url = `${this.apiUrl}leave/${carpoolId}/${userId}`;
+    return this.http.delete<void>(url, { headers });
+  }
 
-getCarpoolsByUser(userId: number, headers: HttpHeaders): Observable<any> {
-  const url = `${this.apiUrl}user/${userId}`;
-  return this.http.get<any>(url, { headers });
-}
-
-leaveCarpool(carpoolId: number, userId: number,headers: HttpHeaders): Observable<void> {
-  const url = `${this.apiUrl}leave/${carpoolId}/${userId}`;
-  return this.http.delete<void>(url,{headers});
-}
-  // Mettre à jour un covoiturage (seulement si personne ne l'a rejoint)
   updateCarpool(carpoolId: number, userId: number, carpoolData: any, headers: HttpHeaders): Observable<any> {
     const url = `${this.apiUrl}update/${carpoolId}/${userId}`;
     return this.http.put(url, carpoolData, { headers }).pipe(
@@ -127,19 +110,23 @@ leaveCarpool(carpoolId: number, userId: number,headers: HttpHeaders): Observable
     );
   }
 
+  getCarpoolsJoinedByUser(userId: number, headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}joined/${userId}`;
+    return this.http.get<any[]>(url, { headers }).pipe(
+      tap((data) => console.log("📥 Réponse API - Covoiturages rejoints par l'utilisateur:", data)),
+      catchError(error => {
+        console.error("Erreur lors de la récupération des covoiturages rejoints par l'utilisateur", error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  getRecommendedCarpools(userId: number, headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}recommended/${userId}`;
+    return this.http.get<any[]>(url, { headers });
+  }
 
 
-// Ajoutez cette méthode dans la classe CarpoolService
-getCarpoolsJoinedByUser(userId: number, headers: HttpHeaders): Observable<any[]> {
-  const url = `${this.apiUrl}joined/${userId}`; // Endpoint pour récupérer les covoiturages rejoints
-  return this.http.get<any[]>(url, { headers }).pipe(
-    tap((data) => console.log("📥 Réponse API - Covoiturages rejoints par l'utilisateur:", data)),
-    catchError(error => {
-      console.error("Erreur lors de la récupération des covoiturages rejoints par l'utilisateur", error);
-      return throwError(() => error);
-    })
-  );
-}
 
-
+  
 }

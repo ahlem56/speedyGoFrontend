@@ -10,16 +10,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./carpooling-offer.component.scss']
 })
 export class CarpoolingOfferFrontOfficeComponent implements OnInit {
-  userId: number | null = null; // ID de l'utilisateur connecté
-  carpools: any[] = []; // Liste des covoiturages
-  editingCarpoolId: number | null = null; // ID du covoiturage en cours de modification
-  updatedCarpool: any = {}; // Objet pour stocker les modifications
-  showPastCarpools: boolean = false; // Permet d'afficher les trajets passés
-  filteredCarpools: any[] = []; // Liste des covoiturages après filtrage
-  usersWhoJoined: any[] = []; // Liste des utilisateurs ayant rejoint le covoiturage
-  getUsersCarpoolId: number | null = null;
-  noUsersMessage: string = ''; // Pour afficher un message quand il n'y a pas d'utilisateurs
-  isLoading: boolean = false; // Pour afficher ou masquer le chargement
+  userId: number | null = null; // ID of the logged-in user
+  carpools: any[] = []; // List of carpools
+  editingCarpoolId: number | null = null; // ID of the carpool being edited
+  updatedCarpool: any = {}; // Object to store carpool updates
+  showPastCarpools: boolean = false; // Toggle to show past carpools
+  filteredCarpools: any[] = []; // Filtered list of carpools
+  usersWhoJoined: any[] = []; // List of users who joined with numberOfPlaces
+  getUsersCarpoolId: number | null = null; // ID of the carpool for which users are displayed
+  noUsersMessage: string = ''; // Message when no users have joined
+  isLoading: boolean = false; // Loading state for users list
 
   constructor(
     private carpoolService: CarpoolService,
@@ -28,189 +28,197 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
-    // Récupérer l'utilisateur connecté depuis le localStorage
+    // Retrieve the logged-in user from localStorage
     const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-    this.userId = currentUser.userId; // Mettre à jour userId avec l'ID de l'utilisateur connecté
+    this.userId = currentUser.userId;
 
     if (this.userId) {
-      this.loadCarpools(); // Charger les covoiturages si userId est disponible
+      this.loadCarpools(); // Load carpools if userId is available
     } else {
-      console.error("Aucun utilisateur connecté trouvé.");
-      this.router.navigate(['/login']); // Rediriger vers la page de connexion si aucun utilisateur n'est connecté
+      console.error("No logged-in user found.");
+      this.router.navigate(['/login']); // Redirect to login page
     }
   }
+
+  // Filter carpools based on past or upcoming status
   filterCarpools(): void {
     const today = new Date();
-    console.log("Date d'aujourd'hui :", today);
-  
+    console.log("Today's date:", today);
+
     this.filteredCarpools = this.carpools.filter(carpool => {
       const carpoolDate = new Date(carpool.carpoolDate);
-      console.log(`Comparaison : ${carpoolDate} >= ${today} ?`, carpoolDate >= today);
+      console.log(`Comparing: ${carpoolDate} >= ${today} ?`, carpoolDate >= today);
       return this.showPastCarpools ? carpoolDate < today : carpoolDate >= today;
     });
-  
-    console.log("Covoiturages après filtrage :", this.filteredCarpools);
+
+    console.log("Filtered carpools:", this.filteredCarpools);
   }
-  
-  // Charger les covoiturages de l'utilisateur
+
+  // Load carpools for the user
   loadCarpools(): void {
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  
+
     this.carpoolService.getCarpoolsByUser(this.userId!, headers).subscribe({
       next: (data) => {
         this.carpools = data;
-        console.log("Covoiturages récupérés :", this.carpools); // Ajoute ce log
-        this.filterCarpools(); // Appliquer le filtre après récupération des données
+        console.log("Retrieved carpools:", this.carpools);
+        this.filterCarpools(); // Apply filter after loading data
       },
       error: (err) => {
-        console.error("Erreur lors du chargement des covoiturages", err);
+        console.error("Error loading carpools:", err);
       }
     });
   }
-  
-  
+
+  // Toggle between past and upcoming carpools
   togglePastCarpools(): void {
     this.showPastCarpools = !this.showPastCarpools;
     this.filterCarpools();
   }
 
-
-   // Démarrer l'édition d'un covoiturage
-  getUsers(carpoolId: number): void {
-    this.getUsersCarpoolId = carpoolId;
-    // Pré-remplir le formulaire avec les données du covoiturage sélectionné
-    const carpool = this.carpools.find(c => c.carpoolId === carpoolId);
-    if (carpool) {
-      this.loadUsersWhoJoined(carpoolId); 
-    }
-  
-  }
-  // Démarrer l'édition d'un covoiturage
+  // Start editing a carpool
   startEditing(carpoolId: number): void {
     this.editingCarpoolId = carpoolId;
-    // Pré-remplir le formulaire avec les données du covoiturage sélectionné
     const carpool = this.carpools.find(c => c.carpoolId === carpoolId);
     if (carpool) {
       this.updatedCarpool = { ...carpool };
-      this.loadUsersWhoJoined(carpoolId); 
+      this.loadUsersWhoJoined(carpoolId);
     }
   }
 
-  // Annuler l'édition
-  cancelEditing(): void {
-    this.editingCarpoolId = null; // Réinitialiser l'ID du covoiturage en cours de modification
-    this.updatedCarpool = {}; // Réinitialiser les modifications
+  // Load users who joined a carpool
+  getUsers(carpoolId: number): void {
+    this.getUsersCarpoolId = carpoolId;
+    const carpool = this.carpools.find(c => c.carpoolId === carpoolId);
+    if (carpool) {
+      this.loadUsersWhoJoined(carpoolId);
+    }
   }
 
-  // Mettre à jour les champs du formulaire
+  // Cancel editing
+  cancelEditing(): void {
+    this.editingCarpoolId = null;
+    this.updatedCarpool = {};
+  }
+
+  // Update form fields
   updateField(field: string, event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.updatedCarpool[field] = value;
   }
 
+  // Update a carpool
   updateCarpool(carpoolId: number, updatedCarpool: any): void {
-    const token = localStorage.getItem('authToken'); // Récupérer le token
+    const token = localStorage.getItem('authToken');
     if (!token) {
-      console.error("Aucun token d'authentification trouvé.");
-      this.router.navigate(['/login']); // Rediriger vers la page de connexion
+      console.error("No authentication token found.");
+      this.router.navigate(['/login']);
       return;
     }
-  
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); // Ajouter le token aux headers
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     if (this.usersWhoJoined.length > 0) {
-      alert("You can't change this carpool because there are users who have already joined.");
-      return; // Empêche la mise à jour
+      alert("You cannot update this carpool because users have already joined.");
+      return;
     }
-    // Vérifiez les données envoyées
-    console.log("Données envoyées :", updatedCarpool);
-  
+
+    console.log("Data sent:", updatedCarpool);
+
     this.carpoolService.updateCarpool(carpoolId, this.userId!, updatedCarpool, headers).subscribe({
       next: () => {
-        if(true){
-        console.log("Covoiturage mis à jour avec succès !");
-        this.editingCarpoolId = null; // Fermer le formulaire
-        this.loadCarpools(); // Recharger la liste après mise à jour
-        }
-
+        console.log("Carpool updated successfully!");
+        this.editingCarpoolId = null;
+        this.loadCarpools();
       },
-      
       error: (err) => {
         if (err.status === 401) {
-          // Token expiré ou invalide
-          console.error("Token expiré ou invalide. Redirection vers la page de connexion.");
-          this.router.navigate(['/login']); // Rediriger vers la page de connexion
+          console.error("Token expired or invalid. Redirecting to login.");
+          this.router.navigate(['/login']);
         } else {
-          console.error("Erreur lors de la mise à jour du covoiturage", err);
+          console.error("Error updating carpool:", err);
         }
       }
     });
   }
 
-
-
-
+  // Delete a carpool
   deleteCarpool(carpoolId: number): void {
-    const token = localStorage.getItem('authToken'); // Récupérer le token
+    const token = localStorage.getItem('authToken');
     if (!token) {
-      console.error("Aucun token d'authentification trouvé.");
-      this.router.navigate(['/login']); // Rediriger vers la page de connexion
+      console.error("No authentication token found.");
+      this.router.navigate(['/login']);
       return;
     }
-  
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); // Ajouter le token aux headers
-  
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
     if (!this.userId) {
-      console.error("Utilisateur non trouvé.");
+      console.error("User not found.");
       return;
     }
-  
-    if (confirm("Êtes-vous sûr de vouloir supprimer ce covoiturage ?")) {
+
+    if (confirm("Are you sure you want to delete this carpool?")) {
       this.carpoolService.deleteCarpool(carpoolId, this.userId, headers).subscribe({
         next: () => {
-          console.log("Covoiturage supprimé avec succès !");
-          this.loadCarpools(); // Recharger la liste des covoiturages
+          console.log("Carpool deleted successfully!");
+          this.loadCarpools();
         },
         error: (err) => {
-          console.error("Erreur lors de la suppression du covoiturage", err);
+          console.error("Error deleting carpool:", err);
         }
       });
     }
   }
 
-
-
-  
-
+  // Load users who joined a carpool with their number of places
   loadUsersWhoJoined(carpoolId: number): void {
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
-    // Afficher l'état de chargement
-    this.isLoading = true; // Assurez-vous de déclarer la variable isLoading dans la classe (voir ci-dessous)
-  
+
+    this.isLoading = true;
+
+    // Fetch users who joined
     this.carpoolService.getUsersWhoJoinedCarpool(carpoolId, headers).subscribe({
       next: (users) => {
-        console.log("Utilisateurs ayant rejoint le covoiturage :", users);
-        this.usersWhoJoined = users; // Stocker les utilisateurs dans la variable
-  
-        // Si aucun utilisateur n'a rejoint, afficher un message
-        if (this.usersWhoJoined.length === 0) {
-          this.noUsersMessage = "Aucun utilisateur n'a rejoint ce covoiturage."; // Déclarez cette variable dans la classe (voir ci-dessous)
-        } else {
-          this.noUsersMessage = ''; // Réinitialiser le message
-        }
-  
-        // Arrêter l'état de chargement
-        this.isLoading = false; // Réinitialiser l'état de chargement
+        // Fetch carpool details to get joinedUsersPlaces
+        this.carpoolService.getCarpoolById(carpoolId, headers).subscribe({
+          next: (carpool) => {
+            // Parse joinedUsersPlaces JSON
+            let placesMap: { [key: number]: number } = {};
+            try {
+              if (carpool.joinedUsersPlaces) {
+                placesMap = JSON.parse(carpool.joinedUsersPlaces);
+              }
+            } catch (e) {
+              console.error("Error parsing joinedUsersPlaces:", e);
+            }
+
+            // Merge user details with numberOfPlaces
+            this.usersWhoJoined = users.map((user: any) => ({
+              userId: user.userId,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              numberOfPlaces: placesMap[user.userId] || 0
+            }));
+
+            console.log("Users who joined the carpool:", this.usersWhoJoined);
+            this.noUsersMessage = this.usersWhoJoined.length === 0 ? "No users have joined this carpool." : "";
+            this.isLoading = false;
+          },
+          error: (err) => {
+            console.error("Error loading carpool details:", err);
+            this.isLoading = false;
+            this.noUsersMessage = "Error loading users.";
+          }
+        });
       },
       error: (err) => {
-        console.error("Erreur lors du chargement des utilisateurs ayant rejoint le covoiturage", err);
-        this.isLoading = false; // Arrêter l'état de chargement en cas d'erreur
-      },
+        console.error("Error loading users who joined the carpool:", err);
+        this.isLoading = false;
+        this.noUsersMessage = "Error loading users.";
+      }
     });
   }
-  
-  
 }
