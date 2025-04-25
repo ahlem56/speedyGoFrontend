@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+// dark mode 
+/* Global Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+  }
+  
+  body.dark-mode .settings-container {
+    background-color: #1e1e1e;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+  }
+  
+  body.dark-mode .settings-section {
+    background-color: #2c2c2c;
+    box-shadow: 0px 2px 6px rgba(255, 255, 255, 0.05);
+  }
+  
+  body.dark-mode h2, 
+  body.dark-mode h3 {
+    color: #ffffff;
+  }
+  
+  body.dark-mode label {
+    color: #bbbbbb;
+  }
+  
+  body.dark-mode input {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+  }
+  
+  body.dark-mode .toggle .slider {
+    background: #444;
+  }
+  
+  body.dark-mode .save-btn {
+    background: #007bff;
+  }
+  
+  body.dark-mode .save-btn:hover {
+    background: #0056b3;
+  }
+  .toast-bottom-right {
+    bottom: 20px !important;
+    right: 20px !important;
+  }
+  
+  .toast {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+  }
+  
+  .toast-success {
+    background-color: #4caf50 !important;
+  }
+  
+  .toast-error {
+    background-color: #f44336 !important;
+  }
+  

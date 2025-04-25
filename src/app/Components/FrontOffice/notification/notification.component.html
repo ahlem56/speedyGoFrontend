@@ -1,0 +1,39 @@
+<!-- Notification Component -->
+<div class="notifications-title">
+  <h2>Notifications</h2>
+</div>
+<div *ngFor="let notification of notifications" class="notification" [ngClass]="{
+  'acceptance': notification.type === 'acceptance',
+  'refusal': notification.type === 'refusal',
+  'event': notification.type === 'event',
+  'default': notification.type !== 'acceptance' && notification.type !== 'refusal' && notification.type !== 'event'
+}">
+  <div class="notification-header">
+    <div class="notification-icon">
+      <i class="fa" 
+        [ngClass]="{
+          'fa-check-circle': notification.type === 'acceptance',
+          'fa-times-circle': notification.type === 'refusal',
+          'fa-bell': notification.type === 'event',
+          'fa-info-circle': notification.type === 'default'
+        }"></i>
+    </div>
+    <div class="notification-text">
+      <h4 class="notification-title">
+        {{ 
+          notification.type === 'refusal' ? 'Trip Refusal' : 
+          (notification.type === 'event' ? 'Event Notification' : 
+          (notification.type === 'acceptance' ? 'Trip Acceptance' : 'Trip Notification'))
+        }}
+      </h4>
+      <p class="notification-time">{{ notification.time | date: 'short' }}</p>
+    </div>
+  </div>
+  <div class="notification-body">
+    <p *ngIf="notification.type !== 'event'"><strong>Departure:</strong> {{ notification.departure }}</p>
+    <p *ngIf="notification.type !== 'event'"><strong>Destination:</strong> {{ notification.destination }}</p>
+    <p *ngIf="notification.type === 'trip'"><strong>Price:</strong> {{ notification.price | currency:'TND' }}</p>
+    <p *ngIf="notification.type === 'trip'"><strong>Number of Passengers:</strong> {{ notification.passengers }}</p>
+    <p>{{ notification.message }}</p>
+  </div>
+</div>

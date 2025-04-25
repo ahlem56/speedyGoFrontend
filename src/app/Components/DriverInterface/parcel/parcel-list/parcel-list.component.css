@@ -1,0 +1,69 @@
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3b1212;
+  margin-bottom: 20px;
+}
+
+.parcel-card {
+  border-radius: 10px;
+  background-color: #fdf9f9;
+  color: rgb(49, 18, 18);
+  transition: transform 0.3s ease-in-out;
+}
+
+.parcel-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 14px;
+}
+
+.no-data {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Couleurs personnalisées pour les boutons */
+.mat-raised-button {
+  text-transform: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button[disabled] {
+  opacity: 0.6; /* Effet lorsque le bouton est désactivé */
+}
+
+button.mat-raised-button[color="accent"] {
+  background-color: #FF4081; /* Couleur accent personnalisée (rose) */
+  color: white;
+}
+
+button.mat-raised-button[color="primary"] {
+  background-color: #2196F3; /* Couleur primaire personnalisée (bleu) */
+  color: white;
+}
+
+button.mat-raised-button[color="warn"] {
+  background-color: #f44336; /* Couleur d'alerte personnalisée (rouge) */
+  color: white;
+}
+
+/* Ajout d'espacement entre l'icône et le texte */
+.mat-icon {
+  margin-right: 8px;
+}

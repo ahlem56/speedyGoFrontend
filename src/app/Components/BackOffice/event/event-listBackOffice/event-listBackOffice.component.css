@@ -1,0 +1,144 @@
+/* Container styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Header Row */
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header-row h2 {
+    font-size: 2rem;
+    color: #1976d2; /* Material blue */
+    font-weight: 500;
+  }
+  
+  /* New Event Button */
+  .create-btn {
+    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  /* Error Message */
+  .error-message {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  /* Search Field */
+  .search-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  .mat-form-field.mat-form-field-appearance-fill .mat-form-field-infix {
+    padding: 10px 12px;
+  }
+  
+  /* Table Styles */
+  .table-container {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  table.mat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+  }
+  
+  table.mat-table th {
+    font-weight: 600;
+    text-align: left;
+    padding: 12px 16px;
+    background-color: #f1f1f1;
+  }
+  
+  table.mat-table td {
+    padding: 12px 16px;
+    text-align: left;
+  }
+  
+  table.mat-table th.mat-sort-header-sorted {
+    color: #1976d2;
+  }
+  
+  .mat-sort-header {
+    cursor: pointer;
+  }
+  
+  .mat-icon-button {
+    border-radius: 4px;
+  }
+  
+  /* Table Row Hover Effect */
+  tr.mat-row:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Actions Column */
+  td.text-center {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .mat-icon-button {
+    padding: 6px;
+    border-radius: 4px;
+  }
+  
+  /* Loading and No Data State */
+  .mat-no-data {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    color: #757575;
+  }
+  
+  /* Paginator */
+  .mat-paginator {
+    margin-top: 20px;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .header-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .header-row h2 {
+      font-size: 1.5rem;
+    }
+  
+    .create-btn {
+      margin-top: 10px;
+    }
+  
+    .mat-form-field {
+      margin-bottom: 15px;
+    }
+  
+    table.mat-table {
+      font-size: 0.9rem;
+    }
+  
+    table.mat-table th, table.mat-table td {
+      padding: 8px;
+    }
+  }
+  

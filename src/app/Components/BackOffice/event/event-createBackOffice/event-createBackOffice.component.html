@@ -1,0 +1,61 @@
+<!-- event-create-back-office.component.html -->
+<div class="container mt-5">
+    <h2 class="text-primary">Create New Event</h2>
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="form-container">
+  
+      <!-- Event Date -->
+      <div class="mb-4">
+        <label for="eventDate" class="form-label">Event Date</label>
+        <input type="datetime-local" class="form-control" id="eventDate" formControlName="eventDate">
+        <div *ngIf="eventForm.get('eventDate')?.hasError('required') && eventForm.get('eventDate')?.touched"
+             class="text-danger error-text">
+          Event date is required
+        </div>
+      </div>
+  
+      <!-- Event Description -->
+      <div class="mb-4">
+        <label for="eventDescription" class="form-label">Description</label>
+        <textarea class="form-control" id="eventDescription" formControlName="eventDescription" rows="4"></textarea>
+        <div *ngIf="eventForm.get('eventDescription')?.hasError('required') && eventForm.get('eventDescription')?.touched"
+             class="text-danger error-text">
+          Description is required
+        </div>
+        <div *ngIf="eventForm.get('eventDescription')?.hasError('minlength')"
+             class="text-danger error-text">
+          Minimum 10 characters required
+        </div>
+        <div *ngIf="eventForm.get('eventDescription')?.hasError('maxlength')"
+             class="text-danger error-text">
+          Maximum 1000 characters allowed
+        </div>
+      </div>
+  
+      <!-- Event Location -->
+      <div class="mb-4">
+        <label for="eventLocation" class="form-label">Location</label>
+        <input type="text" class="form-control" id="eventLocation" formControlName="eventLocation">
+        <div *ngIf="eventForm.get('eventLocation')?.hasError('required') && eventForm.get('eventLocation')?.touched"
+             class="text-danger error-text">
+          Location is required
+        </div>
+        <div *ngIf="eventForm.get('eventLocation')?.hasError('minlength')"
+             class="text-danger error-text">
+          Minimum 5 characters required
+        </div>
+        <div *ngIf="eventForm.get('eventLocation')?.hasError('maxlength')"
+             class="text-danger error-text">
+          Maximum 200 characters allowed
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary w-100" [disabled]="!eventForm.valid">
+          Create Event
+        </button>
+        <div *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</div>
+      </div>
+    </form>
+  </div>
+  

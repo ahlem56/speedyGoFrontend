@@ -1,0 +1,44 @@
+<div class="settings-container">
+  <h2>Account Settings</h2>
+
+  <div class="settings-section">
+    <h3>Profile</h3>
+    <label>
+      Full Name:
+      <input type="text" [(ngModel)]="name" placeholder="Enter your name">
+    </label>
+    <label>
+      Email:
+      <input type="email" [(ngModel)]="email" placeholder="Enter your email">
+    </label>
+  </div>
+
+  <div class="settings-section">
+    <h3>Preferences</h3>
+    <label class="toggle">
+      <input type="checkbox" [(ngModel)]="darkMode" (change)="toggleDarkMode()">
+      <span class="slider"></span>
+      Dark Mode
+    </label>
+
+    <label class="toggle">
+      <input type="checkbox" [(ngModel)]="notifications">
+      <span class="slider"></span>
+      Enable Notifications
+    </label>
+  </div>
+
+  <div class="settings-section">
+    <h3>Security</h3>
+    <label>
+      New Password:
+      <input type="password" [(ngModel)]="newPassword" placeholder="Enter new password">
+    </label>
+    <label>
+      Confirm Password:
+      <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm new password">
+    </label>
+  </div>
+
+  <button class="save-btn" (click)="saveSettings()">Save Changes</button>
+</div>

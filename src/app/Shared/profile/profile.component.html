@@ -1,0 +1,264 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <h2 class="profile-title">My Profile</h2>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-photo-container">
+      <img [src]="profileImageUrl" alt="Profile Photo" class="profile-photo" />
+      <input type="file" id="fileInput" (change)="onFileChange($event)" style="display: none" />
+      <button (click)="triggerFileInput()" class="change-photo-btn">Change Photo</button>
+    </div>
+
+    <div class="profile-details">
+      <div class="detail">
+        <span class="label">First Name:</span>
+        <span class="value">{{ user.firstName }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Last Name:</span>
+        <span class="value">{{ user.lastName }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Email:</span>
+        <span class="value">{{ user.email }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Address:</span>
+        <span class="value">{{ user.address }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">CIN:</span>
+        <span class="value">{{ user.cin }}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Birth Date:</span>
+        <span class="value">{{ user.birthDate | date }}</span>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="edit-btn" (click)="navigateToEditProfile()">Edit Profile</button>
+    </div>
+
+    <!-- Availability Button (only for drivers) -->
+<!-- Availability Button (only for drivers) -->
+<div *ngIf="userRole === 'Driver'" class="availability-section">
+  <h3 class="availability-title">Your Availability</h3>
+  <button (click)="toggleAvailability()" class="availability-btn" [ngClass]="{'available': isAvailable, 'not-available': !isAvailable}">
+    {{ isAvailable ? 'Set as Unavailable' : 'Set as Available' }}
+  </button>
+</div>
+
+
+
+
+    <!-- Trip History Section (Visible only for non-admin and non-driver users) -->
+    <div *ngIf="userRole !== 'Admin' && userRole !== 'Driver' " class="trip-history">
+      <h3 class="toggle-trip-history" (click)="toggleTripHistory()">
+        My Trip History
+        <span *ngIf="isTripsVisible">▲</span>
+        <span *ngIf="!isTripsVisible">▼</span>
+      </h3>
+      <div [ngClass]="{'trip-cards-container': true, 'open': isTripsVisible}">
+        <div *ngFor="let trip of trips" class="trip-card">
+          <div class="trip-details">
+            <p><strong>Departure:</strong> {{ trip.tripDeparture }}</p>
+            <p><strong>Destination:</strong> {{ trip.tripDestination }}</p>
+            <p><strong>Date:</strong> {{ trip.tripDate | date }}</p>
+            <p><strong>Number Of Passengers:</strong> {{ trip.numberOfPassengers }}</p>
+            <p><strong>Price:</strong> {{ trip.tripPrice }} DT </p>
+            <p><strong>Driver :</strong> {{ trip.driver.firstName }} {{ trip.driver.lastName }}</p>
+            <p><strong>Status:</strong> 
+              <span [ngClass]="{
+                'canceled': trip.reservationStatus === 'CANCELED', 
+                'confirmed': trip.reservationStatus === 'CONFIRMED',
+                'pending': trip.reservationStatus === 'PENDING'
+              }">{{ trip.reservationStatus }}</span>
+            </p>
+          </div>
+          
+          <!-- Display the rate button or the rating -->
+  <div *ngIf="trip.reservationStatus === 'COMPLETED'">
+    <div *ngIf="canRate(trip)">
+      <button (click)="openRatingModal(trip)" class="rate-button">Rate Trip</button>
+    </div>
+    <div *ngIf="!canRate(trip)">
+      <div class="star-rating">
+        <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= trip.ratingScore">★</span>
+        ({{ trip.ratingScore }} / 5)
+      </div>
+    </div>
+  </div>
+        
+          <!-- Rating Modal -->
+          <div *ngIf="isRatingModalOpen && tripToRate === trip" class="rating-modal">
+            <div class="modal-content">
+              <span class="close-btn" (click)="closeRatingModal()">&times;</span>
+              <h3>Rate Your Trip</h3>
+              
+              <div class="star-rating">
+                <span *ngFor="let star of [1,2,3,4,5]" class="star" 
+                      [class.filled]="star <= currentRating"
+                      (click)="setRating(star)">★</span>
+              </div>
+              
+              <textarea [(ngModel)]="ratingComment" placeholder="Leave a comment (optional)" rows="4"></textarea>
+              
+              <button (click)="submitRating()">Submit Rating</button>
+            </div>
+          </div>
+        
+        
+
+    
+  <!-- Rating Display Section -->
+  <div *ngIf="trip.isRated">
+    <div class="star-rating">
+      <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= trip.ratingScore">★</span>
+      ({{ trip.ratingScore }} / 5)
+    </div>
+  </div>
+ 
+  <div *ngIf="trip.reservationStatus !== 'COMPLETED' && trip.reservationStatus !== 'CANCELED'">
+          <button (click)="deleteTrip(trip.tripId)" class="cancel-trip-btn">Cancel Trip</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  
+        <!-- Parcel History Section -->
+         <div *ngIf="userRole !== 'Admin' && 'Driver' " class="parcel-history">
+          
+          <h3 class="toggle-parcel-history" (click)="toggleParcelHistory()">
+            My Parcel History
+            <span *ngIf="isParcelsVisible">▲</span>
+            <span *ngIf="!isParcelsVisible">▼</span>
+          </h3>
+          <div [ngClass]="{'parcel-cards-container': true, 'open': isParcelsVisible}">
+            <div *ngFor="let parcel of parcels" class="parcel-card">
+              <div class="parcel-details">
+                <p><strong>Departure:</strong> {{ parcel.parcelDeparture }}</p>
+                <p><strong>Destination:</strong> {{ parcel.parcelDestination }}</p>
+                <p><strong>Weight:</strong> {{ parcel.parcelWeight }} kg</p>
+                <p><strong>Price:</strong> DT{{ parcel.parcelPrice }}</p>
+                <p><strong>Status:</strong> {{ parcel.status }}</p>
+              </div>
+              <button 
+        [disabled]="parcel.status === 'SHIPPED'" 
+        [ngClass]="{'disabled-btn': parcel.status === 'SHIPPED'}"
+        (click)="deleteParcel(parcel.parcelId)" 
+        class="cancel-parcel-btn">
+        Cancel Parcel
+      </button>           </div>
+          </div>
+      
+ <!-- Carpool History Section -->
+<div *ngIf="userRole !== 'Admin' && 'Driver' " class="trip-history">
+  <h3 class="toggle-trip-history" (click)="toggleCarpoolHistory()">
+    My Carpool History
+    <span *ngIf="isCarpoolVisible">▲</span>
+    <span *ngIf="!isCarpoolVisible">▼</span>
+  </h3>
+
+  <div [ngClass]="{'carpool-cards-container': true, 'open': isCarpoolVisible}">
+    <!-- Display carpool history as cards -->
+    <div *ngFor="let offer of carpoolOffers" class="carpool-card">
+      <div class="carpool-details">
+        <p><strong>Departure:</strong> {{ offer.carpoolDeparture }}</p>
+        <p><strong>Destination:</strong> {{ offer.carpoolDestination }}</p>
+        <p><strong>Date:</strong> {{ offer.carpoolDate | date }}</p>
+        <p><strong>Time:</strong> {{ offer.carpoolTime }}</p>
+        <p><strong>Price:</strong> DT{{ offer.carpoolPrice }}</p>
+        <p>
+
+        </p>
+      </div>
+    
+      <!-- Afficher le bouton "Cancel Carpool" uniquement si le covoiturage n'est pas dans le passé -->
+      <button
+        *ngIf="!isCarpoolInPast(offer.carpoolDate, offer.carpoolTime)"
+        (click)="cancelCarpool(offer.carpoolId)"
+        class="cancel-carpool-btn"
+      >
+        Cancel Carpool
+      </button>
+    </div>
+    <!-- Message if no carpool offers -->
+    <p *ngIf="carpoolOffers.length === 0">No carpool history available.</p>
+  </div>
+</div>
+  </div>
+<!-- Rating Section -->
+<div *ngIf="userRole !== 'Admin'" class="trip-history">
+  <h3 class="toggle-trip-history" (click)="toggleRatingHistory()">
+    My Ratings
+    <span *ngIf="isRatingsVisible">▲</span>
+    <span *ngIf="!isRatingsVisible">▼</span>
+  </h3>
+  
+  <div [ngClass]="{'trip-cards-container': true, 'open': isRatingsVisible}">
+    <!-- Ratings Received -->
+    <div *ngIf="userRole !== 'SimpleUser'  " class="rating-subsection">
+      <h4>Ratings Received</h4>
+      
+      <div *ngFor="let rating of ratingsReceived" class="trip-card">
+        <div class="trip-details">
+          <p>
+            <strong>Rating:</strong> 
+            <span class="star-rating">
+              <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= rating.score">★</span>
+              ({{rating.score}}/5)
+            </span>
+          </p>
+          <p><strong>Comment:</strong> {{ rating.comment || 'No comment provided' }}</p>
+          <p><strong>Trip:</strong> {{ rating.trip.tripDeparture }} <strong>-</strong>  {{ rating.trip.tripDestination }}</p> <!-- Adjust this line -->
+          <p><strong>From:</strong> {{ rating.rater.firstName }} {{ rating.rater.lastName }}</p>
+        </div>
+      </div>
+      
+      <div *ngIf="ratingsReceived.length === 0" class="no-history-message">
+        No ratings received yet
+      </div>
+    </div>
+
+    <!-- Ratings Given -->
+    <div *ngIf="userRole !== 'Driver'  " class="rating-subsection">
+      <h4>Ratings Given</h4>
+      
+      <div *ngFor="let rating of ratingsGiven" class="trip-card">
+        <div class="trip-details">
+          <p>
+            <strong>Rating:</strong> 
+            <span class="star-rating">
+              <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= rating.score">★</span>
+              ({{rating.score}}/5)
+            </span>
+          </p>
+          <p><strong>Comment:</strong> {{ rating.comment || 'No comment provided' }}</p>
+          <p><strong>To:</strong> {{ rating.rated.firstName }} {{ rating.rated.lastName }}</p>
+          <p><strong>Trip:</strong> {{ rating.trip.tripDeparture }} <strong>-</strong>  {{ rating.trip.tripDestination }}</p> <!-- Adjust this line -->
+
+        </div>
+      </div>
+      
+      <div *ngIf="ratingsGiven.length === 0" class="no-history-message">
+        No ratings given yet
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SOS Button -->
+<div class="sos-container">
+  <button (click)="triggerSOS()" class="sos-btn">SOS</button>
+  <input type="email" [(ngModel)]="user.emergencyContactEmail" placeholder="Enter Emergency Contact Email" required>
+
+</div>
+
