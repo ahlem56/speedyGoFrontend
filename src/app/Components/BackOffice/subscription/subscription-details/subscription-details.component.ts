@@ -16,6 +16,7 @@ export class SubscriptionDetailsBackOfficeComponent {
   subscriptionDescription: string = '';
   showExistingSubscriptions: boolean = false;  // Toggle for showing subscriptions
   subscriptions: any[] = [];  // This will hold the existing subscriptions
+  durationInMonths: number = 1; // Duration in months for the subscription
 
   constructor(private subscriptionService: SubscriptionService,
     private router: Router // Inject Router to navigate to the edit page
@@ -48,6 +49,8 @@ export class SubscriptionDetailsBackOfficeComponent {
       subscriptionType: this.subscriptionType,
       subscriptionPrice: this.subscriptionPrice,
       subscriptionDescription: this.subscriptionDescription,
+      durationInMonths: this.durationInMonths // Added duration field here
+
     };
 
     this.subscriptionService.createSubscription(subscriptionData).subscribe(

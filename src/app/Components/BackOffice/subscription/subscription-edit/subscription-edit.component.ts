@@ -8,14 +8,15 @@ import { SubscriptionService } from 'src/app/Core/subscription.service';
   selector: 'app-subscription-edit',
   templateUrl: './subscription-edit.component.html',
   styleUrls: ['./subscription-edit.component.css'],
-  imports : [FormsModule, CommonModule]
+  imports: [FormsModule, CommonModule]
 })
 export class SubscriptionEditBackOfficeComponent implements OnInit {
   subscriptionId: number | null = null;  // Initialize as null
   subscription: any = {
     subscriptionType: '',
     subscriptionPrice: 0,
-    subscriptionDescription: ''
+    subscriptionDescription: '',
+    durationInMonths: 0  // Add durationInMonths
   };
 
   constructor(
@@ -56,7 +57,7 @@ export class SubscriptionEditBackOfficeComponent implements OnInit {
         (response) => {
           console.log('Subscription updated successfully:', response);
           alert('Subscription updated successfully!');
-          this.router.navigate(['back-office/subscriptions']); // Navigate back to the details page
+          this.router.navigate(['back-office/subscriptions']); // Navigate back to the subscriptions list
         },
         (error) => {
           console.error('Error updating subscription:', error);

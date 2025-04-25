@@ -11,6 +11,8 @@ import { RatingService } from 'src/app/Core/rating.service';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { DriverService } from 'src/app/Core/driver.service';
+import { SubscriptionService } from 'src/app/Core/subscription.service';
+import { LocalizedString } from '@angular/compiler';
 
 
 @Component({
@@ -27,7 +29,9 @@ export class ProfileComponent implements OnInit {
   // Profile Image
   defaultProfilePhoto = 'assets/FrontOffice/images/users/user4.jpg';
   profileImageUrl = '';
-  
+  subscriptionRemainingTime: number | null = null;
+  subscriptionStartDate: Date | null = null;  // make sure this is set properly
+
   isRatingModalOpen = false;
   currentRating = 0;  // Store the selected rating
   ratingComment = ''; // Store the comment
@@ -69,6 +73,7 @@ export class ProfileComponent implements OnInit {
     private carpoolService: CarpoolService,
     private ratingService: RatingService,
     private driverService: DriverService, // Assuming you have a driver service
+    private subscriptionService: SubscriptionService, // Assuming you have a subscription service
 
   ) {}
 
@@ -76,6 +81,12 @@ export class ProfileComponent implements OnInit {
     this.loadUserData();
     this.loadProfileData();
     this.checkAvailability(); // Check availability when the component is initialized
+    this.fetchSubscriptionDetails();  // Fetch subscription details
+
+    if (this.userRole === 'SimpleUser') {
+      this.subscriptionStartDate = this.user.subscriptionStartDate;
+      // Add fallback message
+    }
   
   }
 
@@ -492,6 +503,49 @@ isTripRated(trip: any): boolean {
         }
       );
   }
+
+
+
+
+  fetchSubscriptionDetails(): void {
+    // Assuming this.user.userId is available and valid
+    this.subscriptionService.getUserSubscription(this.user.userId).subscribe({
+      next: (subscription) => {
+        console.log("Fetched subscription:", subscription);
+
+        this.user.subscription = subscription;
+        this.calculateSubscriptionRemainingTime(subscription);
+      },
+      error: (error) => console.error('Error fetching subscription details:', error)
+    });
+  }
+  
+  calculateSubscriptionRemainingTime(subscription: any): void {
+    const currentDate = new Date();
+  
+    // Ensure subscriptionStartDate is a Date object
+    let startDate = new Date(this.user.subscriptionStartDate);
+  
+    // Check if startDate is invalid
+    if (isNaN(startDate.getTime())) {
+      console.error('Invalid subscription start date');
+      return;
+    }
+  
+    console.log("Subscription Start Date:", startDate);
+  
+    // Add the subscription duration (in months) to the start date
+    const endDate = new Date(startDate);
+    endDate.setMonth(startDate.getMonth() + subscription.durationInMonths);
+  
+    const timeDiff = endDate.getTime() - currentDate.getTime();
+    const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));  // Convert milliseconds to days
+  
+    this.subscriptionRemainingTime = daysLeft;
+  }
+  
+  
+  
   
 
   

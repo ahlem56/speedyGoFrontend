@@ -18,7 +18,6 @@
                 <option value="GOLD">Gold</option>
               </select>
             </div>
-            <!-- Display validation error -->
             <div *ngIf="subscriptionTypeField.invalid && subscriptionTypeField.touched" class="text-danger">
               Subscription Type is required.
             </div>
@@ -31,7 +30,6 @@
               <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
               <input type="number" id="subscriptionPrice" [(ngModel)]="subscriptionPrice" name="subscriptionPrice" class="form-control" placeholder="Enter price" required min="1" #subscriptionPriceField="ngModel"/>
             </div>
-            <!-- Display validation error -->
             <div *ngIf="subscriptionPriceField.invalid && subscriptionPriceField.touched" class="text-danger">
               Price is required and must be greater than 0.
             </div>
@@ -44,9 +42,20 @@
               <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
               <input type="text" id="subscriptionDescription" [(ngModel)]="subscriptionDescription" name="subscriptionDescription" class="form-control" placeholder="Enter description" required minlength="4" #subscriptionDescriptionField="ngModel"/>
             </div>
-            <!-- Display validation error -->
             <div *ngIf="subscriptionDescriptionField.invalid && subscriptionDescriptionField.touched" class="text-danger">
               Description is required and must have at least 4 characters.
+            </div>
+          </div>
+
+          <!-- Subscription Duration -->
+          <div class="form-group">
+            <label for="durationInMonths" class="text-dark">Duration (Months)</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+              <input type="number" id="durationInMonths" [(ngModel)]="durationInMonths" name="durationInMonths" class="form-control" placeholder="Enter duration in months" required min="1" #durationInMonthsField="ngModel"/>
+            </div>
+            <div *ngIf="durationInMonthsField.invalid && durationInMonthsField.touched" class="text-danger">
+              Duration is required and must be greater than 0.
             </div>
           </div>
 
@@ -65,12 +74,15 @@
       <!-- Existing Subscriptions List -->
       <div *ngIf="showExistingSubscriptions" class="card shadow-sm p-4">
         <h4 class="text-center mb-4">Existing Subscriptions</h4>
-        <ul class="list-group">
-          <li *ngFor="let sub of subscriptions" class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <strong>{{ sub.subscriptionType }}</strong> - {{ sub.subscriptionPrice }} TND
+        <div class="list-group">
+          <div *ngFor="let sub of subscriptions" class="subscription-card">
+            <div class="subscription-details">
+              <h5 class="text-dark font-weight-bold">{{ sub.subscriptionType }}</h5>
+              <p class="mb-2"><strong>{{ sub.subscriptionPrice }} TND</strong></p>
+              <p class="mb-2">{{ sub.subscriptionDescription }}</p>
+              <p class="mb-2"><strong>{{ sub.durationInMonths }} months</strong></p>
             </div>
-            <div>
+            <div class="subscription-actions">
               <button (click)="editSubscription(sub)" class="btn btn-warning btn-sm mr-2">
                 <i class="fas fa-edit"></i> Edit
               </button>
@@ -78,8 +90,8 @@
                 <i class="fas fa-trash"></i> Delete
               </button>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -267,10 +267,33 @@
 </div>
 
 
+<div class="subscription-card">
+  <div class="subscription-header">
+    <h3>{{ user.subscription.subscriptionType }} Subscription</h3>
+    <p class="subscription-duration">{{ user.subscription.durationInMonths }} Months</p>
+  </div>
+  <div class="subscription-body">
+    <div class="subscription-detail">
+      <span class="label">Start Date:</span>
+      <span class="value">{{ user.subscriptionStartDate | date: 'shortDate' }}</span>
+    </div>
+    <div class="subscription-detail">
+      <span class="label">Time Remaining:</span>
+      <span class="value">{{ subscriptionRemainingTime !== null ? subscriptionRemainingTime + ' days' : 'Loading...' }}</span>
+    </div>
+  </div>
+  <div class="subscription-footer">
+    <!-- Footer content or additional actions (like Renew button) can be added here if needed -->
+  </div>
+</div>
+
+
+
+
 <!-- SOS Button -->
 <div class="sos-container">
-  <button (click)="triggerSOS()" class="sos-btn">SOS</button>
   <input type="email" [(ngModel)]="user.emergencyContactEmail" placeholder="Enter Emergency Contact Email" required>
+  <button (click)="triggerSOS()" class="sos-btn">SOS</button>
 
 </div>
 
