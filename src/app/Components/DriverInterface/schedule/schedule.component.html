@@ -1,1 +1,14 @@
-<p>schedule works!</p>
+<div class="schedule">
+    <div *ngFor="let dateGroup of groupedTasks | keyvalue" class="day-card">
+      <h3>{{ dateGroup.key }}</h3>
+      <div *ngFor="let task of dateGroup.value" class="task-card">
+        <div *ngIf="task.type === 'parcel'">
+          📦 <strong>Colis</strong> - Statut : {{ task.status }}
+        </div>
+        <div *ngIf="task.type === 'trip'">
+          🚌 <strong>Trajet</strong> - Statut : {{ task.reservationStatus }}
+        </div>
+      </div>
+    </div>
+  </div>
+  

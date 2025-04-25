@@ -252,7 +252,7 @@ const routes: Routes = [
       { path: 'back-office/complaints', component: ComplaintListBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/complaints/:id', component: ComplaintDetailsBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/parcels', component: ParcelListBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
-      { path: 'back-office/parcels/:id', component: ParcelDetailBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
+      { path: 'back-office/parcels/damage', component: ParcelDetailBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/parcels/track', component: ParcelTrackBackOfficeComponent },
       { path: 'back-office/payments/history', component: PaymentHistoryBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/payments/method', component: PaymentMethodBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},

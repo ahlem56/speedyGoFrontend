@@ -7,7 +7,7 @@ import { SubscriptionService } from 'src/app/Core/subscription.service';
 @Component({
   selector: 'app-subscription-edit',
   templateUrl: './subscription-edit.component.html',
-  styleUrls: ['./subscription-edit.component.css'],
+  styleUrls: ['./subscription-edit.component.scss'],
   imports : [FormsModule, CommonModule]
 })
 export class SubscriptionEditBackOfficeComponent implements OnInit {

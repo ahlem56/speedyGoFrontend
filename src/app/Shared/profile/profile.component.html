@@ -167,9 +167,31 @@
         (click)="deleteParcel(parcel.parcelId)" 
         class="cancel-parcel-btn">
         Cancel Parcel
-      </button>           </div>
+      </button>     
+     <!-- DAMAGED BUTTON visible uniquement si le colis est livré -->
+     <button 
+     *ngIf="parcel.status === 'DELIVERED'" 
+     (click)="openDamageModal(parcel)" 
+     class="damaged-parcel-btn">
+     Report Damaged
+   </button>
+        </div>
           </div>
-      
+      <!-- MODAL POUR SIGNLER UN COLIS ENDOMMAGÉ -->
+<div *ngIf="isDamageModalOpen" class="damage-modal">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeDamageModal()">&times;</span>
+    <h3>Report Damaged Parcel</h3>
+
+    <label>Upload an image:</label>
+    <input type="file" (change)="onDamageFileChange($event)" />
+
+    <label>Description:</label>
+    <textarea [(ngModel)]="damageDescription" rows="4" placeholder="Describe the damage..."></textarea>
+
+    <button (click)="submitDamageReport()" class="submit-damage-btn">Submit</button>
+  </div>
+</div>
  <!-- Carpool History Section -->
 <div *ngIf="userRole !== 'Admin' && 'Driver' " class="trip-history">
   <h3 class="toggle-trip-history" (click)="toggleCarpoolHistory()">

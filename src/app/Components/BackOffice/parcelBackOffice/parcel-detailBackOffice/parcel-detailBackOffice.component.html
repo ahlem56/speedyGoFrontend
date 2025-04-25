@@ -1,1 +1,16 @@
-<p>parcel-detail works!</p>
+<div class="damaged-parcels">
+    <h2>dameged Parcel</h2>
+  
+    <div *ngFor="let parcel of damagedParcels" class="damaged-parcel">
+      <div class="image-container">
+        <!-- Affichage de l'image du colis endommagé -->
+        <img [src]="parcel.damageImageUrl" alt="Image " class="damaged-image" />
+      </div>
+      <div class="description">
+        <!-- Affichage de la description du dommage -->
+        <p><strong>Description :</strong> {{ parcel.damageDescription }}</p>
+        <p><strong>Reported on:</strong> {{ parcel.damageReportedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+    </div>
+  </div>
+  

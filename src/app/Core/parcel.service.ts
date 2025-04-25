@@ -93,4 +93,35 @@ getRevenueByMonth(): Observable<any> {
   return this.http.post<any>(url, body);
 }*/
 
+//DAMAGED PARCEL
+// Ajout de la méthode pour signaler un colis endommagé
+  reportDamagedParcel(parcelId: number, image: File, description: string): Observable<any> {
+    const url = `${this.apiUrl}${parcelId}/report-damage`;
+
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('description', description);
+
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post(url, formData, {
+      headers: headers,
+      responseType: 'text' // Traitement de la réponse comme texte brut
+    });  }
+
+// Méthode pour récupérer tous les colis endommagés
+getDamagedParcels(): Observable<any[]> {
+  const url = `${this.apiUrl}damaged`; // L'URL pour récupérer les colis endommagés
+  const token = localStorage.getItem('authToken');  // Récupérer le token depuis localStorage
+
+  let headers = new HttpHeaders();
+  if (token) {
+    headers = headers.set('Authorization', `Bearer ${token}`);  // Ajouter le token aux headers
+  }
+
+  return this.http.get<any[]>(url, { headers });
+}
 }

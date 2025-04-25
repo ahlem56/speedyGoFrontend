@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 import { DriverService } from 'src/app/Core/driver.service';
 
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -42,6 +43,11 @@ export class ProfileComponent implements OnInit {
   parcels: any[] = [];
   isParcelsVisible = false;
   
+   // Variables pour gérer le modal de signalement de colis endommagé
+ isDamageModalOpen = false;
+ damageFile: File | null = null;
+ selectedParcel: any = null;
+ damageDescription: string = ''; // Description for the damage report 
   // Payment Data
   payments: any[] = [];
   isPaymentsVisible = false;
@@ -57,6 +63,7 @@ export class ProfileComponent implements OnInit {
   isRatingsVisible = false;
 
   isAvailable: boolean = false; // Default to not available
+
 
 
   constructor(
@@ -249,6 +256,7 @@ export class ProfileComponent implements OnInit {
   // Navigation
   navigateToEditProfile(): void {
     this.router.navigate(['/edit-profile']);
+    
   }
 
 
@@ -494,5 +502,46 @@ isTripRated(trip: any): boolean {
   }
   
 
-  
+
+ // Méthodes
+openDamageModal(parcel: any): void {
+  this.selectedParcel = parcel;
+  this.isDamageModalOpen = true;
+}
+
+closeDamageModal(): void {
+  this.isDamageModalOpen = false;
+  this.selectedParcel = null;
+  this.damageFile = null;
+  this.damageDescription = '';
+}
+
+onDamageFileChange(event: any): void {
+  const file = event.target.files[0];
+  if (file) {
+    this.damageFile = file;
+  }
+}
+
+submitDamageReport(): void {
+  if (this.selectedParcel && this.damageFile && this.damageDescription) {
+    this.parcelService.reportDamagedParcel(
+      this.selectedParcel.parcelId,
+      this.damageFile,
+      this.damageDescription
+    ).subscribe({
+      next: () => {
+        alert('✅  Report sent successfully.');
+        this.closeDamageModal();
+      },
+      error: (err) => {
+        console.error('❌ Erreur :', err);
+        alert(err.error?.message || 'Error during submission.');
+      }
+    });
+  } else {
+    alert('📌Please provide an image and a description.');
+  }
+}
+
 }

@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-stripe',
   templateUrl: './stripe.component.html',
-  styleUrls: ['./stripe.component.css'],
+  styleUrls: ['./stripe.component.scss'],
   imports: [FormsModule,CommonModule]
 })
 export class StripePaymentComponent implements OnInit {
