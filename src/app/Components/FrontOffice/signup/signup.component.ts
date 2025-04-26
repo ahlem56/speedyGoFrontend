@@ -7,8 +7,9 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css'],
-  imports:[ReactiveFormsModule, CommonModule]  // Import ReactiveFormsModule and CommonModule directly here
+  styleUrls: ['./signup.component.scss'],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule]  // Import ReactiveFormsModule and CommonModule directly here
 })
 export class SignupComponent {
   signupForm: FormGroup;

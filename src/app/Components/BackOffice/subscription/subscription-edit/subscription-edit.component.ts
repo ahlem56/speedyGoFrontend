@@ -7,8 +7,9 @@ import { SubscriptionService } from 'src/app/Core/subscription.service';
 @Component({
   selector: 'app-subscription-edit',
   templateUrl: './subscription-edit.component.html',
-  styleUrls: ['./subscription-edit.component.css'],
-  imports : [FormsModule, CommonModule]
+  styleUrls: ['./subscription-edit.component.scss'],
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
 export class SubscriptionEditBackOfficeComponent implements OnInit {
   subscriptionId: number | null = null;  // Initialize as null

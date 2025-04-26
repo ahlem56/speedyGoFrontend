@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
   imports: [ReactiveFormsModule, CommonModule],
+  standalone: true
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
@@ -38,6 +39,6 @@ export class ForgotPasswordComponent {
         );
     }
   }
-  
-  
+
+
 }

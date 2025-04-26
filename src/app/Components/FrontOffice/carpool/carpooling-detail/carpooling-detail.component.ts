@@ -9,7 +9,7 @@ import { NgClass } from '@angular/common';
   styleUrls: ['./carpooling-detail.component.css']
 })
 export class CarpoolingDetailFrontOfficeComponent implements OnInit {
-  carpoolDetails: any; // Détails du covoiturage
+  protected carpoolDetails: any; // Détails du covoiturage
   carpoolId!: number; // ID du covoiturage
   errorMessage: string = ''; // Message d'erreur
   successMessage: string = ''; // Message de succès
@@ -78,23 +78,23 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-  
+
     const user = JSON.parse(storedUser);
     const userId = user.userId;
-  
+
     const token = localStorage.getItem('authToken');
     if (!token) {
       this.errorMessage = "❌ Aucun token trouvé. Veuillez vous connecter.";
       this.router.navigate(['/login']);
       return;
     }
-  
+
     console.log("Token envoyé :", token); // Vérifie si le token est bien récupéré
-  
+
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json'); // Assure-toi que le header est bien formatté
-  
+
     this.carpoolService.joinCarpool(this.carpoolId, userId, headers).subscribe({
       next: () => {
         this.successMessage = "✅ Vous avez rejoint ce covoiturage avec succès !";
@@ -105,7 +105,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
       },
       error: (error) => {
         console.error("❌ Erreur lors de la tentative de rejoindre le covoiturage :", error);
-  
+
         if (error.status === 401) {
           this.errorMessage = "⛔ You can't join this carpool !";
         } else if (error.status === 403) {
@@ -116,7 +116,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
       }
     });
   }
-  
+
   loadOffererDetails(): void {
     const token = localStorage.getItem('authToken');
     if (!token) {

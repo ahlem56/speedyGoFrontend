@@ -8,8 +8,9 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-stripe',
   templateUrl: './stripe.component.html',
-  styleUrls: ['./stripe.component.css'],
-  imports: [FormsModule,CommonModule]
+  styleUrls: ['./stripe.component.scss'],
+  standalone: true,
+  imports: [FormsModule, CommonModule]
 })
 export class StripePaymentComponent implements OnInit {
   @ViewChild('cardElement') cardElement!: ElementRef;
@@ -24,12 +25,12 @@ export class StripePaymentComponent implements OnInit {
 
   async ngOnInit() {
     this.stripe = await loadStripe('pk_test_51Qx4HqRtzrEMIcCeoHynfwxOuuMqaZcnnOvcTXiXbTYDUpyLlO4Dcs5PcaZ9b1PRAZ7fkOlhMAqVw98niOq3JK0c005qpUhFzy');
-  
+
     if (!this.stripe) {
       console.error('Stripe failed to initialize');
       return;
     }
-  
+
     const elements = this.stripe.elements();
     const style = {
       base: {
@@ -46,38 +47,38 @@ export class StripePaymentComponent implements OnInit {
         iconColor: '#fa755a'
       }
     };
-  
+
     this.card = elements.create('card', { style });
     this.card.mount(this.cardElement.nativeElement);
-  
+
     this.card.on('change', (event) => {
       this.cardError = event.error ? event.error.message! : '';
     });
   }
-  
+
 
   async payWithCard() {
     const { paymentMethod, error } = await this.stripe!.createPaymentMethod({
       type: 'card',
       card: this.card,
     });
-  
+
     if (error) {
       this.cardError = error.message!;
       console.error('❌ Stripe error:', error);
       return;
     }
-  
+
     console.log('✅ Stripe PaymentMethod created:', paymentMethod);
-  
+
     const payload = {
       paymentAmount: this.amount,
       paymentDate: new Date(),
       paymentMethod: 'STRIPE',
       stripePaymentMethodId: paymentMethod.id
     };
-    
-  
+
+
     this.http.post('http://localhost:8089/examen/payments/process', payload)
 .subscribe({
       next: () => {

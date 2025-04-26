@@ -16,10 +16,15 @@ export class TripService {
     const url = `${this.apiUrl}createTrip/${simpleUserId}/${driverId}`;
     return this.http.post(url, tripData, { headers });
   }
-  
+
    // Get all trips for a specific user
    getTripsForUser(userId: number, headers: HttpHeaders): Observable<any[]> {
     const url = `${this.apiUrl}getTripsForUser/${userId}`;
+    return this.http.get<any[]>(url, { headers });
+  }
+
+  getTripsByVehicle(vehicleId: number, headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}getTripsByVehicle/${vehicleId}`; // Remove leading slash
     return this.http.get<any[]>(url, { headers });
   }
 
@@ -33,11 +38,11 @@ export class TripService {
   getTripsForDriver(driverId: number, headers: HttpHeaders): Observable<any[]> {
     const url = `${this.apiUrl}getTripsForDriver/${driverId}`;
     const token = localStorage.getItem('authToken');  // Get token from localStorage
-  
+
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);  // Attach token to the headers
     }
-  
+
     return this.http.get<any[]>(url, { headers });
   }
 
@@ -49,11 +54,11 @@ export class TripService {
   acceptTrip(tripId: number, headers: HttpHeaders) {
     return this.http.put<any>(`http://localhost:8089/examen/trip/acceptTrip/${tripId}`, {}, { headers });
   }
-  
+
   refuseTrip(tripId: number, headers: HttpHeaders) {
     return this.http.put<any>(`http://localhost:8089/examen/trip/refuseTrip/${tripId}`, {}, { headers });
   }
-  
+
   completeTrip(tripId: number, headers: HttpHeaders) {
     return this.http.put<any>(`http://localhost:8089/examen/trip/completeTrip/${tripId}`, {}, { headers });
   }
@@ -62,6 +67,8 @@ export class TripService {
     const url = `${this.apiUrl}getTrip/${tripId}`;
     return this.http.get<any>(url, { headers });
   }
-  
-  
+
+
+
+
 }

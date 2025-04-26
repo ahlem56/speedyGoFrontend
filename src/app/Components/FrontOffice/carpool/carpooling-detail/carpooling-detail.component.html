@@ -38,7 +38,7 @@
         <div class="info-section">
           <h3 class="section-subtitle">Participants</h3>
           <ul class="participants-list">
-            @for (user of carpoolDetails.simpleUserJoin; track user.userId) {
+            @for (user of carpoolDetails.simpleUserJoin ; track user.userId) {
               <li>{{ user.firstName }} {{ user.lastName }} ({{ user.email }})</li>
             }
           </ul>
