@@ -12,6 +12,7 @@ import {
   ApexTheme,
   ApexGrid
 } from 'ng-apexcharts';
+import { ParcelService } from 'src/app/Core/parcel.service';
 
 export type salesChartOptions = {
   series: ApexAxisChartSeries | any;
@@ -38,7 +39,7 @@ export class SalesSummaryComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent = Object.create(null);
   public salesChartOptions: Partial<salesChartOptions>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private parcelService: ParcelService) {
     this.salesChartOptions = {
       series: [],
       chart: {
@@ -73,6 +74,8 @@ export class SalesSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSalesData();  // Fetch sales data on component load
+    this.getRevenueData();
+
   }
 
   getSalesData(): void {
@@ -98,5 +101,25 @@ export class SalesSummaryComponent implements OnInit {
     }];
 
     this.salesChartOptions.xaxis.categories = months;  // Set months as x-axis categories
+  }
+
+  
+
+  // Méthode pour récupérer les données de revenus mensuels et les lier au graphique
+  getRevenueData(): void {
+    this.parcelService.getRevenueByMonth().subscribe((data: any) => {
+      // Supposons que la réponse contient les mois et les revenus dans un format tel que [{ month: 'January', revenue: 1000 }, ...]
+      const months = data.map((item: any) => item.month);
+      const revenues = data.map((item: any) => item.revenue);
+
+      // Mettre à jour les options du graphique
+      this.salesChartOptions.series = [
+        {
+          name: 'Revenue',
+          data: revenues,
+        },
+      ];
+      this.salesChartOptions.xaxis.categories = months;
+    });
   }
 }

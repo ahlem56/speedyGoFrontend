@@ -257,9 +257,116 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
+.damaged-parcel-btn {
+  background-color: #007bff; /* Red color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 .cancel-parcel-btn:hover {
   background-color: #e00000; /* Darker red */
+}
+.damaged-parcel-btn:hover{
+  background-color: #3943a0; /* Darker red */
+}
+/* Modal Styles */
+.rating-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #2e3b45;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #e74c3c; /* Red color for hover */
+}
+
+/* Star Rating */
+.star-rating {
+  font-size: 30px;
+  color: #ffd700;
+  cursor: pointer;
+}
+
+.star {
+  margin: 0 5px;
+}
+
+.star.filled {
+  color: gold;
+}
+
+/* Modal Textarea */
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: border 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #ffb85a; /* Soft yellow border when focused */
+}
+
+/* Availability Button */
+.availability-btn {
+  background-color: #4CAF50; /* Green for available */
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.availability-btn:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
 }
 
 /* Disabled button styling */
@@ -267,6 +374,7 @@
   background-color: #ccc; /* Grey color for disabled state */
   cursor: not-allowed;
 }
+
 
 /* Additional class to apply when status is SHIPPED */
 .disabled-btn {
@@ -447,6 +555,7 @@
 .star.filled {
   color: #ffb85a; /* Matching your button color */
 }
+
 
 .no-history-message {
   color: #7f8c8d;

@@ -1,6 +1,8 @@
 <div class="filter-container">
     <h2 class="title">Parcels Management</h2>
-
+    <a href="/back-office/parcels/damage" class="damaged-link">
+        <button class="damaged-btn">DAMAGED</button>
+      </a>
     <div class="filter-container">
         <select id="status" [(ngModel)]="statusFilter" (change)="filterByStatus()">
           <option value="">All</option>

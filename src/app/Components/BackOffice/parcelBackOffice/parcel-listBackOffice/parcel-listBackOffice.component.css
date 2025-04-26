@@ -122,7 +122,32 @@ select {
     justify-content: space-around;
     align-items: center;
 }
+/* Style du bouton */
+.damaged-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(45deg, #ff4b5c, #ff7b9c);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
+/* Effet au survol du bouton */
+.damaged-btn:hover {
+    background: linear-gradient(45deg, #ff3c49, #ff5e79);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Effet lorsque le bouton est enfoncé */
+.damaged-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 /* Bouton de suppression */
 .btn-assign, .btn-delete {
     border: none;
@@ -145,6 +170,32 @@ select {
 
 .btn-delete:hover {
     color: #f44336; /* Change la couleur de l'icône sur le survol */
+}
+.table {
+    background: rgba(255, 255, 255, 0.85); /* semi-transparent */
+    backdrop-filter: blur(8px); /* flou de fond */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.table tr {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.table tr:hover {
+    background-color: #f0f4f8;
+    transform: scale(1.005);
+}
+.table td {
+    font-size: 0.95rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+.table-container {
+    border-radius: 16px;
+    background: #ffffff;
+    padding: 1.5rem;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.05);
 }
 
 /* Responsive Design */

@@ -1,11 +1,90 @@
 import { Component } from '@angular/core';
+import { ParcelService } from 'src/app/Core/parcel.service';
+import { TripService } from 'src/app/Core/trip.service';
+import { CommonModule } from '@angular/common';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-schedule',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.scss'
 })
 export class ScheduleDriverInterfaceComponent {
+  groupedTasks: { [date: string]: any[] } = {};
+  constructor(private parcelService: ParcelService, private tripService: TripService) {}
+  ngOnInit(): void {
+    this.loadTasks();
+  }
+  
 
+  loadTasks(): void {
+    const userStr = localStorage.getItem('user');
+    if (!userStr) {
+      alert('Utilisateur non trouvé !');
+      return;
+    }
+  
+    const user = JSON.parse(userStr);
+    const driverId = user.userId;
+  
+    if (!driverId || isNaN(driverId)) {
+      alert('ID du conducteur invalide !');
+      return;
+    }
+  
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`
+    });
+  
+    this.parcelService.getParcelForDriver(driverId, headers).subscribe(
+      parcels => {
+        this.tripService.getTripsForDriver(driverId, headers).subscribe(
+          trips => {
+            const tasks = [
+              ...parcels.map(p => ({ ...p, type: 'parcel' })),
+              ...trips.map(t => ({ ...t, type: 'trip' }))
+            ];
+            this.groupedTasks = this.groupByDate(tasks);
+          },
+          err => {
+            console.error('Erreur lors du chargement des trips', err);
+          }
+        );
+      },
+      err => {
+        console.error('Erreur lors du chargement des parcels', err);
+      }
+    );
+  }
+  private groupByDate(tasks: any[]): { [date: string]: any[] } {
+    const groups: { [date: string]: any[] } = {};
+  
+    tasks.forEach(task => {
+      let rawDate: string | Date | null = null;
+  
+      if (task.type === 'parcel') {
+        rawDate = task.parcelDate;
+      } else if (task.type === 'trip') {
+        rawDate = task.tripDate;
+      }
+  
+      if (rawDate) {
+        const dateObj = new Date(rawDate);
+        const dateKey = dateObj.toLocaleDateString('fr-FR', {
+          weekday: 'long',
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
+        });
+  
+        if (!groups[dateKey]) groups[dateKey] = [];
+        groups[dateKey].push(task);
+      }
+    });
+  
+    return groups;
+  }
+  
+  
 }
