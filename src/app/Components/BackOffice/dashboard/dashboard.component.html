@@ -1,215 +1,587 @@
 <!-- ============================================================== -->
-<!-- Dashboard Overview -->
+<!-- Modern Dashboard Layout -->
 <!-- ============================================================== -->
-<app-top-cards [totalUsers]="totalUsers" [totalTrips]="totalTrips"></app-top-cards>
+<div class="dashboard-container">
+  <!-- ============================================================== -->
+  <!-- Hero Section with Overview Cards -->
+  <!-- ============================================================== -->
+  <section class="dashboard-hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Transport Management Dashboard</h1>
+      <p class="hero-subtitle">Real-time insights & analytics</p>
+    </div>
+    <app-top-cards [totalUsers]="totalUsers" [totalTrips]="totalTrips" class="floating-cards"></app-top-cards>
+  </section>
 
-<!-- ============================================================== -->
-<!-- Map Section: Display the map with trips -->
-<!-- ============================================================== -->
- 
-<div class="row">
-  <div class="col-12">
-    <!-- Map Title -->
-    <h2 class="text-center" margin-right="500px">Most Visited Locations</h2>
+  <!-- ============================================================== -->
+  <!-- Interactive Map Section -->
+  <!-- ============================================================== -->
+  <section class="map-section">
+    <div class="section-header">
+      <h2 class="section-title">Most Visited Locations</h2>
+    </div>
     
-    <!-- Google Map -->
-    <google-map width="50%" height="500px" [center]="center" [zoom]="zoom">
-      <!-- Display markers for each trip -->
-      <map-marker *ngFor="let trip of trips" [position]="{ lat: trip.latitude, lng: trip.longitude }">
-        <map-info-window>{{ trip.location }} (Trips: {{ trip.tripCount }})</map-info-window>
-      </map-marker>
-    </google-map>
-  </div>
-</div>
-
-<!-- ============================================================== -->
-<!-- Top Rated Drivers Section -->
-<!-- ============================================================== -->
-<div class="row">
-  <div class="col-12">
-    <h3 class="text-center mb-4 text-dark font-weight-bold">Top 3 Rated Drivers</h3>
-    <div class="row">
-      <!-- Loop through topRatedDrivers -->
-      <div class="col-lg-4 col-md-6 mb-4" *ngFor="let driver of topRatedDrivers">
-        <div class="card driver-card shadow-lg border-0 rounded-lg hover-card">
-          <!-- Profile Photo -->
-          <div class="profile-photo-container">
-            <img 
-              [src]="'http://localhost:8089/examen/user/profile-photo/' + driver.userProfilePhoto" 
-              class="profile-photo" 
-              alt="{{ driver.firstName }} {{ driver.lastName }} profile photo">
-          </div>
-          <div class="card-body text-center">
-            <!-- Driver Name -->
-            <h5 class="card-title text-dark font-weight-bold">{{ driver.firstName }} {{ driver.lastName }}</h5>
-            
-            <!-- Driver Availability -->
-            <p class="card-text mb-2">
-              <span class="text-muted">Availability:</span> 
-              <span [ngClass]="{'text-success': driver.availabilityD, 'text-danger': !driver.availabilityD}">
-                {{ driver.availabilityD ? 'Available' : 'Not Available' }}
-              </span>
-            </p>
-
-            <!-- Star Rating -->
-            <div class="star-rating">
-              <span *ngFor="let star of getStars(driver.performanceRatingD)" class="star" [ngClass]="star"></span>
+    <div class="map-container">
+      <google-map width="100%" height="500px" [center]="center" [zoom]="zoom" [options]="mapOptions">
+        <map-marker *ngFor="let trip of trips" [position]="{ lat: trip.latitude, lng: trip.longitude }">
+          <map-info-window class="custom-infowindow">
+            <div class="infowindow-content">
+              <h4>{{ trip.location }}</h4>
+              <p><i class="fas fa-tripadvisor"></i> Trips: {{ trip.tripCount }}</p>
             </div>
+          </map-info-window>
+        </map-marker>
+      </google-map>
+    </div>
+  </section>
 
-            <!-- Rating Value -->
-            <p class="card-text mt-3">
-              <strong>Average Rating : </strong> 
-              <span class="rating-value">{{ driver.performanceRatingD | number: '1.0-1' }} / 5</span>
-            </p>
+  <!-- ============================================================== -->
+  <!-- Top Rated Drivers Section -->
+  <!-- ============================================================== -->
+  <section class="metrics-section">
+    <div class="metrics-card">
+      <div class="metrics-card-header">
+        <h3>Top Rated Drivers</h3>
+      </div>
+      <div class="drivers-container">
+        <div class="driver-profile" *ngFor="let driver of topRatedDrivers">
+          <div class="driver-avatar">
+            <img [src]="'http://localhost:8089/examen/user/profile-photo/' + driver.userProfilePhoto" 
+                 alt="{{ driver.firstName }} {{ driver.lastName }}">
+            <div class="availability-badge" [ngClass]="{'available': driver.availabilityD, 'unavailable': !driver.availabilityD}">
+              <i class="fas" [ngClass]="{'fa-check': driver.availabilityD, 'fa-times': !driver.availabilityD}"></i>
+            </div>
+          </div>
+          <div class="driver-info">
+            <h4>{{ driver.firstName }} {{ driver.lastName }}</h4>
+            <div class="driver-rating">
+              <div class="stars">
+                <span *ngFor="let star of getStars(driver.performanceRatingD)" [ngClass]="star"></span>
+              </div>
+              <span class="rating-value">{{ driver.performanceRatingD | number: '1.1-1' }} / 5</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- Vehicles with Expired Insurance Section -->
+  <!-- ============================================================== -->
+  <section class="metrics-section">
+    <div class="metrics-card">
+      <div class="metrics-card-header">
+        <h3>Vehicles with Expired Insurance</h3>
+      </div>
+      <div class="vehicles-container">
+        <div class="vehicle-card" *ngFor="let vehicle of vehiclesWithExpiredInsurance">
+          <div class="vehicle-image">
+            <img src="assets/FrontOffice/images/bg/car.png" alt="{{ vehicle.vehicleModel }}">
+            <div class="status-indicator" [ngClass]="{'expired': !vehicle.vehiculeInsuranceStatus, 'active': vehicle.vehiculeInsuranceStatus}"></div>
+          </div>
+          <div class="vehicle-details">
+            <h4>{{ vehicle.vehicleModel }}</h4>
+            <div class="detail-row">
+              <span class="detail-label">Insurance:</span>
+              <span class="detail-value" [ngClass]="{'active': vehicle.vehiculeInsuranceStatus, 'expired': !vehicle.vehiculeInsuranceStatus}">
+                {{ vehicle.vehiculeInsuranceStatus ? 'Active' : 'Expired' }}
+              </span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Expires:</span>
+              <span class="detail-value">{{ vehicle.vehiculeInsuranceDate | date: 'shortDate' }}</span>
+            </div>
+            <button class="action-btn" [ngClass]="{'warning': !vehicle.vehiculeInsuranceStatus, 'info': vehicle.vehiculeInsuranceStatus}">
+              {{ !vehicle.vehiculeInsuranceStatus ? 'Renew Now' : 'View Details' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- Revenue Analytics Section -->
+  <!-- ============================================================== -->
+  <section class="analytics-section">
+    <div class="analytics-card">
+      <div class="card-header">
+        <h3>Revenue Analytics</h3>
+      </div>
+      <app-sales-summary></app-sales-summary>
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- Recent Activity Section -->
+  <!-- ============================================================== -->
+  <section class="analytics-section">
+    <div class="analytics-card">
+      <div class="card-header">
+        <h3>Recent Activity</h3>
+      </div>
+      <app-feeds></app-feeds>
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- Top Selling Section -->
+  <!-- ============================================================== -->
+  <section class="bottom-section">
+    <div class="bottom-card">
+      <div class="card-header">
+        <h3>Top Performing Services</h3>
+      </div>
+      <app-top-selling></app-top-selling>
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- Blog Cards Section -->
+  <!-- ============================================================== -->
+  <section class="bottom-section">
+    <div class="bottom-card">
+      <div class="card-header">
+        <h3>Latest Updates</h3>
+      </div>
+      <app-blog-cards></app-blog-cards>
+    </div>
+  </section>
 </div>
 
 <!-- ============================================================== -->
-<!-- Sales chart -->
+<!-- Modern Dashboard Styles -->
 <!-- ============================================================== -->
-<div class="row">
-  <div class="col-lg-7">
-    <app-sales-summary></app-sales-summary>
-  </div>
-  <div class="col-lg-5">
-    <app-feeds></app-feeds>
-  </div>
-</div>
-
-<!-- ============================================================== -->
-<!-- Table Section: Display Top Selling Items -->
-<!-- ============================================================== -->
-<div class="row">
-  <div class="col-12">
-    <app-top-selling></app-top-selling>
-  </div>
-</div>
-
-<!-- ============================================================== -->
-<!-- Cards Section: Display Blog Cards -->
-<!-- ============================================================== -->
-<app-blog-cards></app-blog-cards>
-<<<<<<< HEAD
-
 <style>
- /* Styling the Card with Hover and Shadow Effects */
-.card {
-  border-radius: 15px;
-  background-color: #ffffff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
+/* Base Styles */
+:host {
+  display: block;
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.card:hover {
-  transform: translateY(-15px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-}
-
-.card-body {
-  padding: 20px;
-  text-align: center;
-}
-
-.card-title {
-  font-size: 1.35rem;
-  font-weight: bold;
-  color: #343a40;
-  margin-top: 10px;
-}
-
-/* Profile photo container */
-.profile-photo-container {
-  position: relative;
-  width: 140px;
-  height: 140px;
+.dashboard-container {
+  max-width: 1800px;
   margin: 0 auto;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 0 20px;
 }
 
-.profile-photo {
+section {
+  margin-bottom: 40px;
+}
+
+/* Hero Section */
+.dashboard-hero {
+  position: relative;
+  height: 250px;
+  background: linear-gradient(135deg, #EDF1F5 0%, #EDF1F5 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 80px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 60px 40px;
+  color: rgb(0, 0, 0);
+}
+
+.hero-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.floating-cards {
+  position: absolute;
+  bottom: -50px;
+  left: 40px;
+  right: 40px;
+  z-index: 10;
+  margin-bottom: 20px;
+
+}
+
+/* Section Headers */
+.section-header {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  position: relative;
+  padding-left: 16px;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 5px;
+  height: 20px;
+  width: 4px;
+  background: #3b82f6;
+  border-radius: 2px;
+}
+
+/* Map Section */
+.map-section {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.map-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+}
+
+.custom-infowindow {
+  font-family: 'Inter', sans-serif;
+}
+
+.infowindow-content {
+  padding: 8px;
+}
+
+.infowindow-content h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #1e293b;
+}
+
+.infowindow-content p {
+  margin: 0 0 8px 0;
+  font-size: 0.85rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Metrics Section */
+.metrics-section {
+  margin-top: 40px;
+}
+
+.metrics-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.metrics-card-header {
+  margin-bottom: 20px;
+}
+
+.metrics-card-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Drivers Container */
+.drivers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.driver-profile {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+.driver-profile:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+}
+
+.driver-avatar {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.driver-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Star Rating */
-.star-rating {
+.availability-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  border: 2px solid white;
 }
 
-.star {
-  font-size: 1.5rem;
-  margin-right: 5px;
-  color: #ffd700; /* Gold color */
+.availability-badge.available {
+  background: #10b981;
 }
 
-.star.full {
-  color: #ffd700;
+.availability-badge.unavailable {
+  background: #ef4444;
 }
 
-.star.half {
-  background: linear-gradient(90deg, #ffd700 50%, #e0e0e0 50%);
+.availability-badge i {
+  color: white;
+  font-size: 0.6rem;
 }
 
-.star.empty {
-  color: #e0e0e0;
+.driver-info {
+  flex-grow: 1;
 }
 
-/* Text Styling */
-.text-muted {
-  color: #6c757d;
+.driver-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.text-warning {
-  color: #f39c12;
+.driver-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
-.text-success {
-  color: #28a745;
+.stars {
+  display: flex;
+  gap: 2px;
 }
 
-.text-danger {
-  color: #dc3545;
+.stars .full {
+  color: #f59e0b;
 }
 
-/* Rating Value Styling */
+.stars .half {
+  color: #f59e0b;
+  opacity: 0.7;
+}
+
+.stars .empty {
+  color: #e2e8f0;
+}
+
 .rating-value {
-  font-size: 1.1rem;
-  color: #f39c12;
-  font-weight: bold;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
 }
 
-/* Custom Hover Effect for Card */
-.hover-card {
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+/* Vehicles Container */
+.vehicles-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.vehicle-card {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+.vehicle-card:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+}
+
+.vehicle-image {
+  position: relative;
+  width: 80px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.vehicle-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.status-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.status-indicator.active {
+  background: #10b981;
+}
+
+.status-indicator.expired {
+  background: #ef4444;
+}
+
+.vehicle-details {
+  flex-grow: 1;
+}
+
+.vehicle-details h4 {
+  margin: 0 0 6px 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+}
+
+.detail-label {
+  color: #64748b;
+}
+
+.detail-value {
+  font-weight: 500;
+}
+
+.detail-value.active {
+  color: #10b981;
+}
+
+.detail-value.expired {
+  color: #ef4444;
+}
+
+.action-btn {
+  width: 100%;
+  padding: 6px 12px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
-.hover-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+.action-btn.warning {
+  background: #f59e0b;
+  color: white;
 }
 
-/* Ensure the content looks good on smaller screens */
+.action-btn.warning:hover {
+  background: #d97706;
+}
+
+.action-btn.info {
+  background: #3b82f6;
+  color: white;
+}
+
+.action-btn.info:hover {
+  background: #2563eb;
+}
+
+/* Analytics Section */
+.analytics-section {
+  margin-top: 40px;
+}
+
+.analytics-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.card-header {
+  margin-bottom: 20px;
+}
+
+.card-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Bottom Section */
+.bottom-section {
+  margin-top: 40px;
+}
+
+.bottom-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .col-lg-4 {
-    flex: 0 0 100%;
-    max-width: 100%;
+  .dashboard-hero {
+    height: 200px;
+    margin-bottom: 60px;
   }
-  .profile-photo-container {
-    width: 120px;
-    height: 120px;
+  
+  .hero-content {
+    padding: 40px 20px;
+  }
+  
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .vehicles-container {
+    grid-template-columns: 1fr;
   }
 }
 
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 0 10px;
+  }
+  
+  .metrics-card,
+  .analytics-card,
+  .bottom-card {
+    padding: 16px;
+  }
+}
 </style>
-=======
->>>>>>> e01aa485e4e7c4ecea926c98b542738f475541d9

@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            
+
             "allowedCommonJsDependencies": [
               "ng-apexcharts",
               "apexcharts"
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            
+
             "buildTarget": "speedyGoFrontend:build"
           }
         },

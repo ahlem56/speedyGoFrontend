@@ -15,7 +15,12 @@ export interface Vehicle {
   latitude?: number;
   longitude?: number;
   updateTime?: Date;
+  vehicleSerialNumber ?:number;
   travelHistory?: LocationRecord[]; // Optionnel : pour récupérer l’historique dans le même objet
+}
+export interface TripCoords {
+  departure: string;
+  destination: string;
 }
 
 export interface LocationRecord {
@@ -101,4 +106,16 @@ export class VehicleService {
   getTravelHistory(vehicleId: number): Observable<LocationRecord[]> {
     return this.http.get<LocationRecord[]>(`${this.baseUrl}/getTravelHistory/${vehicleId}`);
   }
+
+  getTripDepartureAndDestination(tripId: number): Observable<TripCoords> {
+    return this.http.get<TripCoords>(
+      `${this.baseUrl}/trip-coordinates/${tripId}`
+    );
+  }
+
+  // Fetch vehicles with expired insurance
+  getVehiclesWithExpiredInsurance(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(`${this.baseUrl}/vehicles/expired-insurance`);
+  }
+
 }

@@ -259,7 +259,7 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     ComplaintCreationFrontOfficeComponent,
     ReactiveFormsModule,
     FooterComponent,
-    
+
     EditProfileComponent,
 
     FormsModule,
