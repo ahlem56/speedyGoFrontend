@@ -57,6 +57,37 @@ export class NotificationService {
               `Passengers: ${details.passengers}`
             );
           }
+
+          // Handle carpool joined notification
+          else if (messageData.type === 'CARPOOL_JOINED' && messageData.details) {
+            const details = messageData.details;
+            this.toastSubject.next(
+              `${messageData.message} (Carpool #${details.carpoolId})`
+            );
+          }
+          // Handle carpool left notification
+          else if (messageData.type === 'CARPOOL_LEFT' && messageData.details) {
+            const details = messageData.details;
+            this.toastSubject.next(
+              `${messageData.message} (Carpool #${details.carpoolId})`
+            );
+          }
+          // Handle carpool deleted notification
+          else if (messageData.type === 'CARPOOL_DELETED' && messageData.details) {
+            const details = messageData.details;
+            this.toastSubject.next(
+              `${messageData.message} (Carpool #${details.carpoolId})`
+            );
+          }
+          // Handle recommended carpool notification
+          else if (messageData.type === 'CARPOOL_RECOMMENDED' && messageData.details) {
+            const details = messageData.details;
+            this.toastSubject.next(
+              `Recommended carpool: From ${details.departure} to ${details.destination} on ${details.date} at ${details.time} for ${details.price} TND`
+            );
+          }
+
+          
   
           observer.next(messageData);
         } catch (e) {

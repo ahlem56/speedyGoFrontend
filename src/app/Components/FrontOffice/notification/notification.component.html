@@ -1,39 +1,68 @@
-<!-- Notification Component -->
-<div class="notifications-title">
-  <h2>Notifications</h2>
-</div>
-<div *ngFor="let notification of notifications" class="notification" [ngClass]="{
-  'acceptance': notification.type === 'acceptance',
-  'refusal': notification.type === 'refusal',
-  'event': notification.type === 'event',
-  'default': notification.type !== 'acceptance' && notification.type !== 'refusal' && notification.type !== 'event'
-}">
-  <div class="notification-header">
-    <div class="notification-icon">
-      <i class="fa" 
-        [ngClass]="{
-          'fa-check-circle': notification.type === 'acceptance',
-          'fa-times-circle': notification.type === 'refusal',
-          'fa-bell': notification.type === 'event',
-          'fa-info-circle': notification.type === 'default'
-        }"></i>
-    </div>
-    <div class="notification-text">
-      <h4 class="notification-title">
-        {{ 
-          notification.type === 'refusal' ? 'Trip Refusal' : 
-          (notification.type === 'event' ? 'Event Notification' : 
-          (notification.type === 'acceptance' ? 'Trip Acceptance' : 'Trip Notification'))
-        }}
-      </h4>
-      <p class="notification-time">{{ notification.time | date: 'short' }}</p>
+<div class="notifications-container">
+  <div class="notifications-title">
+    <h2>Notifications</h2>
+    <div class="controls">
+      <button class="btn btn-primary" [ngClass]="{'enabled': showRecommendedNotifications}" (click)="toggleRecommendedNotifications()">
+        {{ showRecommendedNotifications ? 'Hide' : 'Show' }} Recommended Carpools
+      </button>
     </div>
   </div>
-  <div class="notification-body">
-    <p *ngIf="notification.type !== 'event'"><strong>Departure:</strong> {{ notification.departure }}</p>
-    <p *ngIf="notification.type !== 'event'"><strong>Destination:</strong> {{ notification.destination }}</p>
-    <p *ngIf="notification.type === 'trip'"><strong>Price:</strong> {{ notification.price | currency:'TND' }}</p>
-    <p *ngIf="notification.type === 'trip'"><strong>Number of Passengers:</strong> {{ notification.passengers }}</p>
-    <p>{{ notification.message }}</p>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <!-- Notifications List -->
+  <div *ngFor="let notification of notifications" class="notification" [ngClass]="{
+    'refusal': notification.type === 'refusal',
+    'event': notification.type === 'event',
+    'acceptance': notification.type === 'acceptance',
+    'carpool-joined': notification.type === 'CARPOOL_JOINED',
+    'carpool-left': notification.type === 'CARPOOL_LEFT',
+    'carpool-deleted': notification.type === 'CARPOOL_DELETED',
+    'recommended': notification.type === 'CARPOOL_RECOMMENDED',
+    'default': notification.type === 'parcel' || notification.type === 'default'
+  }" [hidden]="notification.type === 'CARPOOL_RECOMMENDED' && !showRecommendedNotifications">
+    <div class="notification-header">
+      <div class="notification-icon">
+        <i class="fa" [ngClass]="{
+          'fa-times-circle': notification.type === 'refusal',
+          'fa-bell': notification.type === 'event',
+          'fa-check-circle': notification.type === 'acceptance',
+          'fa-user-plus': notification.type === 'CARPOOL_JOINED',
+          'fa-user-minus': notification.type === 'CARPOOL_LEFT',
+          'fa-trash': notification.type === 'CARPOOL_DELETED',
+          'fa-car': notification.type === 'CARPOOL_RECOMMENDED',
+          'fa-info-circle': notification.type === 'default' || notification.type === 'parcel'
+        }"></i>
+      </div>
+      <div class="notification-text">
+        <h4 class="notification-title">
+          {{ 
+            notification.type === 'refusal' ? 'Trip Refusal' : 
+            notification.type === 'event' ? 'Event Notification' : 
+            notification.type === 'acceptance' ? 'Trip Acceptance' : 
+            notification.type === 'CARPOOL_JOINED' ? 'Carpool Joined' : 
+            notification.type === 'CARPOOL_LEFT' ? 'Carpool Left' : 
+            notification.type === 'CARPOOL_DELETED' ? 'Carpool Deleted' : 
+            notification.type === 'CARPOOL_RECOMMENDED' ? 'Recommended Carpool' : 
+            notification.type === 'parcel' ? 'Parcel Update' : 'Notification'
+          }}
+        </h4>
+        <p class="notification-time">{{ notification.timestamp | date: 'short' }}</p>
+      </div>
+    </div>
+    <div class="notification-body">
+      <p *ngIf="notification.type === 'parcel'"><strong>Parcel ID:</strong> {{ notification.parcelId }}</p>
+      <p *ngIf="notification.type === 'parcel'"><strong>Status:</strong> {{ notification.status }}</p>
+      <p *ngIf="notification.type !== 'event' && notification.type !== 'parcel'"><strong>Departure:</strong> {{ notification.departure }}</p>
+      <p *ngIf="notification.type !== 'event' && notification.type !== 'parcel'"><strong>Destination:</strong> {{ notification.destination }}</p>
+      <p *ngIf="notification.type === 'acceptance' || notification.type === 'CARPOOL_RECOMMENDED'"><strong>Price:</strong> {{ notification.price | currency:'TND' }}</p>
+      <p *ngIf="notification.type === 'acceptance'"><strong>Number of Passengers:</strong> {{ notification.passengers }}</p>
+      <p *ngIf="notification.type === 'CARPOOL_JOINED' || notification.type === 'CARPOOL_LEFT' || notification.type === 'CARPOOL_DELETED' || notification.type === 'CARPOOL_RECOMMENDED'"><strong>Date:</strong> {{ notification.date }}</p>
+      <p *ngIf="notification.type === 'CARPOOL_JOINED' || notification.type === 'CARPOOL_LEFT' || notification.type === 'CARPOOL_DELETED' || notification.type === 'CARPOOL_RECOMMENDED'"><strong>Time:</strong> {{ notification.time }}</p>
+      <p *ngIf="notification.type === 'CARPOOL_RECOMMENDED'"><strong>Capacity:</strong> {{ notification.capacity }}</p>
+      <p *ngIf="notification.type === 'CARPOOL_JOINED' || notification.type === 'CARPOOL_LEFT'"></p>
+      <p>{{ notification.message }}</p>
+    </div>
   </div>
 </div>

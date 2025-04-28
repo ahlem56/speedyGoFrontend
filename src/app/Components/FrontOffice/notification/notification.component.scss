@@ -121,3 +121,24 @@
 .notification.default .notification-icon {
   color: #ff9800; /* Orange Icon for Default */
 }
+
+
+.notification.carpool-joined {
+  background-color: #e6ffed;
+  border-left: 5px solid #28a745;
+}
+
+.notification.carpool-left {
+  background-color: #fff3e6;
+  border-left: 5px solid #ff9800;
+}
+
+.notification.carpool-deleted {
+  background-color: #ffe6e6;
+  border-left: 5px solid #dc3545;
+}
+
+.notification.recommended {
+  background-color: #fff3e6;
+  border-left: 5px solid #ff9800;
+}

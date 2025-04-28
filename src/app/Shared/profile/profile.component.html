@@ -213,6 +213,25 @@
 
         </p>
       </div>
+             <!-- Carpool Rating -->
+             <div *ngIf="isCarpoolInPast(offer.carpoolDate, offer.carpoolTime)">
+              <div *ngIf="!hasRatedCarpool(offer.carpoolId)" class="carpool-rating">
+                <p><strong>Did you like this carpool?</strong></p>
+                <button (click)="rateCarpool(offer.carpoolId, true)" class="rate-btn yes-btn">Yes</button>
+                <button (click)="rateCarpool(offer.carpoolId, false)" class="rate-btn no-btn">No</button>
+              </div>
+              <div *ngIf="hasRatedCarpool(offer.carpoolId)" class="carpool-rating-display">
+                <p><strong>Your rating:</strong>
+                  <span *ngFor="let rating of carpoolRatings[offer.carpoolId]">
+                    <ng-container *ngIf="rating[this.user.userId] !== undefined">
+                      {{ rating[this.user.userId] ? '👍 Yes' : '👎 No' }}
+                    </ng-container>
+                  </span>
+                  
+                </p>
+              </div>
+            </div>
+    
     
       <!-- Afficher le bouton "Cancel Carpool" uniquement si le covoiturage n'est pas dans le passé -->
       <button

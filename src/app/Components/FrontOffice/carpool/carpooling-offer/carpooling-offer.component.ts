@@ -3,11 +3,15 @@ import { CarpoolService } from 'src/app/Core/carpool.service';
 import { HttpHeaders } from '@angular/common/http';
 import { UserService } from 'src/app/Core/user.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common'; // Import CommonModule
+import { RatingService } from 'src/app/Core/rating.service';
 
 @Component({
   selector: 'app-carpooling-offer',
   templateUrl: './carpooling-offer.component.html',
-  styleUrls: ['./carpooling-offer.component.scss']
+  styleUrls: ['./carpooling-offer.component.scss'],
+  imports: [CommonModule], // Add CommonModule to imports
+  standalone: true
 })
 export class CarpoolingOfferFrontOfficeComponent implements OnInit {
   userId: number | null = null; // ID of the logged-in user
@@ -21,10 +25,14 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
   noUsersMessage: string = ''; // Message when no users have joined
   isLoading: boolean = false; // Loading state for users list
 
+  carpoolRatings: { [carpoolId: number]: any[] } = {}; // Store ratings for each carpool
+  averageRating: number | null = null; // Store the average rating (percentage of positive ratings)
   constructor(
     private carpoolService: CarpoolService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private ratingService: RatingService
+
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +72,9 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
         this.carpools = data;
         console.log("Retrieved carpools:", this.carpools);
         this.filterCarpools(); // Apply filter after loading data
+         // Load ratings for each carpool
+         this.carpools.forEach(carpool => {
+          this.loadCarpoolRatings(carpool.carpoolId);});
       },
       error: (err) => {
         console.error("Error loading carpools:", err);
@@ -220,5 +231,78 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
         this.noUsersMessage = "Error loading users.";
       }
     });
+  }
+
+
+
+
+
+  // Load ratings for a specific carpool
+  loadCarpoolRatings(carpoolId: number): void {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.carpoolService.getCarpoolRatings(carpoolId, headers).subscribe({
+      next: (ratings) => {
+        console.log(`Ratings for carpool ${carpoolId}:`, ratings);
+        this.carpoolRatings[carpoolId] = ratings;
+        this.calculateAverageRating(); // Recalculate average rating after loading ratings
+      },
+      error: (err) => {
+        console.error(`Error loading ratings for carpool ${carpoolId}:`, err);
+        this.carpoolRatings[carpoolId] = [];
+        this.calculateAverageRating(); // Recalculate even if there's an error
+      }
+    });
+  }
+ // Calculate the average rating (percentage of positive ratings)
+ calculateAverageRating(): void {
+  let totalRatings = 0;
+  let positiveRatings = 0;
+
+  // Iterate through all carpools' ratings
+  Object.keys(this.carpoolRatings).forEach(key => {
+    const carpoolId = Number(key);
+    const ratings = this.carpoolRatings[carpoolId];
+    ratings.forEach(rating => {
+      Object.keys(rating).forEach(userId => {
+        // Exclude the current user's own rating, if applicable
+        if (userId !== this.userId!.toString()) {
+          totalRatings++;
+          if (rating[userId]) {
+            positiveRatings++;
+          }
+        }
+      });
+    });
+  });
+
+  // Calculate percentage of positive ratings
+  if (totalRatings > 0) {
+    this.averageRating = (positiveRatings / totalRatings) * 100;
+  } else {
+    this.averageRating = null; // No ratings available
+  }
+  console.log(`Average rating: ${this.averageRating}% positive (${positiveRatings}/${totalRatings})`);
+}
+  // Check if the user has rated a carpool
+  hasRatedCarpool(carpoolId: number): boolean {
+    const ratings = this.carpoolRatings[carpoolId] || [];
+    return ratings.some(rating => Object.keys(rating).includes(this.userId!.toString()));
+  }
+
+
+
+  
+  ratings(rating: number, isPercentage: boolean = false): string[] {
+    const normalizedRating = isPercentage ? rating / 20 : rating; // 100% = 5 stars
+    const fullStars = Math.floor(normalizedRating);
+    const halfStar = normalizedRating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - (fullStars + halfStar);
+    return [
+      ...new Array(fullStars).fill('fas fa-star'),
+      ...new Array(halfStar).fill('fas fa-star-half-alt'),
+      ...new Array(emptyStars).fill('far fa-star'),
+    ];
   }
 }

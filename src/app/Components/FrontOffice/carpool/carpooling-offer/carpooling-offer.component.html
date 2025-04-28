@@ -1,6 +1,18 @@
 <div class="container">
   <h2><i class="bi bi-car-front"></i> My Carpool Offers <i class="bi bi-car-front"></i></h2>
+  <!-- Display average rating -->
+  <div class="average-rating" *ngIf="averageRating !== null; else noRatings">
+    <p><strong>Your Rating:</strong> 
+      <span *ngFor="let star of ratings(averageRating, true)" [ngClass]="star"></span>
+      <span class="rating-value">{{ (averageRating / 20) | number: '1.1-1' }} / 5</span>
+    </p>
+  </div>
+  
+  <ng-template #noRatings>
+    <p class="average-rating no-ratings">No ratings yet</p>
+  </ng-template>
   <br>
+  
   <!-- Button to toggle between upcoming and past carpools -->
   <button class="btn btn-primary mb-3" style="margin-left: 400px;" (click)="togglePastCarpools()">
     {{ showPastCarpools ? 'View Upcoming Carpools' : 'View Carpool History' }}
@@ -22,6 +34,17 @@
               <p><strong><i class="bi bi-people"></i> Capacity:</strong> {{ carpool.carpoolCapacity }}</p>
               <p><strong><i class="bi bi-cash"></i> Price:</strong> {{ carpool.carpoolPrice }} TND</p>
               <p><strong><i class="bi bi-file-text"></i> Conditions:</strong> {{ carpool.carpoolCondition }}</p>
+
+              <!-- Display user rating for past carpools -->
+              @if (showPastCarpools && userId && hasRatedCarpool(carpool.carpoolId)) {
+                <p class="carpool-rating"><strong>Your rating:</strong>
+                  <ng-container *ngFor="let rating of carpoolRatings[carpool.carpoolId]">
+                    <span *ngIf="rating[userId.toString()] !== undefined">
+                      {{ rating[userId.toString()] ? '👍 Yes' : '👎 No' }}
+                    </span>
+                  </ng-container>
+                </p>
+              }
 
               <!-- Update and Delete buttons (only for upcoming carpools) -->
               @if (!showPastCarpools) {

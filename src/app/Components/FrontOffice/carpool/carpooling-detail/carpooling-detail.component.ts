@@ -4,6 +4,8 @@ import { CarpoolService } from 'src/app/Core/carpool.service';
 import { HttpHeaders } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RatingService } from 'src/app/Core/rating.service';
+
 
 @Component({
   selector: 'app-carpooling-detail',
@@ -21,12 +23,16 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
   numberOfPlaces: number = 1;
   hasJoined: boolean = false;
   joinedUsers: any[] = [];
+  Math: any;
+
   readonly baseApiUrl = 'http://localhost:8089/examen/user';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private carpoolService: CarpoolService
+    private carpoolService: CarpoolService,
+    private ratingService: RatingService
+
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +67,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
       next: (data) => {
         this.carpoolDetails = data;
         console.log("📥 Carpool details retrieved:", data);
+        
       },
       error: (error) => {
         console.error("❌ API Error:", error);
@@ -238,5 +245,17 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
     const imgElement = event.target as HTMLImageElement;
     console.warn(`Image failed to load: ${imgElement.src}, hiding image`);
     imgElement.style.display = 'none';
+  }
+
+  ratings(rating: number, isPercentage: boolean = false): string[] {
+    const normalizedRating = isPercentage ? rating / 20 : rating; // 100% = 5 stars
+    const fullStars = Math.floor(normalizedRating);
+    const halfStar = normalizedRating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - (fullStars + halfStar);
+    return [
+      ...new Array(fullStars).fill('fas fa-star'),
+      ...new Array(halfStar).fill('fas fa-star-half-alt'),
+      ...new Array(emptyStars).fill('far fa-star'),
+    ];
   }
 }

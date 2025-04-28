@@ -59,7 +59,8 @@ export class ProfileComponent implements OnInit {
   // Carpool Data
   carpoolOffers: any[] = [];
   isCarpoolVisible = false;
-  
+  carpoolRatings: { [carpoolId: number]: any[] } = {}; // Notations des covoiturages
+
   // Rating Data
   ratingsReceived: any[] = [];
   ratingsGiven: any[] = [];
@@ -67,6 +68,7 @@ export class ProfileComponent implements OnInit {
   isRatingsVisible = false;
 
   isAvailable: boolean = false; // Default to not available
+Object: any;
 
 
 
@@ -192,8 +194,29 @@ export class ProfileComponent implements OnInit {
   fetchCarpoolHistory(): void {
     const headers = this.getAuthHeaders();
     this.carpoolService.getCarpoolsJoinedByUser(this.user.userId, headers).subscribe({
-      next: (joinedCarpools) => this.carpoolOffers = joinedCarpools,
-      error: (error) => console.error('Error fetching carpools:', error)
+      next: (joinedCarpools) => {
+        this.carpoolOffers = joinedCarpools;
+        console.log('Covoiturages rejoints:', joinedCarpools);
+        this.carpoolOffers.forEach(carpool => {
+          this.loadCarpoolRatings(carpool.carpoolId);
+        });
+      },
+      error: (error) => console.error('Erreur lors de la récupération des covoiturages:', error)
+    });
+  }
+
+
+  loadCarpoolRatings(carpoolId: number): void {
+    const headers = this.getAuthHeaders();
+    this.carpoolService.getCarpoolRatings(carpoolId, headers).subscribe({
+      next: (ratings) => {
+        console.log(`Notations pour le covoiturage ${carpoolId}:`, ratings);
+        this.carpoolRatings[carpoolId] = ratings;
+      },
+      error: (err) => {
+        console.error(`Erreur lors du chargement des notations pour ${carpoolId}:`, err);
+        this.carpoolRatings[carpoolId] = [];
+      }
     });
   }
 
@@ -233,13 +256,32 @@ export class ProfileComponent implements OnInit {
     });
   }
 
- 
+  hasRatedCarpool(carpoolId: number): boolean {
+    const ratings = this.carpoolRatings[carpoolId] || [];
+    return ratings.some(rating => Object.keys(rating).includes(this.user.userId.toString()));
+  }
+
 
   cancelCarpool(carpoolId: number): void {
     const headers = this.getAuthHeaders();
     this.carpoolService.leaveCarpool(carpoolId, this.user.userId, headers).subscribe({
       next: () => this.carpoolOffers = this.carpoolOffers.filter(offer => offer.carpoolId !== carpoolId),
       error: (error) => console.error('Error canceling carpool:', error)
+    });
+  }
+
+
+  rateCarpool(carpoolId: number, liked: boolean): void {
+    const headers = this.getAuthHeaders();
+    this.carpoolService.rateCarpool(carpoolId, this.user.userId, liked, headers).subscribe({
+      next: (response) => {
+        console.log('Notation soumise pour le covoiturage:', response);
+        this.loadCarpoolRatings(carpoolId);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la soumission de la note:', err);
+        alert('Impossible de soumettre la note: ' + (err.error?.message || 'Erreur inconnue'));
+      }
     });
   }
 

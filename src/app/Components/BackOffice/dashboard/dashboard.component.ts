@@ -13,6 +13,7 @@ import { Vehicle, VehicleService } from 'src/app/Core/vehicle.service';
 export class DashboardComponent implements OnInit {
   totalUsers: number = 0;
   totalTrips: number = 0;
+  totalCarpools: number = 0; // Added for carpool count
   trips: any[] = [];
   center: google.maps.LatLngLiteral = { lat: 33.8869, lng: 9.5375 };
   zoom: number = 7;
@@ -44,6 +45,8 @@ export class DashboardComponent implements OnInit {
   totalDeliveredToday: number = 0;
   totalDeliveredThisWeek: number = 0;
   totalDeliveredThisMonth: number = 0;
+  topRatedOfferers: any[] = []; // Added
+  readonly baseApiUrl = 'http://localhost:8089/examen/user';
 
   constructor(
     private http: HttpClient,
@@ -59,6 +62,10 @@ export class DashboardComponent implements OnInit {
     this.getStatistics();
     this.getTopRatedDrivers();
     this.getVehiclesWithExpiredInsurance();
+    this.getTotalCarpools();
+    this.getTopRatedOfferers();
+    
+
   }
 
   getTotalUsers(): void {
@@ -86,6 +93,18 @@ export class DashboardComponent implements OnInit {
           console.log('Trips data:', this.trips);
         },
         error: (err) => console.error('Error fetching trips by location', err)
+      });
+  }
+
+  getTotalCarpools(): void {
+    this.http.get<number>('http://localhost:8089/examen/carpools/count')
+      .subscribe({
+        next: (data) => {
+          console.log('Fetched total carpools:', data);
+          this.totalCarpools = data;
+        },
+        error: (err) => {
+          console.error('Error fetching total carpools', err);        }
       });
   }
 
@@ -157,4 +176,65 @@ export class DashboardComponent implements OnInit {
       error: (err) => console.error('Error fetching vehicles with expired insurance', err)
     });
   }
+
+
+  getTopRatedOfferers(): void {
+    this.http.get<any[]>('http://localhost:8089/examen/carpools/top-rated-offerers')
+      .subscribe({
+        next: (offerers) => {
+         offerers.forEach(offerer => {
+           offerer.profilePhotoUrl = this.getProfilePhotoUrl(offerer.userProfilePhoto || offerer.userProfilePhoto);
+           console.log('Profile photo URL:', offerer.profilePhotoUrl);
+           
+         });
+         console.log('Offerer data:', offerers);
+
+          this.topRatedOfferers = offerers;
+          console.log('Top 3 rated carpool offerers:', this.topRatedOfferers);
+          
+        },
+        error: (err) => console.error('Error fetching top-rated offerers', err)
+      });
+  }
+  
+
+
+  ratings(rating: number, isPercentage: boolean = false): string[] {
+    const normalizedRating = isPercentage ? rating / 20 : rating; // 100% = 5 stars
+    const fullStars = Math.floor(normalizedRating);
+    const halfStar = normalizedRating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - (fullStars + halfStar);
+    return [
+      ...new Array(fullStars).fill('fas fa-star'),
+      ...new Array(halfStar).fill('fas fa-star-half-alt'),
+      ...new Array(emptyStars).fill('far fa-star'),
+    ];
+  }
+
+
+  private getProfilePhotoUrl(profilePhoto: string | null): string | null {
+    if (!profilePhoto || profilePhoto === 'null') {
+      console.warn("Profile photo is null or invalid, no photo will be displayed");
+      return null;
+    }
+    if (profilePhoto.startsWith('data:image')) {
+      console.log("Using base64 profile photo:", profilePhoto.substring(0, 30) + '...');
+      return profilePhoto;
+    }
+    const fileName = profilePhoto.split('/').pop() || profilePhoto;
+    if (!fileName || fileName === 'null') {
+      console.warn("Invalid profile photo filename, no photo will be displayed");
+      return null;
+    }
+    const url = `${this.baseApiUrl}/profile-photo/${fileName}`;
+    console.log("Resolved profile photo URL:", url);
+    return url;
+  }
+
+  handleImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    console.warn(`Image failed to load: ${imgElement.src}, hiding image`);
+    imgElement.style.display = 'none';
+  }
+
 }

@@ -126,7 +126,39 @@ export class CarpoolService {
     return this.http.get<any[]>(url, { headers });
   }
 
+  rateCarpool(carpoolId: number, userId: number, liked: boolean, headers: HttpHeaders): Observable<any> {
+    const url = `${this.apiUrl}rate`;
+    const body = { carpoolId, userId, liked };
+    return this.http.post<any>(url, body, { headers }).pipe(
+      tap((data) => console.log("📥 Réponse API - Notation soumise:", data)),
+      catchError(error => {
+        console.error("Erreur lors de la soumission de la note", error);
+        return throwError(() => error);
+      })
+    );
+  }
 
+  getCarpoolRatings(carpoolId: number, headers: HttpHeaders): Observable<any[]> {
+    const url = `${this.apiUrl}${carpoolId}/ratings`;
+    return this.http.get<any[]>(url, { headers }).pipe(
+      tap((data) => console.log("📥 Réponse API - Notations du covoiturage:", data)),
+      catchError(error => {
+        console.error("Erreur lors de la récupération des notations du covoiturage", error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  getOffererRating(offererId: number, headers: HttpHeaders): Observable<string> {
+    const url = `${this.apiUrl}offerer/${offererId}/rating`;
+    return this.http.get<string>(url, { headers }).pipe(
+      tap((data) => console.log("📥 Réponse API - Note de l'offreur:", data)),
+      catchError(error => {
+        console.error("Erreur lors de la récupération de la note de l'offreur", error);
+        return throwError(() => error);
+      })
+    );
+  }
 
   
 }

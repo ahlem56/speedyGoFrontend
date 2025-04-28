@@ -10,7 +10,7 @@
       <h1 class="hero-title">Transport Management Dashboard</h1>
       <p class="hero-subtitle">Real-time insights & analytics</p>
     </div>
-    <app-top-cards [totalUsers]="totalUsers" [totalTrips]="totalTrips" class="floating-cards"></app-top-cards>
+    <app-top-cards [totalUsers]="totalUsers" [totalTrips]="totalTrips" [totalCarpools]="totalCarpools" class="floating-cards"></app-top-cards>
   </section>
 
   <!-- ============================================================== -->
@@ -100,6 +100,37 @@
       </div>
     </div>
   </section>
+   <!-- ============================================================== -->
+  <!-- Top Rated Users Section -->
+  <!-- ============================================================== -->
+  <section class="metrics-section">
+      <div class="metrics-card-header">
+        <h3>Top Rated Carpool Offerers</h3>
+      </div>
+      <div class="offerers-container">
+        <div class="offerer-profile" *ngFor="let offerer of topRatedOfferers">
+          <div class="offerer-avatar">
+            <img
+            [src]=" offerer.profilePhotoUrl"
+            [alt]="offerer.firstName + ' ' + offerer.lastName"
+            class="profile-photo"
+            (error)="handleImageError($event)"
+          />
+          
+          </div>
+          <div class="offerer-info">
+            <h4>{{ offerer.firstName }} {{ offerer.lastName }}</h4>
+            <div class="offerer-rating">
+              <div class="stars">
+                <span *ngFor="let star of ratings(offerer.averageRating, true)" [ngClass]="star"></span>
+              </div>
+              <span class="rating-value">{{ (offerer.averageRating / 20) | number: '1.1-1' }} / 5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
 
   <!-- ============================================================== -->
   <!-- Revenue Analytics Section -->
@@ -584,4 +615,78 @@ section {
     padding: 16px;
   }
 }
+
+
+/* Drivers Container */
+.offerers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.offerer-profile {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+.offerer-profile:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+}
+
+.offerer-avatar {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.offerer-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+.offerer-info {
+  flex-grow: 1;
+}
+
+.offerer-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.offerer-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+
+
+
+
+
+
+.stars span {
+  color: #f8ce0b; 
+  font-size: 1em;
+}
+
+
+
+
+
+
+
 </style>

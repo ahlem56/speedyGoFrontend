@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-carpool-create',
   templateUrl: './carpooling-create.component.html',
   styleUrls: ['./carpooling-create.component.css'],
-  imports: [FormsModule,ReactiveFormsModule, CommonModule]
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  standalone: true
 })
 export class CarpoolingCreateFrontOfficeComponent implements OnInit {
   carpool: any = {
@@ -20,16 +22,15 @@ export class CarpoolingCreateFrontOfficeComponent implements OnInit {
     carpoolDate: '',
     carpoolTime: '',
     carpoolCapacity: null,
-    carpoolCondition:'',
-    carpoolPrice :null,
-    licensePlate:'',
-
+    carpoolCondition: '',
+    carpoolPrice: null,
+    licensePlate: '',
   };
   simpleUserId: number | null = null;
   errorMessage: string = '';
   successMessage: string = '';
-  myCarpools: any[] = [];  // Array to store joined carpools
-  filteredCarpools: any[] = [];  // Array to store future carpools
+  myCarpools: any[] = [];
+  filteredCarpools: any[] = [];
   carpoolForm: FormGroup;
   showForm: boolean = false;
 
@@ -42,7 +43,7 @@ export class CarpoolingCreateFrontOfficeComponent implements OnInit {
     this.carpoolForm = this.fb.group({
       carpoolDeparture: ['', Validators.required],
       carpoolDestination: ['', Validators.required],
-      carpoolDate: ['',[Validators.required, this.futureDateValidator()]],
+      carpoolDate: ['', [Validators.required, this.futureDateValidator()]],
       carpoolTime: ['', Validators.required],
       carpoolCapacity: ['', [Validators.required, Validators.min(1), Validators.max(10)]],
       carpoolCondition: [''],
@@ -79,7 +80,12 @@ export class CarpoolingCreateFrontOfficeComponent implements OnInit {
         this.carpoolForm.reset();
       },
       (error) => {
-        this.errorMessage = 'Error creating carpool.';
+        // Check if the error is due to the carpool limit
+        if (error.error && error.error.message === 'You have reached the limit of 4 carpool offers. A subscription is required to create more offers.') {
+          this.errorMessage = 'You can\'t create more carpool, you have to subscribe.';
+        } else {
+          this.errorMessage = 'Error creating carpool.';
+        }
         console.error(error);
       }
     );
@@ -123,27 +129,19 @@ export class CarpoolingCreateFrontOfficeComponent implements OnInit {
     this.router.navigate([`/carpooling/join/${carpoolId}`]);
   }
 
-
-
-
-
-
-
-
   getCurrentDate(): string {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
-  
   }
 
   futureDateValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const selectedDate = new Date(control.value);
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Ignore l'heure pour ne comparer que les dates
+      today.setHours(0, 0, 0, 0);
       return selectedDate >= today ? null : { futureDate: { value: control.value } };
     };
   }

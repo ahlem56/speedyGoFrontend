@@ -164,8 +164,8 @@
 
 /* Photo de profil */
 .profile-photo {
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #ddd;
@@ -181,4 +181,28 @@
 /* Espacement */
 .me-2 {
   margin-right: 0.5rem;
+}
+
+.star {
+  font-size: 20px;
+  color: gold;
+  margin-right: 2px;
+}
+
+.star.full::before {
+  content: '★'; /* étoile pleine */
+}
+
+.star.half::before {
+  content: '⭐'; /* étoile à moitié remplie ou personnalisée */
+}
+
+.star.empty::before {
+  content: '☆'; /* étoile vide */
+}
+
+.rating-value {
+  margin-left: 8px;
+  font-weight: bold;
+  color: #333;
 }
