@@ -81,7 +81,7 @@ import { EventNotifyBackOfficeComponent } from './Components/BackOffice/event/ev
 // Partner components
 import { PartnerListBackOfficeComponent } from './Components/BackOffice/partner/partner-list/partner-list.component';
 import { PartnerCreateBackOfficeComponent } from './Components/BackOffice/partner/partner-create/partner-create.component';
-import { PartnerEditBackOfficeComponent } from './Components/BackOffice/partner/partner-edit/partner-edit.component';
+import { PartnerEditComponent } from './Components/BackOffice/partner/partner-edit/partner-edit.component';
 
 // Carpool components
 import { CarpoolingListBackOfficeComponent } from './Components/BackOffice/carpoolBackOffice/carpooling-listBackOffice/carpooling-listBackOffice.component';
@@ -207,7 +207,7 @@ const routes: Routes = [
       { path: 'carpooling/:id', component: CarpoolingDetailFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'carpooling/join/:id', component: CarpoolingJoinFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'offer', component: CarpoolingOfferFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
-{path:'stripe', component : StripePaymentComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
+      {path:'stripe', component : StripePaymentComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels', component: ParcelListFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels/track', component: ParcelTrackFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels/create', component: ParcelCreateFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
@@ -246,7 +246,7 @@ const routes: Routes = [
       { path: 'back-office/events/notify', component: EventNotifyBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/partners', component: PartnerListBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/partners/create', component: PartnerCreateBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
-      { path: 'back-office/partners/edit/:id', component: PartnerEditBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+      { path: 'back-office/partners/edit/:id', component: PartnerEditComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/carpool/list', component: CarpoolingListBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/carpool/:id', component: CarpoolingDetailBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/complaints', component: ComplaintListBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },

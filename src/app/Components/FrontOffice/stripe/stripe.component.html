@@ -1,12 +1,31 @@
 <!-- stripe.component.html -->
-<div class="card-container">
-    <label>Card Details</label>
-    <div #cardElement class="StripeElement" style="padding: 10px; border: 1px solid #ccc;"></div>
+<div class="payment-container">
+  <div class="payment-card">
+    <h2 class="payment-title">Secure Payment</h2>
+    
+    <div class="form-group">
+      <label class="amount-label">Total Amount</label>
+      <div class="amount-display">{{ amount }} $</div>
+    </div>
+
+    <div class="form-group">
+      <label class="card-label">Card Information</label>
+      <div #cardElement class="card-element"></div>
+    </div>
+
+    <div *ngIf="cardError" class="error-message">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ cardError }}
+    </div>
+
+    <button class="pay-button" (click)="payWithCard()">
+      <i class="fas fa-lock"></i>
+      Confirm Payment
+    </button>
+    
+    <div class="security-note">
+      <i class="fas fa-shield-alt"></i>
+      256-bit SSL secured payment
+    </div>
   </div>
-  
-  <div *ngIf="cardError" class="error">
-    {{ cardError }}
-  </div>
-  
-  <button (click)="payWithCard()">💳 Pay {{ amount }} $</button>
-  
+</div>

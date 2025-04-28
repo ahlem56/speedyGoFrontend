@@ -69,7 +69,7 @@ import { EventNotifyBackOfficeComponent } from './Components/BackOffice/event/ev
 
 import { PartnerListBackOfficeComponent } from './Components/BackOffice/partner/partner-list/partner-list.component';
 import { PartnerCreateBackOfficeComponent } from './Components/BackOffice/partner/partner-create/partner-create.component';
-import { PartnerEditBackOfficeComponent } from './Components/BackOffice/partner/partner-edit/partner-edit.component';
+import { PartnerEditComponent } from './Components/BackOffice/partner/partner-edit/partner-edit.component';
 
 import { CarpoolingListBackOfficeComponent } from './Components/BackOffice/carpoolBackOffice/carpooling-listBackOffice/carpooling-listBackOffice.component';
 import { CarpoolingDetailBackOfficeComponent } from './Components/BackOffice/carpoolBackOffice/carpooling-detailBackOffice/carpooling-detailBackOffice.component';
@@ -234,6 +234,7 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     ComplaintDetailsFrontOfficeComponent,
     ComplaintListFrontOfficeComponent,
     PartnerListBackOfficeComponent,
+    PartnerEditComponent,
     DashboardModule  ,
     ToastrModule.forRoot({
       progressBar: true,

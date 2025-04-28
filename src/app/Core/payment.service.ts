@@ -35,12 +35,13 @@ export class PaymentService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     });
-
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const payload: any = {
       paymentAmount: Number(paymentData.amount.toFixed(2)),
       currency: 'USD',
       paymentMethod: paymentData.paymentMethod.toUpperCase(),
-      tripId: paymentData.tripId || null
+      tripId: paymentData.tripId || null,
+      userId: user?.userId || null 
     };
 
     if (paymentData.paymentMethod.toUpperCase() === 'STRIPE') {

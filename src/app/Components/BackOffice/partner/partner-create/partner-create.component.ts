@@ -13,10 +13,13 @@ import { Router } from '@angular/router';
 })
 export class PartnerCreateBackOfficeComponent {
     partner: Partner = {
+        partnerId: 0, // Default value for partnerId
         partnerName: '',
         partnerContactInfo: '',
         partnerCode: 0,
-        partnershipDuration: 0
+        partnershipDuration: 0,
+        commissionRate: 0, // Default value for commissionRate
+        totalCommission: 0 // Default value for totalCommission
     };
     successMessage: string = '';
     errorMessage: string = '';
@@ -33,7 +36,7 @@ export class PartnerCreateBackOfficeComponent {
             next: (createdPartner: Partner) => {
                 this.successMessage = 'Partner created successfully!';
                 this.errorMessage = '';
-                this.partner = { partnerName: '', partnerContactInfo: '', partnerCode: 0, partnershipDuration: 0 }; // Reset form
+                this.partner = { partnerId: 0, partnerName: '', partnerContactInfo: '', partnerCode: 0, partnershipDuration: 0, commissionRate: 0, totalCommission: 0 }; // Reset form
                 this.isLoading = false; // Set isLoading to false when the process is complete
                 this.createPaymentForPartner(createdPartner); // Optionally create payment
             },

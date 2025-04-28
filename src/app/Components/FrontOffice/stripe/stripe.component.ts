@@ -70,23 +70,40 @@ export class StripePaymentComponent implements OnInit {
   
     console.log('✅ Stripe PaymentMethod created:', paymentMethod);
   
+    // Get user from localStorage with better error handling
+    let user;
+    try {
+      const userStr = localStorage.getItem('user');
+      console.log('🔍 Raw user data from localStorage:', userStr);
+      user = userStr ? JSON.parse(userStr) : null;
+      console.log('👤 Parsed user data:', user);
+    } catch (e) {
+      console.error('❌ Error parsing user data:', e);
+      user = null;
+    }
+  
     const payload = {
       paymentAmount: this.amount,
       paymentDate: new Date(),
-      paymentMethod: 'STRIPE',
-      stripePaymentMethodId: paymentMethod.id
+      paymentMethod: 'CREDIT_CARD',
+      stripePaymentMethodId: paymentMethod.id,
+      userId: user?.userId || null,
+      tripId: 1  // Adding tripId as per your example
     };
     
-  
+    console.log('📦 Sending payment payload:', payload);
+    
     this.http.post('http://localhost:8089/examen/payments/process', payload)
-.subscribe({
-      next: () => {
-        this.paymentSuccess = true;
-        alert('✅ Payment completed!');
-      },
-      error: () => {
-        alert('❌ Payment failed.');
-      }
-    });
+      .subscribe({
+        next: (response) => {
+          console.log('✅ Payment response:', response);
+          this.paymentSuccess = true;
+          alert('✅ Payment completed!');
+        },
+        error: (error) => {
+          console.error('❌ Payment error:', error);
+          alert('❌ Payment failed: ' + (error.error?.message || 'Unknown error'));
+        }
+      });
   }
-}
+}  
