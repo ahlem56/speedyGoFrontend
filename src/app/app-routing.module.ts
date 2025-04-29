@@ -116,6 +116,9 @@ import { VehicleCreateBackOfficeComponent } from './Components/BackOffice/vehicl
 import { VehicleEditBackOfficeComponent } from './Components/BackOffice/vehicle/vehicle-edit/vehicle-edit.component';
 import { VehicleDetailBackOfficeComponent } from './Components/BackOffice/vehicle/vehicle-detail/vehicle-detail.component';
 
+// Commission components
+import { CommissionListComponent } from './Components/BackOffice/commission/commission-list/commission-list.component';
+import { PartnerCommissionComponent } from './Components/FrontOffice/commission/commission.component';
 
 //************* Imports Driver Interface Components *************
 // Chat components
@@ -195,6 +198,7 @@ const routes: Routes = [
       { path: 'about', component: AboutComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'signup', component: SignupComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'partner/commissions', component: PartnerCommissionComponent, canActivate: [AuthGuard], data: { roles: ['PARTNER'] }},
       { path: 'edit-profile', component: EditProfileComponent },
       {path: 'forgot-password', component: ForgotPasswordComponent},
       { path: 'reset-password', component: ResetPasswordComponent },
@@ -234,6 +238,7 @@ const routes: Routes = [
 
       // BackOffice Routes
       { path: 'back-office/dashboard', component: DashboardComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},
+      { path: 'back-office/commissions', component: CommissionListComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/rules/create', component: RuleCreationBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/rules/:id', component: RuleDetailsBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
       { path: 'back-office/rules/edit/:id', component: RuleEditBackOfficeComponent , canActivate: [AuthGuard], data: { roles: ['Admin'] }},

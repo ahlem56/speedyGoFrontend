@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
 import { PartnerService } from 'src/app/Core/partner.service';
 import { Partner } from 'src/app/Models/partner.model';
-import { PaymentService } from 'src/app/Core/payment.service';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NgForm, FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-partner-create',
     templateUrl: './partner-create.component.html',
     styleUrls: ['./partner-create.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, FormsModule, RouterModule]
 })
 export class PartnerCreateBackOfficeComponent {
     partner: Partner = {
@@ -25,40 +28,49 @@ export class PartnerCreateBackOfficeComponent {
     errorMessage: string = '';
     isLoading: boolean = false; // Add this line to define `isLoading`
 
-    constructor(private partnerService: PartnerService, private paymentService: PaymentService, protected router: Router) {} // Inject Router
+    constructor(
+        private formBuilder: FormBuilder,
+        private partnerService: PartnerService,
+        public router: Router,
+        private toastr: ToastrService
+    ) {}
 
     createPartner(partnerForm: NgForm) {
-        if (partnerForm.invalid) return;
+        if (partnerForm.invalid) {
+            this.errorMessage = 'Please fill in all required fields';
+            return;
+        }
 
-        this.isLoading = true; // Set isLoading to true when starting the creation process
+        this.isLoading = true;
+        this.errorMessage = '';
         
         this.partnerService.createPartner(this.partner).subscribe({
-            next: (createdPartner: Partner) => {
+            next: (createdPartner) => {
                 this.successMessage = 'Partner created successfully!';
-                this.errorMessage = '';
-                this.partner = { partnerId: 0, partnerName: '', partnerContactInfo: '', partnerCode: 0, partnershipDuration: 0, commissionRate: 0, totalCommission: 0 }; // Reset form
-                this.isLoading = false; // Set isLoading to false when the process is complete
-                this.createPaymentForPartner(createdPartner); // Optionally create payment
+                this.isLoading = false;
+                // Reset form
+                this.partner = {
+                    partnerId: 0,
+                    partnerName: '',
+                    partnerContactInfo: '',
+                    partnerCode: 0,
+                    partnershipDuration: 0,
+                    commissionRate: 0,
+                    totalCommission: 0
+                };
+                // Navigate to partner list after a short delay
+                setTimeout(() => {
+                    this.router.navigate(['/back-office/partners']);
+                }, 1500);
             },
-            error: (err: any) => {
-                this.errorMessage = 'Failed to create partner. Please try again.';
-                this.successMessage = '';
-                this.isLoading = false; // Reset loading state if there's an error
+            error: (err) => {
+                this.errorMessage = err.message || 'Failed to create partner. Please try again.';
+                this.isLoading = false;
             }
         });
     }
 
-    createPaymentForPartner(createdPartner: Partner) {
-        // Assuming you need to create a payment for this partner, call the PaymentService
-        this.paymentService.createPayment({ partnerId: createdPartner.partnerCode }).subscribe({
-            next: (paymentResponse: any) => {
-                console.log('Payment successfully created for the partner:', paymentResponse);
-                // Handle success, maybe show a success message or update UI
-            },
-            error: (err: any) => {
-                console.error('Failed to create payment for partner:', err);
-                // Handle payment creation error (Optional: Show an error message or handle logic)
-            }
-        });
+    cancel() {
+        this.router.navigate(['/back-office/partners']);
     }
 }

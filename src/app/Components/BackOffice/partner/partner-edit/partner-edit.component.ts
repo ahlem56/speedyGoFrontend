@@ -1,6 +1,6 @@
 // partner-edit.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PartnerService } from 'src/app/Core/partner.service';
@@ -11,12 +11,13 @@ import { Partner } from 'src/app/Models/partner.model';
   templateUrl: './partner-edit.component.html',
   styleUrls: ['./partner-edit.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, RouterModule]
 })
 export class PartnerEditComponent implements OnInit {
   partner: Partner = {} as Partner;
   isLoading = true;
   errorMessage = '';
+  successMessage = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +36,9 @@ export class PartnerEditComponent implements OnInit {
   }
 
   loadPartner(id: number): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    
     this.partnerService.getPartnerById(id).subscribe({
       next: (partner) => {
         this.partner = partner;
@@ -42,21 +46,33 @@ export class PartnerEditComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading partner:', err);
-        this.errorMessage = 'Failed to load partner details';
+        this.errorMessage = err.message || 'Failed to load partner details';
         this.isLoading = false;
       }
     });
   }
 
   savePartner(): void {
+    if (!this.partner.partnerId) {
+      this.errorMessage = 'Invalid partner data';
+      return;
+    }
+    
     this.isLoading = true;
+    this.errorMessage = '';
+    
     this.partnerService.updatePartner(this.partner.partnerId, this.partner).subscribe({
       next: () => {
-        this.router.navigate(['/back-office/partners']);
+        this.successMessage = 'Partner updated successfully!';
+        this.isLoading = false;
+        // Navigate back to partner list after a short delay
+        setTimeout(() => {
+          this.router.navigate(['/back-office/partners']);
+        }, 1500);
       },
       error: (err) => {
         console.error('Error updating partner:', err);
-        this.errorMessage = 'Failed to update partner';
+        this.errorMessage = err.message || 'Failed to update partner';
         this.isLoading = false;
       }
     });

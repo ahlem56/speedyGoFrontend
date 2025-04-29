@@ -41,6 +41,7 @@ export class PaymentService {
       currency: 'USD',
       paymentMethod: paymentData.paymentMethod.toUpperCase(),
       tripId: paymentData.tripId || null,
+      parcelId: paymentData.parcelId || null,
       userId: user?.userId || null 
     };
 

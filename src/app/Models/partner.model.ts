@@ -4,6 +4,8 @@ export interface Partner {
   partnerName: string;
   partnerContactInfo?: string;
   partnershipDuration?: number;
-  commissionRate?: number;
-  totalCommission?: number;
+  commissionRate?: string | number;
+  totalCommission?: string | number;
+  simpleUsers?: any[];
+  promotions?: any;
 }

@@ -32,11 +32,14 @@ export class LoginComponent {
           localStorage.setItem('userRole', response.role);
           localStorage.setItem('user', JSON.stringify(response.user));
 
-          // Redirect based on user role
-          if (response.role === 'Admin') {
+          // Redirect based on user role (case-insensitive comparison)
+          const role = response.role.toLowerCase();
+          if (role === 'admin') {
             this.router.navigate(['back-office/dashboard']);
-          } else if (response.role === 'Driver') {
+          } else if (role === 'driver') {
             this.router.navigate(['driver-interface/trips']);
+          } else if (role === 'partner') {
+            this.router.navigate(['partner/commissions']);
           } else {
             this.router.navigate(['landingPage']); // Default route if no specific role
           }

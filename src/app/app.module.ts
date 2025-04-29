@@ -136,24 +136,22 @@ import { ToastNotificationComponent } from './Shared/toast-notification/toast-no
 
 import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/vehicle-travel-history/vehicle-travel-history.component";
 
+import { CommissionListComponent } from './Components/BackOffice/commission/commission-list/commission-list.component';
+import { PartnerCommissionComponent } from './Components/FrontOffice/commission/commission.component';
+
 // Define routes
 @NgModule({
   declarations: [
-
     AppComponent,
     TripListFrontOfficeComponent,
-
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
-   // CarpoolingCreateFrontOfficeComponent,
-    //CarpoolingDetailFrontOfficeComponent,
     CarpoolingJoinFrontOfficeComponent,
     ParcelListFrontOfficeComponent,
     ParcelTrackFrontOfficeComponent,
     ParcelCreateFrontOfficeComponent,
     ParcelDetailFrontOfficeComponent,
     VehicleDetailFrontOfficeComponent,
-    //PaymentCreationFrontOfficeComponent,
     PaymentHistoryFrontOfficeComponent,
     PaymentMethodFrontOfficeComponent,
     EventListFrontOfficeComponent,
@@ -163,52 +161,39 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     ChatListFrontOfficeComponent,
     ChatMessageCreationFrontOfficeComponent,
     ChatMessageEditFrontOfficeComponent,
-    //ComplaintCreationFrontOfficeComponent,
-
     SubscriptionDetailsFrontOfficeComponent,
     PromotionDetailsFrontOfficeComponent,
-
-
     RuleCreationBackOfficeComponent,
     RuleDetailsBackOfficeComponent,
     PromotionCreationBackOfficeComponent,
     PromotionEditBackOfficeComponent,
-
     EventListBackOfficeComponent,
     EventDetailBackOfficeComponent,
     EventNotifyBackOfficeComponent,
-    PartnerCreateBackOfficeComponent,
-
     CarpoolingListBackOfficeComponent,
     CarpoolingDetailBackOfficeComponent,
-
     ParcelListBackOfficeComponent,
     ParcelDetailBackOfficeComponent,
     ParcelTrackBackOfficeComponent,
     PaymentHistoryBackOfficeComponent,
     PaymentMethodBackOfficeComponent,
-
     TripListBackOfficeComponent,
     TripDetailBackOfficeComponent,
     VehicleListBackOfficeComponent,
     VehicleCreateBackOfficeComponent,
     VehicleEditBackOfficeComponent,
     VehicleDetailBackOfficeComponent,
-
     ChatDriverInterfaceComponent,
     ChatListDriverInterfaceComponent,
     ChatMessageCreationDriverInterfaceComponent,
     ChatMessageEditDriverInterfaceComponent,
-
     TripDetailDriverInterfaceComponent,
     ParcelListDriverInterfaceComponent,
     ParcelDetailDriverInterfaceComponent,
     ParcelTrackDriverInterfaceComponent,
     VehicleListDriverInterfaceComponent,
     VehicleDetailDriverInterfaceComponent,
-
-    NotFoundComponent,
-
+    NotFoundComponent
   ],
   imports: [
     MatDialogModule,
@@ -229,13 +214,12 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     ReactiveFormsModule,
     TripCreateFrontOfficeComponent,
     CarpoolingDetailFrontOfficeComponent,
-    //CarpoolingOfferFrontOfficeComponent,
     CarpoolingOfferFrontOfficeComponent,
     ComplaintDetailsFrontOfficeComponent,
     ComplaintListFrontOfficeComponent,
     PartnerListBackOfficeComponent,
     PartnerEditComponent,
-    DashboardModule  ,
+    DashboardModule,
     ToastrModule.forRoot({
       progressBar: true,
       closeButton: true,
@@ -245,9 +229,6 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
-
-
-
     ToastNotificationComponent,
     SubscriptionCreationFrontOfficeComponent,
     SubscriptionDetailsBackOfficeComponent,
@@ -261,11 +242,9 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     ComplaintCreationFrontOfficeComponent,
     ReactiveFormsModule,
     FooterComponent,
-    
     EditProfileComponent,
-
     FormsModule,
-   GoogleMapsModule,
+    GoogleMapsModule,
     HttpClientModule,
     RouterModule,
     ScheduleDriverInterfaceComponent,
@@ -275,8 +254,8 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     AccessDeniedComponent,
     NotificationFrontOfficeComponent,
     FullComponent,   // Import standalone component
-
-
+    CommissionListComponent,  // Import standalone component
+    PartnerCommissionComponent  // Import standalone component
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Partner } from '../Models/partner.model';
@@ -10,131 +10,152 @@ import { Partner } from '../Models/partner.model';
   providedIn: 'root'
 })
 export class PartnerService {
-  private apiUrl = 'http://localhost:8089/examen/partners'; 
+  // Use the full URL since proxy isn't working
+  private apiUrl = 'http://localhost:8089/examen/partners';
 
   constructor(private http: HttpClient) {}
 
-  // Create a new partner
-  createPartner(partner: Partner): Observable<Partner> {
-    return this.http.post<Partner>(`${this.apiUrl}/create`, partner, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     });
   }
- 
-  // Helper method to remove circular references
-  private removeCircularReferences(obj: any): any {
-    if (!obj || typeof obj !== 'object') {
-      return obj;
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error);
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      return throwError(() => new Error('Network error occurred. Please check your connection.'));
+    } else {
+      // Backend error
+      return throwError(() => new Error(`Backend returned code ${error.status}, body was: ${error.error}`));
     }
-
-    // Create a new object to store the cleaned data
-    const cleaned: any = {};
-
-    // Iterate through all properties
-    for (const key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        // Skip the partners property in simpleUsers to break the circular reference
-        if (key === 'partners') {
-          continue;
-        }
-
-        // Recursively clean nested objects and arrays
-        if (typeof obj[key] === 'object' && obj[key] !== null) {
-          if (Array.isArray(obj[key])) {
-            cleaned[key] = obj[key].map(item => this.removeCircularReferences(item));
-          } else {
-            cleaned[key] = this.removeCircularReferences(obj[key]);
-          }
-        } else {
-          cleaned[key] = obj[key];
-        }
-      }
-    }
-
-    return cleaned;
   }
 
   // Get all partners
   getPartners(): Observable<Partner[]> {
-    return this.http.get<any>(this.apiUrl).pipe(
-      map(response => {
-        try {
-          // If response is an array, clean each item
-          if (Array.isArray(response)) {
-            return response.map(item => this.removeCircularReferences(item));
-          }
-          
-          // If response is a string, try to parse it
-          if (typeof response === 'string') {
-            const parsed = JSON.parse(response);
-            if (Array.isArray(parsed)) {
-              return parsed.map(item => this.removeCircularReferences(item));
-            }
-            return [this.removeCircularReferences(parsed)];
-          }
-          
-          // If response is an object with data property
-          if (response && typeof response === 'object') {
-            if (response.data) {
-              if (Array.isArray(response.data)) {
-                return response.data.map((item: any) => this.removeCircularReferences(item));
-              }
-              return [this.removeCircularReferences(response.data)];
-            }
-            // If it's a single object, wrap it in an array
-            return [this.removeCircularReferences(response)];
-          }
-          
-          // If none of the above, return empty array
-          return [];
-        } catch (error) {
-          console.error('Error parsing response:', error);
-          return [];
-        }
-      }),
-      catchError(error => {
-        console.error('API Error:', error);
-        return throwError(() => new Error('Failed to fetch partners'));
+    console.log('Fetching partners from:', this.apiUrl);
+    
+    // Use a direct fetch approach to see the raw response
+    return new Observable<Partner[]>(observer => {
+      fetch(this.apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'include'
       })
+      .then(response => {
+        console.log('Raw fetch response:', response);
+        return response.json();
+      })
+      .then(data => {
+        console.log('Parsed fetch response:', data);
+        
+        // Check if data is an array
+        if (Array.isArray(data)) {
+          observer.next(data);
+          observer.complete();
+          return;
+        }
+        
+        // If data is an object, try to extract the partners array
+        if (data && typeof data === 'object') {
+          // Try different possible property names
+          const possibleProperties = ['content', 'partners', 'data', 'items', 'results'];
+          
+          for (const prop of possibleProperties) {
+            if (data[prop] && Array.isArray(data[prop])) {
+              observer.next(data[prop]);
+              observer.complete();
+              return;
+            }
+          }
+          
+          // If no array property found, try to convert the object to an array
+          const keys = Object.keys(data);
+          if (keys.length > 0) {
+            // Check if the object has numeric keys (like an array)
+            const numericKeys = keys.filter(key => !isNaN(Number(key)));
+            if (numericKeys.length > 0) {
+              // Convert to array
+              const arrayData = numericKeys.map(key => data[key]);
+              observer.next(arrayData);
+              observer.complete();
+              return;
+            }
+          }
+        }
+        
+        // If we can't extract an array, return empty array
+        console.warn('Could not extract partners array from response:', data);
+        observer.next([]);
+        observer.complete();
+      })
+      .catch(error => {
+        console.error('Error in getPartners fetch:', error);
+        observer.next([]);
+        observer.complete();
+      });
+    });
+  }
+
+  // Get a single partner by ID
+  getPartnerById(id: number): Observable<Partner> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    }).pipe(
+      map(partner => ({
+        ...partner,
+        commissionRate: partner.commissionRate?.toString() || '0',
+        totalCommission: partner.totalCommission?.toString() || '0'
+      })),
+      catchError(this.handleError)
     );
   }
 
-  // Get single partner by ID
-  getPartnerById(id: number): Observable<Partner> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
-      map(response => {
-        try {
-          // If response is an object, clean it
-          if (response && typeof response === 'object') {
-            return this.removeCircularReferences(response);
-          }
-          
-          // If response is a string, try to parse it
-          if (typeof response === 'string') {
-            const parsed = JSON.parse(response);
-            return this.removeCircularReferences(parsed);
-          }
-          
-          // If none of the above, return empty object
-          return {} as Partner;
-        } catch (error) {
-          console.error('Error parsing response:', error);
-          return {} as Partner;
-        }
-      }),
-      catchError(error => {
-        console.error('API Error:', error);
-        return throwError(() => new Error('Failed to fetch partner'));
-      })
+  // Create a new partner
+  createPartner(partner: Partner): Observable<Partner> {
+    const payload = {
+      ...partner,
+      commissionRate: Number(partner.commissionRate) || 0,
+      totalCommission: Number(partner.totalCommission) || 0
+    };
+
+    return this.http.post<Partner>(`${this.apiUrl}/create`, payload, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    }).pipe(
+      catchError(this.handleError)
     );
   }
 
   // Update a partner
   updatePartner(id: number, partner: Partner): Observable<Partner> {
-    return this.http.put<Partner>(`${this.apiUrl}/update/${id}`, partner);
+    const payload = {
+      ...partner,
+      commissionRate: Number(partner.commissionRate) || 0,
+      totalCommission: Number(partner.totalCommission) || 0
+    };
+
+    return this.http.put<Partner>(`${this.apiUrl}/${id}`, payload, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
+
+  // Delete a partner
   deletePartner(id: number): Observable<void> {
-    const headers = new HttpHeaders().set('X-HTTP-Method-Override', 'DELETE');
-    return this.http.post<void>(`${this.apiUrl}/${id}`, null, { headers });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 }

@@ -98,11 +98,19 @@ export class StripePaymentComponent implements OnInit {
         next: (response) => {
           console.log('✅ Payment response:', response);
           this.paymentSuccess = true;
-          alert('✅ Payment completed!');
+          alert('✅ Payment completed successfully!');
         },
         error: (error) => {
-          console.error('❌ Payment error:', error);
-          alert('❌ Payment failed: ' + (error.error?.message || 'Unknown error'));
+          // Only show error if it's not a 201 status code
+          if (error.status !== 201) {
+            console.error('❌ Payment error:', error);
+            alert('❌ Payment failed: ' + (error.error?.message || 'Unknown error'));
+          } else {
+            // Handle 201 as success
+            console.log('✅ Payment response:', error);
+            this.paymentSuccess = true;
+            alert('✅ Payment completed successfully!');
+          }
         }
       });
   }
