@@ -11,6 +11,8 @@ export class TopCardsComponent implements OnInit, OnChanges {
   @Input() totalUsers: number = 0;  // Default value of 0
   @Input() totalTrips: number = 0;  // Default value of 0
   @Input() totalCarpools: number = 0; 
+  @Input() totalParcels: number = 0; // Added for parcels count
+
 
   topcards: topcard[];
 
@@ -24,6 +26,8 @@ export class TopCardsComponent implements OnInit, OnChanges {
     this.updateTotalUsersCard();
     this.updateTotalTripsCard();
     this.updateTotalCarpoolsCard(); 
+    this.updateTotalParcelsCard(); // Added
+
 
 
   }
@@ -60,6 +64,13 @@ export class TopCardsComponent implements OnInit, OnChanges {
     const totalCarpoolsCard = this.topcards.find(card => card.title === 'Total Carpools');
     if (totalCarpoolsCard) {
       totalCarpoolsCard.subtitle = this.totalCarpools.toString();
+    }
+  }
+
+  private updateTotalParcelsCard(): void { // Added
+    const totalParcelsCard = this.topcards.find(card => card.title === 'Total Parcels');
+    if (totalParcelsCard) {
+      totalParcelsCard.subtitle = this.totalParcels.toString();
     }
   }
 }

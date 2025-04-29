@@ -10,7 +10,7 @@
       <h1 class="hero-title">Transport Management Dashboard</h1>
       <p class="hero-subtitle">Real-time insights & analytics</p>
     </div>
-    <app-top-cards [totalUsers]="totalUsers" [totalTrips]="totalTrips" [totalCarpools]="totalCarpools" class="floating-cards"></app-top-cards>
+    <app-top-cards [totalUsers]="totalUsers" [totalTrips]="totalTrips" [totalCarpools]="totalCarpools" [totalParcels]="totalParcels" class="floating-cards"></app-top-cards>
   </section>
 
   <!-- ============================================================== -->
@@ -34,6 +34,138 @@
       </google-map>
     </div>
   </section>
+
+
+
+
+<!-- ============================================================== -->
+<!-- Parcel Statistics Section -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Enhanced Parcel Statistics Section -->
+<!-- ============================================================== -->
+<section class="metrics-section">
+  <div class="metrics-card">
+    <div class="metrics-card-header">
+      <div class="header-content">
+        <h3 class="section-title">
+          <i class="fas fa-truck"></i> Parcel Delivery Analytics
+        </h3>
+        <div class="date-filter">
+          <span class="filter-label">Showing data for:</span>
+          <span class="current-date">{{ currentDate | date:'fullDate' }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats-grid">
+      <!-- Today's Deliveries -->
+      <div class="stat-item today">
+        <div class="stat-header">
+          <div class="stat-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h4>Today's Performance</h4>
+        </div>
+        <div class="stat-main">
+          <p class="stat-value">{{ totalDeliveredToday }}</p>
+          <p class="stat-label">Parcels Delivered</p>
+        </div>
+        <div class="stat-footer">
+          <div class="progress-container">
+            <div class="progress-bar" [style.width.%]="(totalDeliveredToday / (totalDeliveredToday + 5)) * 100"></div>
+          </div>
+          <span class="progress-text">
+            <span *ngIf="totalDeliveredToday > 0; else noDeliveries">
+              {{ (totalDeliveredToday / (totalDeliveredToday + 5)) * 100 | number:'1.0-0' }}% of daily target
+            </span>
+            <ng-template #noDeliveries>
+              No deliveries yet today
+            </ng-template>
+          </span>
+        </div>
+      </div>
+      
+      <!-- Weekly Deliveries -->
+      <div class="stat-item week">
+        <div class="stat-header">
+          <div class="stat-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h4>Weekly Summary</h4>
+        </div>
+        <div class="stat-main">
+          <p class="stat-value">{{ totalDeliveredThisWeek }}</p>
+          <p class="stat-label">Total This Week</p>
+        </div>
+        <div class="stat-footer">
+          <div class="comparison">
+            <i class="fas" [ngClass]="totalDeliveredThisWeek >= 10 ? 'fa-arrow-up text-success' : 'fa-arrow-down text-warning'"></i>
+            <span>Compared to last week</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Monthly Deliveries -->
+      <div class="stat-item month">
+        <div class="stat-header">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <h4>Monthly Overview</h4>
+        </div>
+        <div class="stat-main">
+          <p class="stat-value">{{ totalDeliveredThisMonth }}</p>
+          <p class="stat-label">Total This Month</p>
+        </div>
+        <div class="stat-footer">
+          <div class="completion">
+            <div class="completion-bar">
+              <div class="fill" [style.width.%]="(totalDeliveredThisMonth / 50) * 100"></div>
+            </div>
+            <span class="completion-text">
+              {{ (totalDeliveredThisMonth / 50) * 100 | number:'1.0-0' }}% of monthly goal
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+</section>
+
+
+<!-- ============================================================== -->
+<!-- Top Rated Users Section -->
+<!-- ============================================================== -->
+<section class="metrics-section">
+  <div class="metrics-card">
+    <div class="metrics-card-header">
+      <h3>Top Rated Carpool Offerers</h3>
+    </div>
+    <div class="offerers-container">
+      <div class="offerer-profile" *ngFor="let offerer of topRatedOfferers">
+        <div class="offerer-avatar">
+          <img
+            [src]="'http://localhost:8089/examen/user/profile-photo/' + offerer.userProfilePhoto"
+            [alt]="offerer.firstName + ' ' + offerer.lastName"
+            class="profile-photo"
+            (error)="handleImageError($event)"
+          />
+        </div>
+        <div class="offerer-info">
+          <h4>{{ offerer.firstName }} {{ offerer.lastName }}</h4>
+          <div class="offerer-rating">
+            <div class="stars">
+              <span *ngFor="let star of ratings(offerer.averageRating, true)" [ngClass]="star"></span>
+            </div>
+            <span class="rating-value">{{ (offerer.averageRating / 20) | number: '1.1-1' }} / 5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <!-- ============================================================== -->
   <!-- Top Rated Drivers Section -->
@@ -100,38 +232,7 @@
       </div>
     </div>
   </section>
-   <!-- ============================================================== -->
-  <!-- Top Rated Users Section -->
-  <!-- ============================================================== -->
-  <section class="metrics-section">
-      <div class="metrics-card-header">
-        <h3>Top Rated Carpool Offerers</h3>
-      </div>
-      <div class="offerers-container">
-        <div class="offerer-profile" *ngFor="let offerer of topRatedOfferers">
-          <div class="offerer-avatar">
-            <img
-            [src]=" offerer.profilePhotoUrl"
-            [alt]="offerer.firstName + ' ' + offerer.lastName"
-            class="profile-photo"
-            (error)="handleImageError($event)"
-          />
-          
-          </div>
-          <div class="offerer-info">
-            <h4>{{ offerer.firstName }} {{ offerer.lastName }}</h4>
-            <div class="offerer-rating">
-              <div class="stars">
-                <span *ngFor="let star of ratings(offerer.averageRating, true)" [ngClass]="star"></span>
-              </div>
-              <span class="rating-value">{{ (offerer.averageRating / 20) | number: '1.1-1' }} / 5</span>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-
+   
   <!-- ============================================================== -->
   <!-- Revenue Analytics Section -->
   <!-- ============================================================== -->
@@ -685,6 +786,249 @@ section {
 
 
 
+
+/* ================================= */
+/* Enhanced Parcel Statistics Styles */
+/* ================================= */
+
+.metrics-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header-content {
+  width: 100%;
+}
+
+.section-title i {
+  margin-right: 10px;
+  color: #3b82f6;
+}
+
+.date-filter {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-right: 0.5rem;
+}
+
+.current-date {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-item {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 1.1rem;
+}
+
+.stat-item.today .stat-icon {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+}
+
+.stat-item.week .stat-icon {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.stat-item.month .stat-icon {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.stat-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.stat-main {
+  margin: 1.5rem 0;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+  color: #1e293b;
+}
+
+.stat-item.today .stat-value {
+  color: #6366f1;
+}
+
+.stat-item.week .stat-value {
+  color: #10b981;
+}
+
+.stat-item.month .stat-value {
+  color: #f59e0b;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0.5rem 0 0;
+}
+
+.stat-footer {
+  margin-top: 1.5rem;
+}
+
+.progress-container {
+  height: 6px;
+  background-color: #e2e8f0;
+  border-radius: 3px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #6366f1;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.comparison {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.comparison i {
+  margin-right: 0.5rem;
+}
+
+.text-success {
+  color: #10b981;
+}
+
+.text-warning {
+  color: #f59e0b;
+}
+
+.completion-bar {
+  height: 6px;
+  background-color: #e2e8f0;
+  border-radius: 3px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+
+.completion-bar .fill {
+  height: 100%;
+  background-color: #f59e0b;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.completion-text {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.stats-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.action-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.export-btn {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+}
+
+.export-btn:hover {
+  background-color: #f8fafc;
+}
+
+.refresh-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.refresh-btn:hover {
+  background-color: #2563eb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-actions {
+    justify-content: center;
+  }
+}
 
 
 

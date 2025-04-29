@@ -167,18 +167,27 @@ export class NotificationFrontOfficeComponent implements OnInit, OnDestroy {
         message: `A new event titled '${message.eventDescription || 'unknown'}' has been created!`,
         timestamp: new Date(message.timestamp || Date.now())
       };
-    } else if (message.details && message.details.passengers && !message.type) {
+    } if (message.type === 'TRIP_ACCEPTED' && message.details) {
       const details = message.details;
       return {
-        type: 'acceptance',
-        departure: details.departure || 'unknown',
-        destination: details.destination || 'unknown',
-        price: details.price || 0,
-        passengers: details.passengers || 0,
-        message: `Your trip from ${details.departure || 'unknown'} to ${details.destination || 'unknown'} has been confirmed!`,
-        timestamp: new Date(message.timestamp || Date.now())
+          type: 'acceptance',
+          departure: details.departure || 'unknown',
+          destination: details.destination || 'unknown',
+          price: details.price || 0,
+          passengers: details.passengers || 0,
+          message: message.message || `Your trip from ${details.departure || 'unknown'} to ${details.destination || 'unknown'} has been confirmed!`,
+          timestamp: new Date(message.timestamp || Date.now())
       };
-    }
+  }
+  if (message.parcelStatus) {
+    return {
+      type: 'parcel',
+      parcelId: message.parcelId,
+      status: message.parcelStatus,
+      message: `Your parcel #${message.parcelId} is now ${message.parcelStatus}.`,
+      timestamp: new Date(message.timestamp || Date.now())
+    };
+  }
 
     console.warn('Unmapped notification:', message);
     return null;
@@ -187,4 +196,9 @@ export class NotificationFrontOfficeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.notificationService.closeConnection();
   }
+
+    // New helper method to check if there are notifications of specific types
+    hasNotifications(types: string[]): boolean {
+      return this.notifications.some(notification => types.includes(notification.type));
+    }
 }

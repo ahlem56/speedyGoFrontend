@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -57,17 +57,17 @@ export class ParcelService {
   }
  // Nombre de livraisons par jour
  getDeliveredParcelsByDay(date: string): Observable<number> {
-  return this.http.get<number>(`${this.apiUrl}/countDeliveredParcelsByDay?date=${date}`);
+  return this.http.get<number>(`${this.apiUrl}countDeliveredParcelsByDay?date=${date}`);
 }
 
 // Nombre de livraisons par semaine
 getDeliveredParcelsByWeek(date: string): Observable<number> {
-  return this.http.get<number>(`${this.apiUrl}/countDeliveredParcelsByWeek?date=${date}`);
+  return this.http.get<number>(`${this.apiUrl}countDeliveredParcelsByWeek?date=${date}`);
 }
 
 // Nombre de livraisons par mois
 getDeliveredParcelsByMonth(date: string): Observable<number> {
-  return this.http.get<number>(`${this.apiUrl}/countDeliveredParcelsByMonth?date=${date}`);
+  return this.http.get<number>(`${this.apiUrl}countDeliveredParcelsByMonth?date=${date}`);
 }
 // Méthode pour marquer un colis comme expédié (SHIPPED)
 // Méthode pour marquer un colis comme expédié (SHIPPED)
@@ -124,4 +124,23 @@ getDamagedParcels(): Observable<any[]> {
 
   return this.http.get<any[]>(url, { headers });
 }
+
+// Add this method to your ParcelService
+getParcelStatistics(date: string): Observable<{daily: number, weekly: number, monthly: number}> {
+  return this.http.get<{daily: number, weekly: number, monthly: number}>(
+    `${this.apiUrl}statistics?date=${date}`
+  ).pipe(
+    catchError(error => {
+      console.error('Error fetching parcel statistics:', error);
+      // Return default values if there's an error
+      return of({
+        daily: 0,
+        weekly: 0,
+        monthly: 0
+      });
+    })
+  );
 }
+}
+
+

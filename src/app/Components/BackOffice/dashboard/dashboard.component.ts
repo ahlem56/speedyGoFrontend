@@ -14,6 +14,8 @@ export class DashboardComponent implements OnInit {
   totalUsers: number = 0;
   totalTrips: number = 0;
   totalCarpools: number = 0; // Added for carpool count
+  totalParcels: number = 0; // Added
+
   trips: any[] = [];
   center: google.maps.LatLngLiteral = { lat: 33.8869, lng: 9.5375 };
   zoom: number = 7;
@@ -47,6 +49,8 @@ export class DashboardComponent implements OnInit {
   totalDeliveredThisMonth: number = 0;
   topRatedOfferers: any[] = []; // Added
   readonly baseApiUrl = 'http://localhost:8089/examen/user';
+  currentDate: Date = new Date();
+
 
   constructor(
     private http: HttpClient,
@@ -64,6 +68,8 @@ export class DashboardComponent implements OnInit {
     this.getVehiclesWithExpiredInsurance();
     this.getTotalCarpools();
     this.getTopRatedOfferers();
+    this.getTotalParcels(); // Added
+
     
 
   }
@@ -129,20 +135,24 @@ export class DashboardComponent implements OnInit {
     return icon;
   }
 
-  getStatistics(): void {
-    const currentDate = new Date().toISOString().split('T')[0];
-
-    this.parcelService.getDeliveredParcelsByDay(currentDate).subscribe(
-      count => this.totalDeliveredToday = count
-    );
-
-    this.parcelService.getDeliveredParcelsByWeek(currentDate).subscribe(
-      count => this.totalDeliveredThisWeek = count
-    );
-
-    this.parcelService.getDeliveredParcelsByMonth(currentDate).subscribe(
-      count => this.totalDeliveredThisMonth = count
-    );
+  // Update the getStatistics method in your component
+ getStatistics(): void {
+    const dateString = this.currentDate.toISOString().split('T')[0];
+    
+    this.parcelService.getParcelStatistics(dateString).subscribe({
+      next: (stats) => {
+        this.totalDeliveredToday = stats.daily;
+        this.totalDeliveredThisWeek = stats.weekly;
+        this.totalDeliveredThisMonth = stats.monthly;
+      },
+      error: (err) => {
+        console.error('Error fetching parcel statistics:', err);
+        // Set default values
+        this.totalDeliveredToday = 0;
+        this.totalDeliveredThisWeek = 0;
+        this.totalDeliveredThisMonth = 0;
+      }
+    });
   }
 
   getTopRatedDrivers(): void {
@@ -182,20 +192,12 @@ export class DashboardComponent implements OnInit {
     this.http.get<any[]>('http://localhost:8089/examen/carpools/top-rated-offerers')
       .subscribe({
         next: (offerers) => {
-         offerers.forEach(offerer => {
-           offerer.profilePhotoUrl = this.getProfilePhotoUrl(offerer.userProfilePhoto || offerer.userProfilePhoto);
-           console.log('Profile photo URL:', offerer.profilePhotoUrl);
-           
-         });
-         console.log('Offerer data:', offerers);
-
           this.topRatedOfferers = offerers;
           console.log('Top 3 rated carpool offerers:', this.topRatedOfferers);
-          
         },
         error: (err) => console.error('Error fetching top-rated offerers', err)
       });
-  }
+}
   
 
 
@@ -236,5 +238,16 @@ export class DashboardComponent implements OnInit {
     console.warn(`Image failed to load: ${imgElement.src}, hiding image`);
     imgElement.style.display = 'none';
   }
+
+
+  // Add this new method
+  getTotalParcels(): void {
+    this.http.get<number>('http://localhost:8089/examen/Admin/total-parcels')
+      .subscribe({
+        next: (data) => this.totalParcels = data,
+        error: (err) => console.error('Error fetching total parcels', err)
+      });
+  }
+
 
 }
