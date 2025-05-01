@@ -1,74 +1,50 @@
-<!-- event-edit-back-office.component.html -->
-<div class="container mt-5">
-    <h2>Edit Event</h2>
-  
-    <div *ngIf="loading" class="loading-message">
-      <mat-spinner diameter="30"></mat-spinner>
-      Loading event details...
+<!-- src/app/BackOffice/event-detailBackOffice.component.html -->
+<div *ngIf="loading" class="loading">Chargement...</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<form *ngIf="!loading" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>Date</label>
+    <input type="datetime-local" formControlName="eventDate" />
+    <div *ngIf="submitting && f['eventDate'].errors" class="error">
+      Date requise.
     </div>
-  
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-  
-    <form *ngIf="!loading" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label for="eventDate" class="form-label">Event Date</label>
-        <input type="datetime-local"
-               class="form-control"
-               id="eventDate"
-               formControlName="eventDate">
-        <div *ngIf="eventForm.get('eventDate')?.hasError('required')"
-             class="text-danger">
-          Event date is required
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="eventDescription" class="form-label">Description</label>
-        <textarea class="form-control" id="eventDescription" formControlName="eventDescription" rows="4"></textarea>
-        <div *ngIf="eventForm.get('eventDescription')?.hasError('required') && eventForm.get('eventDescription')?.touched"
-             class="text-danger">
-          Description is required
-        </div>
-        <div *ngIf="eventForm.get('eventDescription')?.hasError('minlength')"
-             class="text-danger">
-          Minimum 10 characters required
-        </div>
-        <div *ngIf="eventForm.get('eventDescription')?.hasError('maxlength')"
-             class="text-danger">
-          Maximum 1000 characters allowed
-        </div>
-      </div>
-      <div class="mb-3">
-        <label for="eventLocation" class="form-label">Location</label>
-        <input type="text" class="form-control" id="eventLocation" formControlName="eventLocation">
-        <div *ngIf="eventForm.get('eventLocation')?.hasError('required') && eventForm.get('eventLocation')?.touched"
-             class="text-danger">
-          Location is required
-        </div>
-        <div *ngIf="eventForm.get('eventLocation')?.hasError('minlength')"
-             class="text-danger">
-          Minimum 5 characters required
-        </div>
-        <div *ngIf="eventForm.get('eventLocation')?.hasError('maxlength')"
-             class="text-danger">
-          Maximum 200 characters allowed
-        </div>
-      </div>
-  
-      <div class="button-group">
-        <button type="submit"
-                class="btn btn-primary"
-                [disabled]="!eventForm.valid">
-          Update Event
-        </button>
-        <button type="button"
-                class="btn btn-secondary"
-                (click)="router.navigate(['/back-office/events/list'])">
-          Cancel
-        </button>
-      </div>
-    </form>
   </div>
-  
+
+  <div class="form-group">
+    <label>Description</label>
+    <textarea formControlName="eventDescription"></textarea>
+    <div *ngIf="submitting && f['eventDescription'].errors" class="error">
+      Description invalide (max 500).
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Lieu</label>
+    <input type="text" formControlName="eventLocation" />
+    <div *ngIf="submitting && f['eventLocation'].errors" class="error">
+      Lieu invalide (max 100).
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Max participants</label>
+    <input type="number" formControlName="maxParticipants" />
+    <div *ngIf="submitting && f['maxParticipants'].errors" class="error">
+      Doit être ≥ 1.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Photo</label>
+    <input type="file" (change)="onFileChange($event)" />
+    <div *ngIf="photoPreview" class="preview">
+      <img [src]="photoPreview" alt="Aperçu" />
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="submitting">Enregistrer</button>
+  <button type="button" (click)="router.navigate(['/back-office/events/list'])">
+    Annuler
+  </button>
+</form>

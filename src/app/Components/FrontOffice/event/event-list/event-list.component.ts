@@ -1,62 +1,76 @@
-// event-list-front-office.component.ts
-import { Component, ViewChild } from '@angular/core';
-import { EventService, AppEvent } from "../../../../Core/event.service";
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { DatePipe } from '@angular/common';
+// src/app/FrontOffice/event-listFrontOffice.component.ts
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { EventService, AppEvent } from 'src/app/Core/event.service';
 
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.css'],
-  standalone: false,
-  host: { class: 'front-office' }
+  selector: 'app-event-list-front',
+  templateUrl: 'event-list.component.html',
+  styleUrls: ['event-list.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
 })
-export class EventListFrontOfficeComponent {
-  displayedColumns: string[] = ['eventDate', 'eventDescription', 'eventLocation'];
-  dataSource!: MatTableDataSource<Event, MatPaginator>;
+export class EventListFrontOfficeComponent implements OnInit {
+  events: AppEvent[] = [];
   loading = true;
-  errorMessage = '';
-  searchText = '';
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  error: string | null = null;
+  private userId!: number;
 
   constructor(
     private eventService: EventService,
     private datePipe: DatePipe
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userId = user.userId;
     this.loadEvents();
   }
 
-  loadEvents(): void {
+  private loadEvents(): void {
+    this.loading = true;
     this.eventService.getAllEvents().subscribe({
-      next: (events) => {
-        this.dataSource = new MatTableDataSource(events);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+      next: evts => {
+        this.events = evts.map(e => ({
+          ...e,
+          currentParticipants: e.simpleUsers?.length ?? 0,
+          registered: e.simpleUsers?.some(u => u.userId === this.userId) ?? false
+        }));
         this.loading = false;
       },
-      error: (err) => {
-        this.errorMessage = 'Error loading events: ' + err;
+      error: err => {
+        this.error = typeof err === 'string' ? err : err.message;
         this.loading = false;
       }
     });
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  formatDate(dateStr: string): string {
+    return this.datePipe.transform(dateStr, 'medium') || dateStr;
+  }
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  join(evt: AppEvent): void {
+    this.eventService.register(evt.eventId, this.userId).subscribe({
+      next: () => {
+        evt.registered = true;
+        evt.currentParticipants = (evt.currentParticipants ?? 0) + 1;
+      },
+      error: err => this.error = err.error?.message || err.message
+    });
+  }
+
+  leave(evt: AppEvent): void {
+    if (confirm("Are you sure you want to leave this event?")) {
+      this.eventService.unregister(evt.eventId, this.userId).subscribe({
+        next: () => {
+          evt.registered = false;
+          evt.currentParticipants = Math.max((evt.currentParticipants ?? 1) - 1, 0);
+          alert('You have successfully left the event.');
+        },
+        error: err => this.error = err.error?.message || err.message
+      });
     }
   }
 
-  formatDate(date: string): string {
-    return this.datePipe.transform(date, 'medium') || '';
-  }
 }

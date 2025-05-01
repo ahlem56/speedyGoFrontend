@@ -6,6 +6,7 @@ import { RatingService } from 'src/app/Core/rating.service';
 import { Vehicle, VehicleService } from 'src/app/Core/vehicle.service';
 import { AdminService } from 'src/app/Core/admin.service';
 import { Chart, ChartConfiguration, ArcElement, CategoryScale, Tooltip, Legend, PieController } from 'chart.js';
+import { EventService } from 'src/app/Core/event.service';
 
 // Register the required components
 Chart.register(ArcElement, CategoryScale, Tooltip, Legend, PieController);
@@ -21,7 +22,7 @@ export class DashboardComponent implements OnInit {
   totalCarpools: number = 0; // Added for carpool count
   totalParcels: number = 0; // Added
   subscriptionStats: any = {};
-
+  eventWithMostParticipants: any;  // Variable to store the event with most participants
   chart: any; // Chart.js instance
 
   trips: any[] = [];
@@ -65,7 +66,9 @@ export class DashboardComponent implements OnInit {
     private parcelService: ParcelService, 
     private ratingService: RatingService, 
     private vehicleService: VehicleService,
-    private adminService: AdminService
+    private adminService: AdminService,    
+    private eventService: EventService // Inject EventService
+
   ) {}
 
   ngOnInit(): void {
@@ -79,6 +82,8 @@ export class DashboardComponent implements OnInit {
     this.getTopRatedOfferers();
     this.getTotalParcels(); 
     this.getSubscriptionStats();
+    this.getEventWithMostParticipants();
+
 
   }
 
@@ -308,6 +313,16 @@ export class DashboardComponent implements OnInit {
   
     // Create the chart
     this.chart = new Chart(ctx, chartConfig);
+  }
+
+  getEventWithMostParticipants(): void {
+    this.eventService.getEventWithMostParticipants().subscribe({
+      next: (event) => {
+        this.eventWithMostParticipants = event;
+        console.log('Event with most participants:', this.eventWithMostParticipants);
+      },
+      error: (err) => console.error('Error fetching event with most participants', err)
+    });
   }
   
 }

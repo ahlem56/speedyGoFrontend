@@ -138,27 +138,60 @@
 <!-- ============================================================== -->
 <!-- Subscription Stats Section -->
 <!-- ============================================================== -->
-<section class="metrics-section">
-  <div class="metrics-card">
-    <div class="metrics-card-header">
-      <h3>Subscription Statistics</h3>
-    </div>
-    
-    <div class="stats-grid">
-      <!-- Professional and Graphic Representation of Subscription Stats -->
-      <div class="stat-item">
-        <div class="stat-header">
-          <h4>Subscription Distribution</h4>
+<!-- ============================================================== -->
+<!-- Subscription and Event with Most Participants Section -->
+<!-- ============================================================== -->
+<section class="subscription-event-container">
+  <!-- Subscription Stats Section -->
+  <div class="subscription-section">
+    <section class="metrics-section">
+      <div class="metrics-card">
+        <div class="metrics-card-header">
+          <h3>Subscription Statistics</h3>
         </div>
-        <div class="stat-main">
-          <div class="chart-container">
-            <canvas id="subscriptionChart"></canvas>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-header">
+              <h4>Subscription Distribution</h4>
+            </div>
+            <div class="stat-main">
+              <div class="chart-container">
+                <canvas id="subscriptionChart"></canvas>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+  </div>
+
+  <!-- Event with Most Participants Section -->
+  <div class="event-section">
+    <section class="metrics-section">
+      <div class="metrics-card">
+        <div class="metrics-card-header">
+          <h3>Event with Most Participants</h3>
+        </div>
+        <div class="event-container">
+          <div *ngIf="eventWithMostParticipants" class="event-card">
+            <div class="event-image-container">
+              <img [src]="eventWithMostParticipants.photo || 'assets/default-event-photo.jpg'" alt="Event Image" class="event-image">
+            </div>
+            <div class="event-details">
+              <h4>{{ eventWithMostParticipants.eventDescription }}</h4>
+              <p><strong>Location:</strong> {{ eventWithMostParticipants.eventLocation }}</p>
+              <p><strong>Participants:</strong> {{ eventWithMostParticipants.simpleUsers.length }} / {{ eventWithMostParticipants.maxParticipants }}</p>
+            </div>
+          </div>
+          <div *ngIf="!eventWithMostParticipants">
+            <p>Loading event details...</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </section>
+
 
 <!-- ============================================================== -->
 <!-- Top Rated Users Section -->
@@ -1062,7 +1095,165 @@ section {
   margin: 0 auto; /* Center the chart */
 }
 
-/* Or target the canvas directly */
+
+
+/* Styling for the Event with Most Participants section */
+/* Flex container for Subscription and Event sections */
+.subscription-event-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap; /* Ensure they stack on smaller screens */
+  margin-top: 20px;
+}
+
+/* Styling for Subscription Stats Section */
+.subscription-section {
+  flex: 1;
+  min-width: 48%; /* Ensures that the section takes 50% of the space on larger screens */
+}
+
+.event-section {
+  flex: 1;
+  min-width: 48%; /* Same for the event section */
+}
+
+/* Event Section Styling */
+.event-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.event-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.event-image-container {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.event-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.event-image-container:hover .event-image {
+  transform: scale(1.1); /* Zoom effect on hover */
+}
+
+.event-details {
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-details h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+.event-details p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.view-btn {
+  padding: 10px 20px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.view-btn:hover {
+  background-color: #2563eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .subscription-event-container {
+    flex-direction: column; /* Stack the sections vertically on smaller screens */
+  }
+
+  .subscription-section,
+  .event-section {
+    min-width: 100%;
+  }
+
+  .event-image-container {
+    height: 200px;
+  }
+
+  .event-details h4 {
+    font-size: 1.2rem;
+  }
+
+  .view-btn {
+    width: 100%;
+    font-size: 1.1rem;
+  }
+}
+
+/* Styling for Subscription Stats Section */
+.metrics-section {
+  margin-top: 40px;
+}
+
+.metrics-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.metrics-card-header {
+  margin-bottom: 20px;
+}
+
+.metrics-card-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chart-container {
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+}
+
 #subscriptionChart {
   max-width: 250px;
   max-height: 250px;

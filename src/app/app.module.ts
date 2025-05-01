@@ -154,7 +154,6 @@ import { PartnerCommissionComponent } from './Components/FrontOffice/commission/
     VehicleDetailFrontOfficeComponent,
     PaymentHistoryFrontOfficeComponent,
     PaymentMethodFrontOfficeComponent,
-    EventListFrontOfficeComponent,
     EventDetailFrontOfficeComponent,
     EventNotifyFrontOfficeComponent,
     ChatFrontOfficeComponent,
@@ -168,8 +167,7 @@ import { PartnerCommissionComponent } from './Components/FrontOffice/commission/
     RuleDetailsBackOfficeComponent,
     PromotionCreationBackOfficeComponent,
     PromotionEditBackOfficeComponent,
-    EventListBackOfficeComponent,
-    EventDetailBackOfficeComponent,
+   //EventDetailBackOfficeComponent,
     EventNotifyBackOfficeComponent,
    
     CarpoolingListBackOfficeComponent,
@@ -198,6 +196,7 @@ import { PartnerCommissionComponent } from './Components/FrontOffice/commission/
     NotFoundComponent
   ],
   imports: [
+    //EventListFrontOfficeComponent,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
@@ -209,7 +208,6 @@ import { PartnerCommissionComponent } from './Components/FrontOffice/commission/
     RuleCreationBackOfficeComponent,
     PartnerCreateBackOfficeComponent,
     MatTableModule,
-    EventCreateBackOfficeComponent,
     ConfirmDeleteComponentComponent,
     CommonModule,
     BrowserModule,

@@ -8,6 +8,7 @@ declare const google: any;
 @Component({
   selector: 'app-vehicle-map',
   templateUrl: './vehicle-map.component.html',
+  standalone: true,
   styleUrls: ['./vehicle-map.component.scss']
 })
 export class VehicleMapComponent implements AfterViewInit {
