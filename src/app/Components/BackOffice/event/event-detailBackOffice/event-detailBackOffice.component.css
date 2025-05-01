@@ -1,148 +1,123 @@
-/* event-edit-back-office.component.css */
-
-:root {
-  --primary: #4a5568;    /* Gris-bleu foncé */
-  --secondary: #718096;  /* Gris-bleu moyen */
-  --accent: #4299e1;     /* Bleu doux */
-  --text: #2d3748;       /* Gris anthracite */
-  --background: #ffffff; /* Blanc pur */
-  --border: #e2e8f0;     /* Gris très clair */
-  --error: #c53030;      /* Rouge atténué */
-}
-
-.container {
-  max-width: 800px;
-  margin: 3rem auto;
-  padding: 0 2rem;
-  font-family: 'Inter', system-ui, sans-serif;
-}
-
-h2 {
-  color: var(--primary);
-  font-weight: 600;
-  font-size: 1.7rem;
-  margin-bottom: 2.5rem;
-  letter-spacing: -0.025em;
-}
-
-form {
-  background: var(--background);
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-  border: 1px solid var(--border);
-}
-
-.form-label {
+/* Container & Form */
+:host {
   display: block;
-  color: var(--primary);
-  font-weight: 500;
-  margin-bottom: 0.8rem;
-  font-size: 0.95rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-control {
-  width: 100%;
-  padding: 0.9rem 1.2rem;
-  border: 2px solid var(--border);
-  border-radius: 8px;
+/* Form Groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Inputs & Textarea */
+.form-group input[type="datetime-local"],
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+  padding: 0.6rem;
   font-size: 1rem;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  background: #f8fafc;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.2s ease-in-out;
 }
 
-.form-control:focus {
+.form-group input:focus,
+.form-group textarea:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-  background: white;
+  border-color: #007bff;
 }
 
-.text-danger {
-  color: var(--error);
-  font-size: 0.85rem;
+/* File input */
+.form-group input[type="file"] {
+  padding: 0.4rem 0;
+}
+
+/* Photo preview */
+.preview {
   margin-top: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  text-align: center;
 }
 
-.button-group {
-  display: flex;
-  gap: 1rem;
-  margin-top: 3rem;
+.preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
 }
 
-.btn {
-  padding: 0.85rem 1.6rem;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.15s ease;
+/* Buttons */
+button {
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  letter-spacing: 0.02em;
+  transition: background 0.2s ease-in-out;
 }
 
-.btn-primary {
-  background: var(--accent);
-  color: white;
-  box-shadow: 0 2px 4px rgba(66, 153, 225, 0.15);
+button[type="submit"] {
+  background: #28a745;
+  color: #fff;
+  margin-right: 0.5rem;
 }
 
-.btn-primary:hover {
-  background: #3182ce;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(66, 153, 225, 0.2);
+button[type="submit"]:hover:not([disabled]) {
+  background: #218838;
 }
 
-.btn-secondary {
-  background: #ffffff;
-  color: var(--secondary);
-  border: 2px solid var(--border);
+button[type="submit"][disabled] {
+  background: #94d3a2;
+  cursor: not-allowed;
 }
 
-.btn-secondary:hover {
-  background: #d33636;
-  border-color: var(--accent);
-  color: var(--accent);
+button[type="button"] {
+  background: #6c757d;
+  color: #fff;
 }
 
-.loading-message {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 2rem;
-  color: var(--secondary);
-  font-size: 1.1rem;
+button[type="button"]:hover {
+  background: #5a6268;
 }
 
-.error-message {
-  background: #fff5f5;
-  padding: 1.2rem;
-  border-radius: 8px;
-  border: 1px solid #fed7d7;
-  color: var(--error);
-  margin: 2rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
+/* Error & Loading States */
+.error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: 0 1.2rem;
+.loading {
+  text-align: center;
+  font-style: italic;
+  color: #555;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  :host {
+    padding: 0.8rem;
+    margin: 1rem;
   }
 
-  form {
-    padding: 1.8rem;
-  }
-
-  .button-group {
-    flex-direction: column;
-  }
-
-  .btn {
+  button {
     width: 100%;
-    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+
+  button[type="submit"] {
+    margin-right: 0;
   }
 }

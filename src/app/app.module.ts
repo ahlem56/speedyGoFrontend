@@ -156,7 +156,6 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     //PaymentCreationFrontOfficeComponent,
     PaymentHistoryFrontOfficeComponent,
     PaymentMethodFrontOfficeComponent,
-    EventListFrontOfficeComponent,
     EventDetailFrontOfficeComponent,
     EventNotifyFrontOfficeComponent,
     ChatFrontOfficeComponent,
@@ -172,9 +171,7 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     RuleDetailsBackOfficeComponent,
     PromotionCreationBackOfficeComponent,
     PromotionEditBackOfficeComponent,
-
-    EventListBackOfficeComponent,
-    EventDetailBackOfficeComponent,
+   //EventDetailBackOfficeComponent,
     EventNotifyBackOfficeComponent,
     PartnerCreateBackOfficeComponent,
     CarpoolingListBackOfficeComponent,
@@ -203,9 +200,9 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     VehicleDetailDriverInterfaceComponent,
 
     NotFoundComponent,
-
   ],
   imports: [
+    //EventListFrontOfficeComponent,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
@@ -217,7 +214,6 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     RuleCreationBackOfficeComponent,
 
     MatTableModule,
-    EventCreateBackOfficeComponent,
     ConfirmDeleteComponentComponent,
     CommonModule,
     BrowserModule,
@@ -233,7 +229,7 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     RuleCreationBackOfficeComponent,
 
     PartnerListBackOfficeComponent,
-    DashboardModule  ,
+    DashboardModule,
     ToastrModule.forRoot({
       progressBar: true,
       closeButton: true,
@@ -243,7 +239,6 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
-
 
 
     ToastNotificationComponent,
@@ -263,7 +258,7 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     EditProfileComponent,
 
     FormsModule,
-   GoogleMapsModule,
+    GoogleMapsModule,
     HttpClientModule,
     RouterModule,
     ScheduleDriverInterfaceComponent,
@@ -272,7 +267,9 @@ import {VehicleTravelHistoryComponent} from "./Components/BackOffice/vehicle/veh
     ProfileComponent,
     AccessDeniedComponent,
     NotificationFrontOfficeComponent,
-    FullComponent,   // Import standalone component
+    FullComponent,
+
+    // Import standalone component
 
 
   ],

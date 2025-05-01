@@ -53,17 +53,19 @@
         </div>
       </div>
 
-      <!-- Serial Number -->
+      <!-- Serial Number (now unlimited digits) -->
       <div class="form-group">
         <label for="serial">Serial Number *</label>
-        <input type="number"
+        <input type="text"
                id="serial"
+               inputmode="numeric"
+               pattern="\d*"
                [(ngModel)]="vehicle.vehicleSerialNumber"
                name="vehicleSerialNumber"
                required
                #vehicleSerialNumber="ngModel">
         <div *ngIf="vehicleSerialNumber.invalid && vehicleSerialNumber.touched" class="error-message">
-          Serial number is required.
+          Serial number is required
         </div>
       </div>
 

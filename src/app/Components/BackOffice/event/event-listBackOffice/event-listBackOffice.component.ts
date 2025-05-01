@@ -1,78 +1,84 @@
-import {Component, ViewChild} from '@angular/core';
-import {MatSort} from "@angular/material/sort";
-import {MatPaginator} from "@angular/material/paginator";
-import {AppEvent, EventService} from "../../../../Core/event.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatDialog} from "@angular/material/dialog";
-import {DatePipe} from "@angular/common";
-import {ConfirmDeleteComponentComponent} from "../confirm-delete-component/confirm-delete-component.component";
+import { Component, OnInit } from '@angular/core';
+import { EventService, AppEvent} from "../../../../Core/event.service";
+import {CommonModule, DatePipe} from '@angular/common';
+import {Router, RouterModule} from '@angular/router';
+import {FormsModule} from "@angular/forms";
 
 @Component({
-    selector: 'app-event-list-backoffice',
-    templateUrl: './event-listBackOffice.component.html',
-    styleUrls: ['./event-listBackOffice.component.css'],
-    standalone: false
+  selector: 'app-event-list-backoffice',
+  templateUrl: 'event-listBackOffice.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ],
+  styleUrls: ['event-listBackOffice.component.css']
 })
-export class EventListBackOfficeComponent {
-  displayedColumns: string[] = ['eventDate', 'eventDescription', 'eventLocation', 'actions'];
-  dataSource!: MatTableDataSource<Event>; // Change type from AppEvent to Event
+export class EventListBackOfficeComponent implements OnInit {
+  events: AppEvent[] = [];
   loading = true;
-  errorMessage = '';
-  searchText = '';
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  error: string | null = null;
+  searchQuery = '';
 
   constructor(
     private eventService: EventService,
-    public dialog: MatDialog,
-    private datePipe: DatePipe
-  ) {}
+    private datePipe: DatePipe,
+    private router: Router
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadEvents();
   }
 
-  loadEvents(): void {
+  loadEvents() {
+    console.log('Initiating events load...');
+
     this.eventService.getAllEvents().subscribe({
       next: (events) => {
-        this.dataSource = new MatTableDataSource(events);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        console.log('Events received:', events);
+        this.events = events;
         this.loading = false;
       },
       error: (err) => {
-        this.errorMessage = 'Error loading events: ' + err;
+        console.error('Error loading events:', err);
+        this.error = typeof err === 'string' ? err : err.message;
         this.loading = false;
-      }
+      },
+      complete: () => console.log('Events loading complete')
     });
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  formatDate(dateString: string): string {
+    return this.datePipe.transform(dateString, 'medium') || 'Invalid date';
+  }
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+  deleteEvent(eventId: number) {
+    if (confirm('Are you sure you want to delete this event?')) {
+      this.eventService.deleteEvent(eventId).subscribe({
+        next: () => {
+          this.events = this.events.filter(event => event.eventId !== eventId);
+        },
+        error: (err) => {
+          this.error = 'Delete failed: ' + err;
+        }
+      });
     }
   }
 
-  deleteEvent(eventId: number): void {
-    const dialogRef = this.dialog.open(ConfirmDeleteComponentComponent, {
-      data: { title: 'Delete Event', message: 'Are you sure you want to delete this event?' }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.eventService.deleteEvent(eventId).subscribe({
-          next: () => this.loadEvents(),
-          error: (err) => this.errorMessage = 'Error deleting event: ' + err
-        });
-      }
-    });
+  get filteredEvents() {
+    return this.events.filter(event =>
+      event.eventDescription.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      event.eventLocation.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
   }
 
-  formatDate(date: string): string {
-    return this.datePipe.transform(date, 'medium') || '';
+  navigateToEdit(eventId: number) {
+    // Use absolute path with route parameter
+    this.router.navigate(['/back-office/events', eventId]);
+  }
+
+  navigateToCreate(){
+    this.router.navigate(['/back-office/events/create']);
   }
 }

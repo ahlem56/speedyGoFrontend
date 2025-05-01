@@ -1,64 +1,99 @@
-// event.service.ts
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 export interface AppEvent {
-  eventId?: number;
+  eventId: number;
   eventDate: string;
   eventDescription: string;
   eventLocation: string;
-  simpleUsers?: any[];
+  maxParticipants: number;
+  simpleUsers: { userId: number }[];
+  photo?: string;
+  currentParticipants: number;
+  registered: boolean;
+
 }
 
 @Injectable({ providedIn: 'root' })
 export class EventService {
   private apiUrl = 'http://localhost:8089/examen/event';
+  private eventsSubject = new BehaviorSubject<AppEvent[]>([]);
+  public events$ = this.eventsSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.loadInitialEvents();
+  }
 
-  createEvent(event: AppEvent) {
+  private loadInitialEvents(): void {
+    this.http.get<AppEvent[]>(`${this.apiUrl}/getAllEvent`).pipe(
+      tap(events => this.eventsSubject.next(events)),
+      catchError(this.handleError)
+    ).subscribe();
+  }
+
+  getAllEvents(): Observable<AppEvent[]> {
+    return this.http.get<AppEvent[]>(`${this.apiUrl}/getAllEvent`).pipe(
+      tap(events => this.eventsSubject.next(events)),
+      catchError(this.handleError)
+    );
+  }
+
+
+
+  createEvent(event: AppEvent): Observable<AppEvent> {
     return this.http.post<AppEvent>(`${this.apiUrl}/createEvent`, event).pipe(
-      catchError(error => {
-        // Handle different error formats
-        const serverMessage = error.error?.message ||
-          error.error?.error ||
-          'Server connection failed';
-        return throwError(() => serverMessage);
-      })
+      tap(() => this.loadInitialEvents()),
+      catchError(this.handleError)
     );
   }
 
-  getAllEvents() {
-    return this.http.get<Event[]>(`${this.apiUrl}/getAllEvent`).pipe(
-      catchError(error => {
-        return throwError(() => error.error?.message || 'Error fetching events');
-      })
-    );
-  }
-  // Update event
-  updateEvent(id: number, event: AppEvent) {
-    return this.http.put<Event>(`${this.apiUrl}/updateEvent/${id}`, event).pipe(
-      catchError(error => {
-        return throwError(() => error.error?.message || 'Error updating event');
-      })
+  updateEvent(id: number, event: AppEvent): Observable<AppEvent> {
+    return this.http.put<AppEvent>(`${this.apiUrl}/updateEvent/${id}`, event).pipe(
+      tap(() => this.loadInitialEvents()),
+      catchError(this.handleError)
     );
   }
 
-  // Delete event
-  deleteEvent(id: number) {
-    return this.http.delete(`${this.apiUrl}/deleteEvent/${id}`).pipe(
-      catchError(error => {
-        return throwError(() => error.error?.message || 'Error deleting event');
-      })
+  deleteEvent(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/deleteEvent/${id}`).pipe(
+      tap(() => this.loadInitialEvents()),
+      catchError(this.handleError)
     );
   }
-  getEventById(id: number) {
+
+  register(eventId: number, userId: number): Observable<AppEvent> {
+    return this.http.post<AppEvent>(`${this.apiUrl}/register/${eventId}/${userId}`, {}).pipe(
+      tap(() => this.loadInitialEvents()),
+      catchError(this.handleError)
+    );
+  }
+
+  unregister(eventId: number, userId: number): Observable<AppEvent> {
+    return this.http.post<AppEvent>(`${this.apiUrl}/unregister/${eventId}/${userId}`, {}).pipe(
+      tap(() => this.loadInitialEvents()),
+      catchError(this.handleError)
+    );
+  }
+
+  getEventById(id: number): Observable<AppEvent> {
     return this.http.get<AppEvent>(`${this.apiUrl}/getEvent/${id}`).pipe(
-      catchError(error => {
-        return throwError(() => error.error?.message || 'Error fetching event');
-      })
+      catchError(this.handleError)
     );
   }
+
+  private handleError(error: any): Observable<never> {
+    console.error('API Error:', error);
+    return throwError(() => error.error?.message || 'Server error');
+  }
+
+  joinEvent(eventId: number, userId: number): Observable<AppEvent> {
+    return this.register(eventId, userId);
+  }
+
+  leaveEvent(eventId: number, userId: number): Observable<AppEvent> {
+    return this.unregister(eventId, userId);
+  }
+
 }

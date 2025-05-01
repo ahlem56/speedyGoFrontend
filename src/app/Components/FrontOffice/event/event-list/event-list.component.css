@@ -1,56 +1,166 @@
-/* event-list.component.css */
-.event-list-container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 15px;
+:host {
+  display: block;
+  padding: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Loading & Error */
+.loading,
+.error {
+  text-align: center;
+  font-size: 1rem;
+  margin: 1rem 0;
+}
+
+.error {
+  color: #dc3545;
+}
+
+/* Grid Layout */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* Card */
+.event-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Photo */
+.photo,
+.no-photo {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect */
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.no-photo {
+  font-size: 2rem;
+  color: #adb5bd;
+}
+
+/* Content */
+.content {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  color: #343a40;
+}
+
+/* Meta */
+.meta {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.meta span + span {
+  margin-left: 0.5rem;
+}
+
+/* Participants */
+.participants {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* Actions */
+.actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions button {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Join */
+.actions button:nth-child(1) {
+  background: #007bff;
+  color: #fff;
+}
+
+.actions button:nth-child(1):hover:not(:disabled) {
+  background: #0056b3;
+}
+
+/* Leave */
+.actions button:nth-child(2) {
+  background: #dc3545;
+  color: #fff;
+}
+
+.actions button:nth-child(2):hover:not(:disabled) {
+  background: #c82333;
+}
+
+/* Full */
+.actions button:nth-child(3) {
+  background: #6c757d;
+  color: #fff;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column;
   }
-  
-  .event-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
-  
-  .event-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card-header {
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-  
-  .card-body {
-    padding: 15px;
-  }
-  
-  .card-footer {
-    background-color: #f8f9fa;
-    padding: 10px;
-    text-align: right;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-  
-  button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .alert {
-    margin-bottom: 20px;
-  }
-  
+}
+/* Card zoom on hover */
+.event-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Or only zoom the image inside, if you prefer */
+.photo img {
+  transition: transform 0.3s ease;
+}
+
+.photo:hover img {
+  transform: scale(1.05);
+}

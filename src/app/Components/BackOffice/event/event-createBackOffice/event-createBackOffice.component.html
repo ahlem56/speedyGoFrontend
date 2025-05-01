@@ -1,79 +1,102 @@
-<div class="container mt-5">
-  <h2 class="text-primary">Create New Event</h2>
-  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="form-container">
+<div class="create-container">
+  <div class="create-card">
+    <h2 class="title">Create a New Event</h2>
 
-    <!-- Event Date -->
-    <div class="form-group">
-      <label for="eventDate" class="form-label">Event Date</label>
-      <input type="datetime-local"
-             class="form-control"
-             id="eventDate"
-             formControlName="eventDate">
-      <div *ngIf="eventForm.get('eventDate')?.invalid && eventForm.get('eventDate')?.touched"
-           class="error-text">
-        <i class="ph ph-warning-circle"></i>
-        Event date is required
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" novalidate>
+      <!-- Event Date -->
+      <div class="form-group">
+        <label for="date">Event Date</label>
+        <input
+          id="date"
+          type="datetime-local"
+          formControlName="eventDate"
+          class="form-control"
+        />
+        <small *ngIf="submitted && f['eventDate'].errors" class="error">
+          Event date is required.
+        </small>
       </div>
-    </div>
 
-    <!-- Event Description -->
-    <div class="form-group">
-      <label for="eventDescription" class="form-label">Description</label>
-      <textarea class="form-control"
-                id="eventDescription"
-                formControlName="eventDescription"
-                rows="4"></textarea>
-      <div *ngIf="eventForm.get('eventDescription')?.invalid"
-           class="error-text">
-        <i class="ph ph-warning-circle"></i>
-        <div>
-          <div *ngIf="eventForm.get('eventDescription')?.hasError('required')">
-            Description is required
-          </div>
-          <div *ngIf="eventForm.get('eventDescription')?.hasError('minlength')">
-            Minimum 10 characters required
-          </div>
-          <div *ngIf="eventForm.get('eventDescription')?.hasError('maxlength')">
-            Maximum 1000 characters allowed
-          </div>
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          rows="4"
+          formControlName="eventDescription"
+          class="form-control"
+          maxlength="500"
+        ></textarea>
+        <small *ngIf="submitted && f['eventDescription'].errors?.['required']" class="error">
+          Description is required.
+        </small>
+        <small *ngIf="submitted && f['eventDescription'].errors?.['maxlength']" class="error">
+          Maximum 500 characters.
+        </small>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input
+          id="location"
+          type="text"
+          formControlName="eventLocation"
+          class="form-control"
+          maxlength="100"
+        />
+        <small *ngIf="submitted && f['eventLocation'].errors?.['required']" class="error">
+          Location is required.
+        </small>
+        <small *ngIf="submitted && f['eventLocation'].errors?.['maxlength']" class="error">
+          Maximum 100 characters.
+        </small>
+      </div>
+
+      <!-- Max Participants -->
+      <div class="form-group">
+        <label for="maxParticipants">Max Participants</label>
+        <input
+          id="maxParticipants"
+          type="number"
+          formControlName="maxParticipants"
+          class="form-control"
+          min="1"
+        />
+        <small *ngIf="submitted && f['maxParticipants'].errors?.['required']" class="error">
+          This field is required.
+        </small>
+        <small *ngIf="submitted && f['maxParticipants'].errors?.['min']" class="error">
+          Minimum value is 1.
+        </small>
+      </div>
+
+      <!-- Photo -->
+      <div class="form-group">
+        <label for="photo">Event Photo</label>
+        <input
+          id="photo"
+          type="file"
+          accept="image/*"
+          (change)="onFileChange($event)"
+          class="form-control file-input"
+        />
+        <div *ngIf="photoPreview" class="preview-wrapper">
+          <img [src]="photoPreview" alt="Photo Preview" class="preview-img" />
         </div>
       </div>
-    </div>
 
-    <!-- Event Location -->
-    <div class="form-group">
-      <label for="eventLocation" class="form-label">Location</label>
-      <input type="text"
-             class="form-control"
-             id="eventLocation"
-             formControlName="eventLocation">
-      <div *ngIf="eventForm.get('eventLocation')?.invalid"
-           class="error-text">
-        <i class="ph ph-warning-circle"></i>
-        <div>
-          <div *ngIf="eventForm.get('eventLocation')?.hasError('required')">
-            Location is required
-          </div>
-          <div *ngIf="eventForm.get('eventLocation')?.hasError('minlength')">
-            Minimum 5 characters required
-          </div>
-          <div *ngIf="eventForm.get('eventLocation')?.hasError('maxlength')">
-            Maximum 200 characters allowed
-          </div>
-        </div>
+      <!-- Server error -->
+      <div *ngIf="serverError" class="server-error">
+        {{ serverError }}
       </div>
-    </div>
 
-    <!-- Submit Button -->
-    <button type="submit"
-            class="btn btn-primary"
-            [disabled]="!eventForm.valid">
-      Create Event
-    </button>
-
-    <div *ngIf="errorMessage" class="text-danger mt-3">
-      <i class="ph ph-warning"></i>
-      {{ errorMessage }}
-    </div>
-  </form>
+      <!-- Submit -->
+      <div class="form-group submit-group">
+        <button type="submit" [disabled]="eventForm.invalid" class="btn-submit">
+          Create Event
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
