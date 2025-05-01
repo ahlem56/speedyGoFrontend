@@ -4,6 +4,11 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { ParcelService } from 'src/app/Core/parcel.service';
 import { RatingService } from 'src/app/Core/rating.service';
 import { Vehicle, VehicleService } from 'src/app/Core/vehicle.service';
+import { AdminService } from 'src/app/Core/admin.service';
+import { Chart, ChartConfiguration, ArcElement, CategoryScale, Tooltip, Legend, PieController } from 'chart.js';
+
+// Register the required components
+Chart.register(ArcElement, CategoryScale, Tooltip, Legend, PieController);
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +20,9 @@ export class DashboardComponent implements OnInit {
   totalTrips: number = 0;
   totalCarpools: number = 0; // Added for carpool count
   totalParcels: number = 0; // Added
+  subscriptionStats: any = {};
+
+  chart: any; // Chart.js instance
 
   trips: any[] = [];
   center: google.maps.LatLngLiteral = { lat: 33.8869, lng: 9.5375 };
@@ -56,7 +64,8 @@ export class DashboardComponent implements OnInit {
     private http: HttpClient,
     private parcelService: ParcelService, 
     private ratingService: RatingService, 
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private adminService: AdminService
   ) {}
 
   ngOnInit(): void {
@@ -68,9 +77,8 @@ export class DashboardComponent implements OnInit {
     this.getVehiclesWithExpiredInsurance();
     this.getTotalCarpools();
     this.getTopRatedOfferers();
-    this.getTotalParcels(); // Added
-
-    
+    this.getTotalParcels(); 
+    this.getSubscriptionStats();
 
   }
 
@@ -250,4 +258,56 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  // Fetch subscription statistics
+  getSubscriptionStats(): void {
+    this.adminService.getSubscriptionStats().subscribe({
+      next: (data) => {
+        this.subscriptionStats = data;
+        console.log("Subscription Stats:", this.subscriptionStats);  // Log the stats for debugging
+        this.renderChart();  // Render the chart after stats are fetched
+      },
+      error: (err) => console.error('Error fetching subscription stats', err)
+    });
+  }
+
+  // Render a pie chart for subscription stats
+  renderChart(): void {
+    const ctx = document.getElementById('subscriptionChart') as HTMLCanvasElement;
+  
+    // Data for the chart
+    const chartData = {
+      labels: ['Gold', 'Premium', 'Basic'],
+      datasets: [{
+        data: [
+          this.subscriptionStats['GOLD'] || 0,
+          this.subscriptionStats['PREMIUM'] || 0,
+          this.subscriptionStats['BASIC'] || 0
+        ],
+        backgroundColor: ['#f39c12', '#2980b9', '#27ae60'],
+        borderColor: ['#e67e22', '#3498db', '#2ecc71'],
+        borderWidth: 1
+      }]
+    };
+  
+    // Chart configuration for a pie chart
+    const chartConfig: ChartConfiguration<'pie'> = {
+      type: 'pie',  // Pie chart type
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            enabled: true
+          }
+        }
+      }
+    };
+  
+    // Create the chart
+    this.chart = new Chart(ctx, chartConfig);
+  }
+  
 }

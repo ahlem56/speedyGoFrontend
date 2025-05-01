@@ -27,8 +27,19 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     // Get user role from localStorage
-    this.userRole = localStorage.getItem('userRole') || 'SimpleUser';  // Default to 'SimpleUser' if not available
+    this.userRole = localStorage.getItem('userRole') || 'SimpleUser';
+    console.log('Initial user role:', this.userRole);
+    
+    // Set menu items based on user role
     this.setMenuItems();
+    
+    // Listen for changes to localStorage
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'userRole') {
+        this.userRole = event.newValue || 'SimpleUser';
+        this.setMenuItems();
+      }
+    });
   }
 
   // Set menu items based on user role
@@ -75,6 +86,9 @@ export class SidebarComponent implements OnInit {
         this.sidebarnavItems = [];
         break;
     }
+    
+    console.log('User role:', this.userRole);
+    console.log('Menu items:', this.sidebarnavItems);
   }
 
   // Handle sidebar item click and check for login
@@ -85,6 +99,7 @@ export class SidebarComponent implements OnInit {
       this.showModal = true;
     } else {
       // If logged in, navigate to the clicked route
+      console.log('Navigating to:', path);
       this.router.navigate([path]);
     }
   }

@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-stripe',
   templateUrl: './stripe.component.html',
-  styleUrls: ['./stripe.component.scss'],
+  styleUrls: ['./stripe.component.css'],
   imports: [FormsModule,CommonModule]
 })
 export class StripePaymentComponent implements OnInit {
@@ -69,24 +69,49 @@ export class StripePaymentComponent implements OnInit {
     }
 
     console.log('✅ Stripe PaymentMethod created:', paymentMethod);
-
+  
+    // Get user from localStorage with better error handling
+    let user;
+    try {
+      const userStr = localStorage.getItem('user');
+      console.log('🔍 Raw user data from localStorage:', userStr);
+      user = userStr ? JSON.parse(userStr) : null;
+      console.log('👤 Parsed user data:', user);
+    } catch (e) {
+      console.error('❌ Error parsing user data:', e);
+      user = null;
+    }
+  
     const payload = {
       paymentAmount: this.amount,
       paymentDate: new Date(),
-      paymentMethod: 'STRIPE',
-      stripePaymentMethodId: paymentMethod.id
+      paymentMethod: 'CREDIT_CARD',
+      stripePaymentMethodId: paymentMethod.id,
+      userId: user?.userId || null,
+      tripId: 1  // Adding tripId as per your example
     };
-
-
+    
+    console.log('📦 Sending payment payload:', payload);
+    
     this.http.post('http://localhost:8089/examen/payments/process', payload)
-.subscribe({
-      next: () => {
-        this.paymentSuccess = true;
-        alert('✅ Payment completed!');
-      },
-      error: () => {
-        alert('❌ Payment failed.');
-      }
-    });
+      .subscribe({
+        next: (response) => {
+          console.log('✅ Payment response:', response);
+          this.paymentSuccess = true;
+          alert('✅ Payment completed successfully!');
+        },
+        error: (error) => {
+          // Only show error if it's not a 201 status code
+          if (error.status !== 201) {
+            console.error('❌ Payment error:', error);
+            alert('❌ Payment failed: ' + (error.error?.message || 'Unknown error'));
+          } else {
+            // Handle 201 as success
+            console.log('✅ Payment response:', error);
+            this.paymentSuccess = true;
+            alert('✅ Payment completed successfully!');
+          }
+        }
+      });
   }
-}
+}  

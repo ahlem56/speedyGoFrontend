@@ -1,34 +1,29 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-
   constructor(private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const token = localStorage.getItem('authToken');
-    const userRole = localStorage.getItem('userRole');  // Get user role from localStorage
+    const userRole = localStorage.getItem('userRole')?.toUpperCase();
+    const requiredRoles = route.data['roles'] as string[];
 
-    if (token) {
-      // Check if the user has the required role for the route
-      const allowedRoles = route.data['roles'] as Array<string>;  // Get allowed roles from route data
-      
-      if (userRole && allowedRoles && allowedRoles.includes(userRole)) {
-        return true;
-      } else {
-        // If the user doesn't have the correct role, redirect to "Access Denied" or another route
-        this.router.navigate(['/access-denied']); 
-        return false;
-      }
-    } else {
+    if (!token) {
       this.router.navigate(['/login']);
       return false;
     }
+
+    // Check if userRole exists and if any of the required roles match (case-insensitive)
+    if (requiredRoles && userRole && !requiredRoles.some(role => role.toUpperCase() === userRole)) {
+      console.log('Access denied. User role:', userRole, 'Required roles:', requiredRoles);
+      this.router.navigate(['/access-denied']);
+      return false;
+    }
+
+    return true;
   }
 }

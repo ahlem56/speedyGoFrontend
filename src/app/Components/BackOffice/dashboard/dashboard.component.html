@@ -136,6 +136,31 @@
 
 
 <!-- ============================================================== -->
+<!-- Subscription Stats Section -->
+<!-- ============================================================== -->
+<section class="metrics-section">
+  <div class="metrics-card">
+    <div class="metrics-card-header">
+      <h3>Subscription Statistics</h3>
+    </div>
+    
+    <div class="stats-grid">
+      <!-- Professional and Graphic Representation of Subscription Stats -->
+      <div class="stat-item">
+        <div class="stat-header">
+          <h4>Subscription Distribution</h4>
+        </div>
+        <div class="stat-main">
+          <div class="chart-container">
+            <canvas id="subscriptionChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
 <!-- Top Rated Users Section -->
 <!-- ============================================================== -->
 <section class="metrics-section">
@@ -1030,7 +1055,19 @@ section {
   }
 }
 
+/* Add to your styles */
+.chart-container {
+  width: 250px;  /* Adjust as needed */
+  height: 250px; /* Adjust as needed */
+  margin: 0 auto; /* Center the chart */
+}
 
+/* Or target the canvas directly */
+#subscriptionChart {
+  max-width: 250px;
+  max-height: 250px;
+  margin: 0 auto;
+}
 
 
 </style>

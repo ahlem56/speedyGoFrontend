@@ -60,6 +60,14 @@ export const ALL_ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: 'partner/commissions',
+    title: 'My Commissions',
+    icon: 'bi bi-cash-stack',  // Cash stack icon for commissions
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: '/about',
     title: 'About',
     icon: 'bi bi-info-circle',  // Information circle for About section
@@ -140,8 +148,15 @@ export const ALL_ROUTES: RouteInfo[] = [
   class: '',
   extralink: false,
   submenu: []
-}
-,
+},
+{
+  path: 'back-office/commissions',
+  title: 'Commissions',
+  icon: 'bi bi-cash-stack',  // Cash stack icon for commissions
+  class: '',
+  extralink: false,
+  submenu: []
+},
 {
   path: 'back-office/complaints',
   title: 'Complaints',

@@ -1,8 +1,11 @@
 export interface Partner {
-  partnerId?: number;
+  partnerId: number;
+  partnerCode?: number;
   partnerName: string;
-  partnerContactInfo: string;
-  partnerCode: Number;
-  partnershipDuration: Number;
-  // Add other properties as needed
+  partnerContactInfo?: string;
+  partnershipDuration?: number;
+  commissionRate?: string | number;
+  totalCommission?: string | number;
+  simpleUsers?: any[];
+  promotions?: any;
 }

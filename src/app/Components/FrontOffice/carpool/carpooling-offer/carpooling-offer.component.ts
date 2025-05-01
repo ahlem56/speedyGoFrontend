@@ -52,14 +52,19 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
   filterCarpools(): void {
     const today = new Date();
     console.log("Today's date:", today);
+    console.log("showPastCarpools:", this.showPastCarpools);
 
     this.filteredCarpools = this.carpools.filter(carpool => {
-      const carpoolDate = new Date(carpool.carpoolDate);
-      console.log(`Comparing: ${carpoolDate} >= ${today} ?`, carpoolDate >= today);
-      return this.showPastCarpools ? carpoolDate < today : carpoolDate >= today;
+        // Combiner carpoolDate et carpoolTime
+        const dateTimeString = `${carpool.carpoolDate} ${carpool.carpoolTime}`;
+        const carpoolDate = new Date(dateTimeString);
+        console.log("Raw carpoolDate:", carpool.carpoolDate);
+        console.log("Raw carpoolTime:", carpool.carpoolTime);
+        console.log("Parsed carpoolDate:", carpoolDate);
+        console.log(`Comparing: ${carpoolDate} >= ${today} ?`, carpoolDate >= today);
+        carpool.isPast = carpoolDate < today; // Ajouter pour l'UI
+        return this.showPastCarpools ? carpoolDate < today : carpoolDate >= today;
     });
-
-    console.log("Filtered carpools:", this.filteredCarpools);
   }
 
   // Load carpools for the user
@@ -293,7 +298,7 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
 
 
 
-  
+ 
   ratings(rating: number, isPercentage: boolean = false): string[] {
     const normalizedRating = isPercentage ? rating / 20 : rating; // 100% = 5 stars
     const fullStars = Math.floor(normalizedRating);

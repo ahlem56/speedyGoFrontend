@@ -27,7 +27,7 @@
             <span *ngIf="!loading">Confirm Payment</span>
             <span *ngIf="loading">Processing...</span>
           </button>
-          <button class="btn-secondary" (click)="navigateToTrips()">
+          <button class="btn-secondary" (click)="payment.parcelId ? navigateToParcels() : navigateToTrips()">
             Cancel
           </button>
           <button class="btn-secondary" (click)="navigateToPaymentHistory()">

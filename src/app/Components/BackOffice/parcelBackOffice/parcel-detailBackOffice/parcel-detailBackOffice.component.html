@@ -1,16 +1,20 @@
-<div class="damaged-parcels">
-    <h2>damaged Parcel</h2>
+<div class="damaged-parcels-container">
+  <h2>Damaged Parcels</h2>
   
-    <div *ngFor="let parcel of damagedParcels" class="damaged-parcel">
-      <div class="image-container">
-        <!-- Affichage de l'image du colis endommagé -->
-        <img [src]="parcel.damageImageUrl" alt="Image " class="damaged-image" />
+  <div class="parcels-grid">
+    <div *ngFor="let parcel of damagedParcels" class="parcel-card">
+      <div class="card-image" *ngIf="parcel.damageImageUrl">
+        <img [src]="parcel.damageImageUrl" alt="Damaged parcel" class="damage-image">
       </div>
-      <div class="description">
-        <!-- Affichage de la description du dommage -->
-        <p><strong>Description :</strong> {{ parcel.damageDescription }}</p>
-        <p><strong>Reported on:</strong> {{ parcel.damageReportedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      <div class="card-content">
+        <div class="damage-description">
+          <p>{{ parcel.damageDescription || 'No description provided' }}</p>
+        </div>
+        <div class="report-date">
+          <mat-icon>calendar_today</mat-icon>
+          <span>{{ parcel.damageReportedAt | date:'medium' }}</span>
+        </div>
       </div>
     </div>
   </div>
-  
+</div>

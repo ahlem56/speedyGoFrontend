@@ -1,5 +1,11 @@
 <nav class="sidebar-nav">
     <ul id="sidebarnav">
+      <!-- Debug info -->
+      <li class="sidebar-item" *ngIf="sidebarnavItems.length === 0">
+        <div class="nav-small-cap">No menu items available</div>
+        <div class="sidebar-link">User role: {{userRole}}</div>
+      </li>
+      
       <!-- First level menu -->
       <li class="sidebar-item" [class.active]="showMenu === sidebarnavItem.title" *ngFor="let sidebarnavItem of sidebarnavItems"
           [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'">

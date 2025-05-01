@@ -3,16 +3,18 @@ import { PartnerService } from 'src/app/Core/partner.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Partner } from '../../../../Models/partner.model';
 
 @Component({
   selector: 'app-partner-list',
   templateUrl: './partner-list.component.html',
   styleUrls: ['./partner-list.component.css'],
-  imports:[CommonModule, FormsModule, RouterModule]
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule]
 })
 export class PartnerListBackOfficeComponent implements OnInit {
-  partners: any[] = [];  // Use 'any[]' to avoid the model
-  filteredPartners: any[] = [];
+  partners: Partner[] = [];
+  filteredPartners: Partner[] = [];
   isLoading = true;
   searchTerm = '';
   errorMessage = '';
@@ -32,76 +34,91 @@ export class PartnerListBackOfficeComponent implements OnInit {
   }
 
   loadPartners(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    
     this.partnerService.getPartners().subscribe({
-      next: (data: any[]) => {  // Treat the response as 'any[]' here
-        this.partners = data;
-        this.applyFilter();
+      next: (partners: Partner[]) => {
+        console.log('Partners received:', partners);
+        
+        if (!partners || partners.length === 0) {
+          this.errorMessage = 'No partners found in the database.';
+          this.partners = [];
+          this.filteredPartners = [];
+        } else {
+          this.partners = partners;
+          this.applyFilter();
+        }
+        
         this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage = 'Failed to load partners. Please try again later.';
+        console.error('Error loading partners:', err);
+        this.errorMessage = err.message || 'Failed to load partners. Please check if the backend server is running.';
         this.isLoading = false;
       }
     });
   }
-
+  
   applyFilter(): void {
-    this.filteredPartners = this.partners.filter(partner =>
-      partner.partnerName?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      partner.partnerCode?.toString().includes(this.searchTerm)
-    );
+    if (!this.searchTerm.trim()) {
+      this.filteredPartners = this.partners;
+    } else {
+      const searchLower = this.searchTerm.toLowerCase();
+      this.filteredPartners = this.partners.filter(partner => 
+        partner.partnerName?.toLowerCase().includes(searchLower) ||
+        partner.partnerCode?.toString().includes(this.searchTerm) ||
+        partner.partnerContactInfo?.toLowerCase().includes(searchLower)
+      );
+    }
     this.totalItems = this.filteredPartners.length;
-    this.currentPage = 1;
+    this.currentPage = 1; // Reset to first page when filtering
   }
 
   deletePartner(partnerId: number): void {
     if (confirm('Are you sure you want to delete this partner?')) {
+      this.isLoading = true;
+      this.errorMessage = '';
+      
       this.partnerService.deletePartner(partnerId).subscribe({
         next: () => {
-          this.partners = this.partners.filter(p => p.id !== partnerId);
+          this.partners = this.partners.filter(p => p.partnerId !== partnerId);
           this.applyFilter();
+          this.isLoading = false;
         },
         error: (err) => {
-          this.errorMessage = 'Failed to delete partner. Please try again.';
+          console.error('Error deleting partner:', err);
+          this.errorMessage = err.message || 'Failed to delete partner';
+          this.isLoading = false;
         }
       });
     }
   }
 
   editPartner(partnerId: number): void {
-    this.router.navigate(['/backoffice/partners/edit', partnerId]);
+    this.router.navigate(['/back-office/partners/edit', partnerId]);
   }
 
-  // Pagination properties
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.itemsPerPage);
   }
 
-  get paginatedPartners(): any[] {
+  get paginatedPartners(): Partner[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredPartners.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  getPages(): number[] {
-    const pages: number[] = [];
-    const maxVisiblePages = 5;
-    let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = startPage + maxVisiblePages - 1;
-
-    if (endPage > this.totalPages) {
-      endPage = this.totalPages;
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-    return pages;
   }
 
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
     }
+  }
+
+  getPages(): number[] {
+    const pages: number[] = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 }

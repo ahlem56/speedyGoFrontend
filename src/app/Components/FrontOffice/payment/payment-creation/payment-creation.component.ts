@@ -23,7 +23,8 @@ export class PaymentCreationFrontOfficeComponent implements OnInit {
     amount: 0,
     currency: 'USD',
     paymentMethod: 'credit_card',
-    tripId: 0
+    tripId: null,
+    parcelId: null
   };
 
   loading = false;
@@ -43,18 +44,19 @@ export class PaymentCreationFrontOfficeComponent implements OnInit {
     const state = history.state;
     if (state) {
       this.payment.amount = state.amount;
-      this.payment.tripId = state.tripId;
+      this.payment.tripId = state.tripId || null;
+      this.payment.parcelId = state.parcelId || null;
     }
   }
 
   processPayment() {
     this.loading = true;
     if (this.payment.paymentMethod === 'stripe' && this.stripe) {
-      // Implement Stripe payment processing here
-      // For example, create a payment intent and confirm the payment
       this.paymentService.processPayment(this.payment).subscribe({
-        next: () => {
-          this.router.navigate(['/trips'], {
+        next: (response) => {
+          this.loading = false;
+          const redirectPath = this.payment.parcelId ? '/parcels' : '/trips';
+          this.router.navigate([redirectPath], {
             state: { message: 'Payment successful!' }
           });
         },
@@ -64,10 +66,11 @@ export class PaymentCreationFrontOfficeComponent implements OnInit {
         }
       });
     } else {
-      // Handle other payment methods
       this.paymentService.processPayment(this.payment).subscribe({
-        next: () => {
-          this.router.navigate(['/trips'], {
+        next: (response) => {
+          this.loading = false;
+          const redirectPath = this.payment.parcelId ? '/parcels' : '/trips';
+          this.router.navigate([redirectPath], {
             state: { message: 'Payment successful!' }
           });
         },
@@ -83,11 +86,11 @@ export class PaymentCreationFrontOfficeComponent implements OnInit {
     this.router.navigate(['/trips']);
   }
 
-  navigateToPaymentHistory() {
-    this.router.navigate(['/payments/history']);
+  navigateToParcels() {
+    this.router.navigate(['/parcels']);
   }
 
-  navigateToHome() {
-    this.router.navigate(['/home']);
+  navigateToPaymentHistory() {
+    this.router.navigate(['/payments/history']);
   }
 }

@@ -14,23 +14,38 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   // Login method to authenticate user and get JWT token
- // Login method to authenticate user and get JWT token
- login(email: string, password: string): Observable<any> {
-  const loginData = { email: email, password: password };
+  login(email: string, password: string): Observable<any> {
+    const loginData = { email: email, password: password };
 
-  return this.http.post(this.signinUrl, loginData).pipe(
-    map((response: any) => {
-      console.log('Response from server:', response);  // Log the response
-      const token = response.token.split(' ')[1];  // Extract the token
-      localStorage.setItem('authToken', token);  // Store the token
-      localStorage.setItem('userRole', response.role);  // Store the role
-      localStorage.setItem('user', JSON.stringify(response.user));  // Store the full user object
+    return this.http.post(this.signinUrl, loginData).pipe(
+      map((response: any) => {
+        console.log('Response from server:', response);  // Log the response
+        const token = response.token.split(' ')[1];  // Extract the token
+        
+        // Store the token
+        localStorage.setItem('authToken', token);
+        
+        // Normalize role to match route definitions (Admin, SimpleUser, Driver, Partner)
+        let normalizedRole = response.role;
+        if (normalizedRole) {
+          // Convert to title case (first letter uppercase, rest lowercase)
+          normalizedRole = normalizedRole.charAt(0).toUpperCase() + 
+                           normalizedRole.slice(1).toLowerCase();
+          
+          // Special case for SimpleUser
+          if (normalizedRole.toLowerCase() === 'simpleuser') {
+            normalizedRole = 'SimpleUser';
+          }
+        }
+        
+        // Store the normalized role
+        localStorage.setItem('userRole', normalizedRole);
+        localStorage.setItem('user', JSON.stringify(response.user));
 
-      return { token, role: response.role, user: response.user };
-    })
-  );
-}
-
+        return { token, role: normalizedRole, user: response.user };
+      })
+    );
+  }
 
   // Signup method to register a new user
   signup(signupData: any): Observable<any> {
@@ -56,6 +71,7 @@ export class UserService {
 logout(): void {
   localStorage.removeItem('authToken');
   localStorage.removeItem('userRole');
+  localStorage.removeItem('user');
 }
 
 
