@@ -71,7 +71,7 @@ export class ScheduleDriverInterfaceComponent {
   
       if (rawDate) {
         const dateObj = new Date(rawDate);
-        const dateKey = dateObj.toLocaleDateString('fr-FR', {
+        const dateKey = dateObj.toLocaleDateString('en-US', {
           weekday: 'long',
           day: '2-digit',
           month: 'long',

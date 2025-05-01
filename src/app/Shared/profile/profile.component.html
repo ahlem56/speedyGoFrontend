@@ -162,12 +162,12 @@
                 <p><strong>Status:</strong> {{ parcel.status }}</p>
               </div>
               <button 
-        [disabled]="parcel.status === 'SHIPPED'" 
-        [ngClass]="{'disabled-btn': parcel.status === 'SHIPPED'}"
-        (click)="deleteParcel(parcel.parcelId)" 
-        class="cancel-parcel-btn">
-        Cancel Parcel
-      </button>  
+              [disabled]="parcel.status === 'SHIPPED' || parcel.status === 'DELIVERED'" 
+              [ngClass]="{'disabled-btn': parcel.status === 'SHIPPED' || parcel.status === 'DELIVERED'}"
+              (click)="deleteParcel(parcel.parcelId)" 
+              class="cancel-parcel-btn">
+              Cancel Parcel
+            </button> 
         <button 
            *ngIf="parcel.status === 'DELIVERED'"
            (click)="downloadPdf(parcel.parcelId)" 

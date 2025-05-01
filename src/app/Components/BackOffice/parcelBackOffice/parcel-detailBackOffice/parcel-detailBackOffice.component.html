@@ -7,11 +7,11 @@
       <div class="card shadow-lg rounded">
         <div class="card-body">
           <div class="image-container">
-            <img [src]="parcel.damageImageUrl" alt="Image" class="img-fluid rounded" />
+            <img [src]=" 'assets/damage.jpg'" alt="Image" class="img-fluid rounded" />
           </div>
           <div class="description mt-3">
-            <p><strong>Description :</strong> {{ parcel.damageDescription }}</p>
-            <p><strong>Reporté le :</strong> {{ parcel.damageReportedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Description  :</strong> {{ parcel.damageDescription }}</p>
+            <p><strong>reported on  :</strong> {{ parcel.damageReportedAt | date:'dd/MM/yyyy HH:mm' }}</p>
           </div>
         </div>
       </div>

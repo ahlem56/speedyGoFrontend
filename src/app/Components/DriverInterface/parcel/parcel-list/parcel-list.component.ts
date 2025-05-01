@@ -15,7 +15,8 @@ export class ParcelListDriverInterfaceComponent {
   searchDeparture: string = '';
   searchDestination: string = '';
   filteredParcels: any[] = []; // Liste filtrée
-  
+  selectedStatus: string = 'ALL'; // Statut sélectionné pour le filtre (ALL, SHIPPED, DELIVERED)
+
   constructor(private parcelService: ParcelService, private router: Router,private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -91,14 +92,15 @@ markParcelAsDelivered(parcelId: number): void {
     }
   });
 }
-  // Méthode de filtrage
-  filterParcels(): void {
+   // Méthode de filtrage
+   filterParcels(): void {
     const depFilter = this.searchDeparture.toLowerCase();
     const destFilter = this.searchDestination.toLowerCase();
 
     this.filteredParcels = this.parcels.filter(parcel =>
       (!depFilter || parcel.parcelDeparture.toLowerCase().includes(depFilter)) &&
-      (!destFilter || parcel.parcelDestination.toLowerCase().includes(destFilter))
+      (!destFilter || parcel.parcelDestination.toLowerCase().includes(destFilter)) &&
+      (this.selectedStatus === 'ALL' || parcel.status === this.selectedStatus) // Filtrage par statut
     );
   }
 
@@ -106,8 +108,14 @@ markParcelAsDelivered(parcelId: number): void {
   resetFilters(): void {
     this.searchDeparture = '';
     this.searchDestination = '';
+    this.selectedStatus = 'ALL'; // Réinitialise le statut à "ALL"
     this.filteredParcels = this.parcels; // Réinitialise à la liste complète
   }
 
+  // Méthode pour changer le statut du filtre
+  changeStatusFilter(status: string): void {
+    this.selectedStatus = status;
+    this.filterParcels(); // Appliquer le filtre après changement de statut
+  }
 
 }
