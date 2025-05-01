@@ -141,6 +141,25 @@ getParcelStatistics(date: string): Observable<{daily: number, weekly: number, mo
     })
   );
 }
+
+getTotalParcels(): Observable<number> {
+  const url = `${this.apiUrl}total`;
+  return this.http.get<any>(url);
+}
+downloadParcelPdf(parcelId: number): Observable<Blob> {
+  const url = `${this.apiUrl}${parcelId}/pdf`;
+
+  const headers = new HttpHeaders({
+    'Accept': 'application/pdf',
+    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+  });
+
+  return this.http.get(url, {
+    headers: headers,
+    responseType: 'blob'
+  });
+}
+
 }
 
 

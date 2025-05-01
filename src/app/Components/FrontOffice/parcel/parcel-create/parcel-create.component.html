@@ -18,7 +18,7 @@
               </label>
               <input type="text" class="form-control form-control-lg rounded-3" id="parcelDeparture"
                 [(ngModel)]="parcel.parcelDeparture" name="parcelDeparture" required
-                #parcelDeparture="ngModel">
+                #parcelDeparture="ngModel" placeholder="e.g. Av Bourguiba, Tunis">
               <div class="text-danger" *ngIf="parcelDeparture.invalid && parcelDeparture.touched">
                 Departure is required.
               </div>
@@ -29,7 +29,7 @@
               </label>
               <input type="text" class="form-control form-control-lg rounded-3" id="parcelDestination"
                 [(ngModel)]="parcel.parcelDestination" name="parcelDestination" required
-                #parcelDestination="ngModel">
+                #parcelDestination="ngModel" placeholder="e.g. Av Bourguiba, Tunis">
               <div class="text-danger" *ngIf="parcelDestination.invalid && parcelDestination.touched">
                 Destination is required.
               </div>
@@ -108,7 +108,7 @@
           <div class="row g-4 mt-2">
             <div class="col-md-6">
               <label for="parcelPrice" class="form-label">
-                <i class="fas fa-dollar-sign me-2"></i> Parcel Price (DT)
+                <i class="fas fa-dollar-sign me-2"></i> Estimated price (DT)
               </label>
               <input type="number" class="form-control form-control-lg rounded-3" id="parcelPrice"
                 [(ngModel)]="parcel.parcelPrice" name="parcelPrice" required min="1" disabled

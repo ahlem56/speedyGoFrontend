@@ -46,7 +46,8 @@ export class ProfileComponent implements OnInit {
   // Parcel Data
   parcels: any[] = [];
   isParcelsVisible = false;
-  
+  parcelsDelivered: any[] = [];
+
    // Variables pour gérer le modal de signalement de colis endommagé
  isDamageModalOpen = false;
  damageFile: File | null = null;
@@ -639,5 +640,18 @@ submitDamageReport(): void {
     alert('📌Please provide an image and a description.');
   }
 }
-
+downloadPdf(parcelId: number): void {
+  this.parcelService.downloadParcelPdf(parcelId).subscribe(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `parcel-${parcelId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }, error => {
+    console.error('Erreur lors du téléchargement du PDF :', error);
+  });
+}
 }

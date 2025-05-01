@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
     this.getVehiclesWithExpiredInsurance();
     this.getTotalCarpools();
     this.getTopRatedOfferers();
-    this.getTotalParcels(); // Added
+    this.getTotalParcels(); 
 
     
 
@@ -89,6 +89,7 @@ export class DashboardComponent implements OnInit {
         error: (err) => console.error('Error fetching total trips', err)
       });
   }
+  
 
   getTripsByLocation(): void {
     this.http.get<any[]>('http://localhost:8089/examen/Admin/trips-by-location')
@@ -99,6 +100,18 @@ export class DashboardComponent implements OnInit {
           console.log('Trips data:', this.trips);
         },
         error: (err) => console.error('Error fetching trips by location', err)
+      });
+  }
+
+  getTotalParcels(): void {
+    this.http.get<number>('http://localhost:8089/examen/parcel/total')
+      .subscribe({
+        next: (data) => {
+          console.log('Fetched total Parcels:', data);
+          this.totalParcels = data;
+        },
+        error: (err) => {
+          console.error('Error fetching total Parcels', err);        }
       });
   }
 
@@ -113,7 +126,6 @@ export class DashboardComponent implements OnInit {
           console.error('Error fetching total carpools', err);        }
       });
   }
-
   getMarkerIcon(trip: any): google.maps.Icon {
     let icon = {
       url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
@@ -238,16 +250,19 @@ export class DashboardComponent implements OnInit {
     console.warn(`Image failed to load: ${imgElement.src}, hiding image`);
     imgElement.style.display = 'none';
   }
-
-
-  // Add this new method
+/*
   getTotalParcels(): void {
-    this.http.get<number>('http://localhost:8089/examen/Admin/total-parcels')
-      .subscribe({
-        next: (data) => this.totalParcels = data,
-        error: (err) => console.error('Error fetching total parcels', err)
-      });
+    this.parcelService.getTotalParcels().subscribe({
+      next: (data) => {
+        this.totalParcels = data;
+        console.log('Total parcels:', data);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des colis :', err);
+      }
+    });
   }
-
+  
+*/
 
 }

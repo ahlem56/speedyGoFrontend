@@ -257,8 +257,22 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+.pdf-parcel-btn {
+  margin-left: 10px;
+  background-color: #407be1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.pdf-parcel-btn:hover {
+  background-color: #0056b3;
+}
+
 .damaged-parcel-btn {
-  background-color: #007bff; /* Red color */
+  background-color: #405f78
+  ; /* Red color */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -272,6 +286,16 @@
 }
 .damaged-parcel-btn:hover{
   background-color: #3943a0; /* Darker red */
+}
+.submit-damage-btn {
+  background-color: #7b1212; /* Green color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 /* Modal Styles */
 .rating-modal {
