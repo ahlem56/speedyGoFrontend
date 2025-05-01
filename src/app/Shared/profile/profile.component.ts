@@ -640,6 +640,7 @@ submitDamageReport(): void {
     alert('📌Please provide an image and a description.');
   }
 }
+//Parcel
 downloadPdf(parcelId: number): void {
   this.parcelService.downloadParcelPdf(parcelId).subscribe(blob => {
     const url = window.URL.createObjectURL(blob);

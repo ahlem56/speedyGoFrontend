@@ -159,6 +159,10 @@ downloadParcelPdf(parcelId: number): Observable<Blob> {
     responseType: 'blob'
   });
 }
+getDamagedParcelPercentage(): Observable<number> {
+  const url = `${this.apiUrl}statistics/damaged-percentage`;
+  return this.http.get<number>(url);
+}
 
 }
 
