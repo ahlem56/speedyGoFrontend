@@ -23,7 +23,7 @@ export class ComplaintListFrontOfficeComponent implements OnInit {
     // Récupérer l'utilisateur connecté depuis le localStorage
     const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
     const simpleUserId = currentUser.userId;
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
     this.complaintService.getComplaintsByUser(simpleUserId, headers).subscribe(
@@ -49,7 +49,7 @@ export class ComplaintListFrontOfficeComponent implements OnInit {
     if (updatedDescription !== null && updatedDescription.trim() !== '') {
       const updatedComplaint = { ...complaint, complaintDescription: updatedDescription };
 
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
       
@@ -69,7 +69,7 @@ export class ComplaintListFrontOfficeComponent implements OnInit {
   // Supprimer une réclamation
   deleteComplaint(complaintId: number) {
     if (confirm("Êtes-vous sûr de vouloir supprimer cette réclamation ?")) {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
 

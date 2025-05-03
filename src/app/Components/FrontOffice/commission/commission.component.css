@@ -68,6 +68,10 @@
     .mat-card-header {
       margin-bottom: 16px;
     }
+    .partner-assignment {
+      margin-bottom: 20px;
+      text-align: center;
+    }
 
     .mat-card-title {
       font-size: 20px;

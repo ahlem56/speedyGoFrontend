@@ -57,24 +57,15 @@ export class EditProfileComponent implements OnInit {
   saveChanges(): void {
     if (this.editProfileForm.valid) {
       const formData = { ...this.editProfileForm.value };
-
-      // Convert birthDate to "yyyy-MM-dd" format before sending to the backend
       if (formData.birthDate) {
         const dateObj = new Date(formData.birthDate);
         formData.birthDate = dateObj.toISOString().split('T')[0];
       }
-
-      const token = localStorage.getItem('authToken');
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      });
-
-      this.userService.updateUserProfile(formData, headers).subscribe({
+      this.userService.updateUserProfile(formData).subscribe({
         next: (response) => {
           alert(response.message || 'Profile updated successfully!');
-          localStorage.setItem('user', JSON.stringify(formData)); // Save updated user data in local storage
-          this.router.navigate(['/profile']); // Redirect to profile page
+          localStorage.setItem('user', JSON.stringify(formData));
+          this.router.navigate(['/profile']);
         },
         error: (error) => {
           console.error('Error updating profile:', error);

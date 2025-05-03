@@ -30,7 +30,7 @@ export class PaymentService {
       return throwError(() => new Error('Invalid payment amount'));
     }
 
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -74,7 +74,7 @@ export class PaymentService {
 
   getPaymentHistory(): Observable<any[]> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
     
     return this.http.get<any[]>(`${this.apiUrl}/history`, { headers });
@@ -82,7 +82,7 @@ export class PaymentService {
 
   getAllPayments(): Observable<any[]> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
     
     return this.http.get<Payment[]>(this.apiUrl, { headers }).pipe(
@@ -105,7 +105,7 @@ export class PaymentService {
 
   createPaymentIntent(amount: number): Observable<{ clientSecret: string }> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
   
     return this.http.post<{ clientSecret: string }>(
@@ -118,7 +118,7 @@ export class PaymentService {
 
   updatePaymentStatus(paymentId: number, status: string): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     });
     
     return this.http.patch(

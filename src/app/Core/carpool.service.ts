@@ -32,7 +32,7 @@ export class CarpoolService {
   }
 
   getAllCarpools(): Observable<any[]> {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     
     if (!token) {
       console.error("❌ Aucun token trouvé !");
@@ -65,7 +65,7 @@ export class CarpoolService {
 
   // Ajout d'une méthode pour récupérer les futurs covoiturages
 getFutureCarpools(): Observable<any[]> {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('token');
 
   if (!token) {
     console.error("❌ Aucun token trouvé !");

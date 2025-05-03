@@ -167,7 +167,7 @@ export class ComplaintDetailsBackOfficeComponent implements OnInit {
 
   // Méthode utilitaire pour obtenir les en-têtes d'authentification
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('Utilisateur non authentifié.');
     }

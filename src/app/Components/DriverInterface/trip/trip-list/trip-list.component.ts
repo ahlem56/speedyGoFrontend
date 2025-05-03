@@ -57,7 +57,7 @@ export class TripListDriverInterfaceComponent implements OnInit {
 
     // Configurer les en-têtes pour la requête
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
 
     // Appeler le service pour obtenir les voyages du conducteur
@@ -92,7 +92,7 @@ export class TripListDriverInterfaceComponent implements OnInit {
   // Accepter un voyage
   acceptTrip(trip: any): void {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
   
     this.tripService.acceptTrip(trip.tripId, headers).subscribe({
@@ -109,7 +109,7 @@ export class TripListDriverInterfaceComponent implements OnInit {
   // Refuser un voyage
   refuseTrip(trip: any): void {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
   
     this.tripService.refuseTrip(trip.tripId, headers).subscribe({
@@ -126,7 +126,7 @@ export class TripListDriverInterfaceComponent implements OnInit {
 
   completeTrip(trip: any): void {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
   
     this.tripService.completeTrip(trip.tripId, headers).subscribe({

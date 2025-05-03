@@ -55,7 +55,7 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
   
   // Charger les covoiturages de l'utilisateur
   loadCarpools(): void {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
   
     this.carpoolService.getCarpoolsByUser(this.userId!, headers).subscribe({
@@ -111,7 +111,7 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
   }
 
   updateCarpool(carpoolId: number, updatedCarpool: any): void {
-    const token = localStorage.getItem('authToken'); // Récupérer le token
+    const token = localStorage.getItem('token'); // Récupérer le token
     if (!token) {
       console.error("Aucun token d'authentification trouvé.");
       this.router.navigate(['/login']); // Rediriger vers la page de connexion
@@ -152,7 +152,7 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
 
 
   deleteCarpool(carpoolId: number): void {
-    const token = localStorage.getItem('authToken'); // Récupérer le token
+    const token = localStorage.getItem('token'); // Récupérer le token
     if (!token) {
       console.error("Aucun token d'authentification trouvé.");
       this.router.navigate(['/login']); // Rediriger vers la page de connexion
@@ -184,7 +184,7 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
   
 
   loadUsersWhoJoined(carpoolId: number): void {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
     // Afficher l'état de chargement

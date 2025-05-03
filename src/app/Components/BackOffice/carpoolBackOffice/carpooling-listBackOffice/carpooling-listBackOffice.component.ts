@@ -24,7 +24,7 @@ export class CarpoolingListBackOfficeComponent implements OnInit {
 
   // Charger tous les covoiturages
   loadAllCarpools(): void {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     this.carpoolService.getAllCarpools().subscribe({

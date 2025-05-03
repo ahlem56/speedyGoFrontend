@@ -86,7 +86,7 @@ export class SidebarComponent implements OnInit {
 
   // Handle sidebar item click and check for login
   handleSidebarItemClick(path: string) {
-    const isLoggedIn = localStorage.getItem('authToken'); // Check if token exists
+    const isLoggedIn = localStorage.getItem('token'); // Check if token exists
 
     if (!isLoggedIn) {
       // If user is not logged in, show the modal

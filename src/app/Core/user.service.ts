@@ -1,116 +1,147 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { map, Observable } from 'rxjs';
+
+interface JwtPayload {
+  sub: string;
+  role: string;
+  userId?: number;
+  partnerId?: number;
+  iat: number;
+  exp: number;
+}
+
+function parseJwt(token: string): JwtPayload {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    throw new Error('Invalid JWT');
+  }
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private signinUrl = 'http://localhost:8089/examen/user/signin';
-  private signupUrl = 'http://localhost:8089/examen/user/signup';
-  private apiUrl = 'http://localhost:8089/examen/user';
+  private signinUrl = `${environment.apiUrl}/user/signin`;
+  private signupUrl = `${environment.apiUrl}/user/signup`;
+  private apiUrl = `${environment.apiUrl}/user`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  // Login method to authenticate user and get JWT token
   login(email: string, password: string): Observable<any> {
-    const loginData = { email: email, password: password };
-
+    const loginData = { email, password };
     return this.http.post(this.signinUrl, loginData).pipe(
-      map((response: any) => {
-        console.log('Response from server:', response);  // Log the response
-        const token = response.token.split(' ')[1];  // Extract the token
-        
-        // Store the token
-        localStorage.setItem('authToken', token);
-        
-        // Normalize role to match route definitions (Admin, SimpleUser, Driver, Partner)
+      tap((response: any) => {
+        console.log('Response from server:', response);
+        let token = response.token;
+        if (token && token.startsWith('Bearer ')) {
+          token = token.split(' ')[1]; // Extract raw token
+        } else if (!token) {
+          console.error('No token in response:', response);
+          throw new Error('No token provided by server');
+        } else {
+          console.warn('Token format unexpected, using as-is:', token);
+        }
+        console.log('Storing token:', token);
+        localStorage.setItem('token', token);
+
         let normalizedRole = response.role;
         if (normalizedRole) {
-          // Convert to title case (first letter uppercase, rest lowercase)
-          normalizedRole = normalizedRole.charAt(0).toUpperCase() + 
-                           normalizedRole.slice(1).toLowerCase();
-          
-          // Special case for SimpleUser
+          normalizedRole = normalizedRole.charAt(0).toUpperCase() + normalizedRole.slice(1).toLowerCase();
           if (normalizedRole.toLowerCase() === 'simpleuser') {
             normalizedRole = 'SimpleUser';
           }
         }
-        
-        // Store the normalized role
         localStorage.setItem('userRole', normalizedRole);
         localStorage.setItem('user', JSON.stringify(response.user));
 
-        return { token, role: normalizedRole, user: response.user };
-      })
+        const decoded = parseJwt(token);
+        if (decoded.role !== normalizedRole) {
+          console.warn('JWT role mismatch:', decoded.role, normalizedRole);
+        }
+      }),
+      catchError(this.handleError)
     );
   }
 
-  // Signup method to register a new user
   signup(signupData: any): Observable<any> {
     return this.http.post<any>(this.signupUrl, signupData).pipe(
-      map((response) => {
-        // The response from backend is structured and should be processed correctly
+      map(response => {
         console.log('Response from backend:', response);
-        return response;  // Return the response to the component
-      })
+        return response;
+      }),
+      catchError(this.handleError)
     );
   }
-  
-  
 
-  // Get user profile with token
   getUserProfile(): Observable<any> {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<any>(`${environment.apiUrl}/user/profile`, { headers });
-  }  
-
-  // user.service.ts
-logout(): void {
-  localStorage.removeItem('authToken');
-  localStorage.removeItem('userRole');
-  localStorage.removeItem('user');
-}
-
-
-// API call to upload profile photo
-uploadProfileImage(formData: FormData, headers: HttpHeaders): Observable<any> {
-  return this.http.post<any>(`${this.apiUrl}/upload-profile-photo`, formData, { headers });
-}
-
-updateUserProfile(user: any, headers: HttpHeaders): Observable<any> {
-  return this.http.put<any>(`${this.apiUrl}/update-profile`, user, { headers });
-}
-
-
-sendSOS() {
-  const phoneNumber = '50695322';  // Replace with actual phone number
-  const carrierGateway = 'vtext.com'; // Replace with the actual carrier gateway
-  const message = 'SOS Alert! My location is: https://www.google.com/maps?q=LAT,LONG'; // You can dynamically set latitude and longitude
-
-  // Retrieve the user from localStorage
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-
-  // Make sure the user exists
-  if (user && user.id) {
-    // Correcting to use POST request instead of GET
-    this.http.post(`http://localhost:8089/examen/sos/sendSos`, {
-      phoneNumber: phoneNumber,
-      carrierGateway: carrierGateway,
-      message: message,
-      userId: user.id  // Use user.id from localStorage
-    }).subscribe(response => {
-      console.log('SOS sent:', response);
-    }, error => {
-      console.log('Error sending SOS:', error);
-    });
-  } else {
-    console.log('User not found');
+    return this.http.get<any>(`${this.apiUrl}/profile`, { headers }).pipe(catchError(this.handleError));
   }
-}
 
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('user');
+  }
 
+  uploadProfileImage(formData: FormData): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<any>(`${this.apiUrl}/upload-profile-photo`, formData, { headers }).pipe(catchError(this.handleError));
+  }
 
+  updateUserProfile(user: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/update-profile`, {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      address: user.address,
+      birthDate: user.birthDate,
+      partnerId: user.partnerId || null
+    }, { headers }).pipe(catchError(this.handleError));
+  }
+
+  sendSOS(): Observable<any> {
+    const phoneNumber = '50695322';
+    const carrierGateway = 'vtext.com';
+    const message = 'SOS Alert! My location is: https://www.google.com/maps?q=LAT,LONG';
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+    if (user && user.id) {
+      return this.http.post(`${environment.apiUrl}/sos/sendSos`, {
+        phoneNumber,
+        carrierGateway,
+        message,
+        userId: user.id
+      }).pipe(catchError(this.handleError));
+    } else {
+      return throwError(() => new Error('User not found'));
+    }
+  }
+
+  private handleError(error: any): Observable<never> {
+    let errorMessage = 'An error occurred while processing your request.';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Client error: ${error.error.message}`;
+    } else {
+      errorMessage = `Server error: ${error.status} - ${error.error?.message || error.message}`;
+    }
+    console.error('User service error:', error);
+    return throwError(() => new Error(errorMessage));
+  }
 }

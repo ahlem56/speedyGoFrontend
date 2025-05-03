@@ -20,7 +20,7 @@ export class ComplaintDetailsFrontOfficeComponent implements OnInit {
     this.complaintId = Number(this.route.snapshot.paramMap.get('id'));
 
     if (this.complaintId) {
-      const token = localStorage.getItem('authToken'); // Récupérer le token
+      const token = localStorage.getItem('token'); // Récupérer le token
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
       this.complaintService.getComplaintById(this.complaintId, headers).subscribe(

@@ -119,17 +119,8 @@ export class ProfileComponent implements OnInit {
   uploadProfileImage(file: File): void {
     const formData = new FormData();
     formData.append('profilePhoto', file, file.name);
-    
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-      console.error('❌ No auth token found');
-      alert("Unauthorized: Please log in again.");
-      return;
-    }
-
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
-
-    this.userService.uploadProfileImage(formData, headers).subscribe({
+  
+    this.userService.uploadProfileImage(formData).subscribe({
       next: (response) => {
         this.user.userProfilePhoto = response.fileName;
         localStorage.setItem('user', JSON.stringify(this.user));
@@ -144,7 +135,7 @@ export class ProfileComponent implements OnInit {
 
   // Data Fetching Methods
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
@@ -415,7 +406,7 @@ isTripRated(trip: any): boolean {
       }}  // If available, set true
     
   deleteParcel(parcelId: number) {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.parcelService.deleteParcel(parcelId, headers).subscribe(
       () => {

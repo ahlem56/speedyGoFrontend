@@ -42,7 +42,7 @@ export class CarpoolingJoinFrontOfficeComponent implements OnInit {
       const user = JSON.parse(storedUser);
       const userId = user.userId;
   
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('token');
       if (!token) {
         this.errorMessage = "❌ Aucun token trouvé.";
         this.router.navigate(['/login']);

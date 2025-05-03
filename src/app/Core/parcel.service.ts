@@ -18,7 +18,7 @@ export class ParcelService {
   // Get all trips for a specific driver
   getParcelForDriver(driverId: number, headers: HttpHeaders): Observable<any[]> {
     const url = `${this.apiUrl}driver/${driverId}`;
-    const token = localStorage.getItem('authToken');  // Get token from localStorage
+    const token = localStorage.getItem('token');  // Get token from localStorage
   
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);  // Attach token to the headers

@@ -39,7 +39,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
 
   // Charger les détails du covoiturage
   loadCarpoolDetails(): void {
-    const token = localStorage.getItem('authToken'); // Récupérer le token d'authentification
+    const token = localStorage.getItem('token'); // Récupérer le token d'authentification
 
     if (!token) {
       this.errorMessage = "❌ Aucun token trouvé. Veuillez vous connecter.";
@@ -61,7 +61,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
         console.error("❌ Erreur API :", error);
         if (error.status === 401) {
           this.errorMessage = "Votre session a expiré. Veuillez vous reconnecter.";
-          localStorage.removeItem('authToken'); // Supprimer le token expiré
+          localStorage.removeItem('token'); // Supprimer le token expiré
           this.router.navigate(['/login']); // Rediriger vers la page de connexion
         } else {
           this.errorMessage = "Impossible de charger les détails du covoiturage.";
@@ -82,7 +82,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
     const user = JSON.parse(storedUser);
     const userId = user.userId;
   
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       this.errorMessage = "❌ Aucun token trouvé. Veuillez vous connecter.";
       this.router.navigate(['/login']);
@@ -118,7 +118,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
   }
   
   loadOffererDetails(): void {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       this.errorMessage = "❌ Aucun token trouvé. Veuillez vous connecter.";
       this.router.navigate(['/login']);

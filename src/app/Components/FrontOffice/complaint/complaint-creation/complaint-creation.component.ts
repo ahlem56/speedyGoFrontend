@@ -43,7 +43,7 @@ export class ComplaintCreationFrontOfficeComponent implements OnInit {
       return;
     }
   
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
   
     this.complaintService.addComplaint(this.complaint, this.simpleUserId, headers).subscribe(
