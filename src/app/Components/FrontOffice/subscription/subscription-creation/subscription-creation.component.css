@@ -1,15 +1,14 @@
 /* Section Title */
 .section-title {
-  font-family: 'Poppins', sans-serif; /* Clean and modern font */
-  font-size: 2.8em; /* Larger font size */
-  font-weight: 800; /* Bold for prominence */
-  color: #2d3a3a; /* Dark text color */
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8em;
+  font-weight: 800;
+  color: #2d3a3a;
   text-align: center;
   text-transform: uppercase;
   margin-bottom: 30px;
-  letter-spacing: 1px; /* Slight spacing */
+  letter-spacing: 1px;
   position: relative;
-  z-index: 2;
 }
 
 .section-title::after {
@@ -17,7 +16,7 @@
   display: block;
   width: 60px;
   height: 5px;
-  background-color: #ff7f50; /* Warm coral */
+  background-color: #ff7f50;
   margin: 10px auto;
   border-radius: 50px;
   animation: animate-line 1s ease-in-out infinite alternate;
@@ -32,127 +31,82 @@
 .subscription-cards {
   display: flex;
   justify-content: center;
-  gap: 25px;
+  gap: 40px; /* Increased gap between cards */
   flex-wrap: wrap;
-  padding: 0 15px;
-  z-index: 1;
+  padding: 0 20px; /* Increased padding around the container */
 }
 
 /* Individual Subscription Card */
 .subscription-card {
-  background: linear-gradient(135deg, #ffffff, #f4f4f4); /* Soft gradient background */
-  border-radius: 20px; /* Rounded corners */
-  width: 340px;
-  padding: 25px;
-  box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.15); /* Softer but stronger shadow */
-  transition: all 0.3s ease-in-out; /* Smooth hover effect */
+  background: linear-gradient(135deg, #ffffff, #f4f4f4);
+  border-radius: 20px;
+  width: 350px; /* Increased width of the card */
+  height: 480px; /* Increased height of the card */
+  padding: 30px; /* Increased padding inside the card */
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.15); /* Softer but stronger shadow */
+  transition: all 0.3s ease-in-out;
   overflow: hidden;
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 420px; /* Uniform height for all cards */
   position: relative;
-  z-index: 1;
 }
-
-.subscription-card::before {
-  content: '';
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
-  background: rgba(255, 127, 80, 0.1); /* Light warm overlay */
-  border-radius: 15px;
-  z-index: -1;
-}
-
 .subscription-card:hover {
-  transform: translateY(-12px); /* Slight lift effect */
-  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.25); /* Enhanced shadow */
-  transition: all 0.3s ease-out;
+  transform: translateY(-12px);
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.25);
 }
 
-/* Card Header */
-.card-header h3 {
-  font-family: 'Merriweather', serif; /* Elegant serif font */
-  font-size: 1.9em;
-  color: #333;
-  margin-bottom: 15px;
-  text-transform: capitalize;
-  font-weight: 700;
-  position: relative;
+/* Pricing Container */
+.pricing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.card-header h3::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(135deg, #ff7f50, #f5b742); /* Gradient underline */
+/* Style for the original price */
+.original-price {
+  font-size: 1.5em;
+  color: #777;
+  text-decoration: line-through;
+  margin-bottom: 10px;
 }
 
-/* Price Styling */
+/* Style for the discounted price */
 .price {
-  font-size: 1.7em;
-  color: #ff7f50; /* Warm coral */
-  font-weight: 700;
-  margin-bottom: 20px;
-  position: relative;
-  animation: priceAnim 1s ease-out forwards;
+  font-size: 2em;
+  color: #ff7f50;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-@keyframes priceAnim {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+/* Discount percentage */
+.discount-percentage {
+  font-size: 1.2em;
+  color: #28a745;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
-/* Price underline effect */
-.price::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: #ff7f50;
-  animation: underlineGlow 1.5s ease-in-out infinite alternate;
+/* Discount label */
+.discount-label {
+  font-size: 1.2em;
+  color: #28a745;
+  font-weight: bold;
 }
 
-/* Glowing underline animation */
-@keyframes underlineGlow {
-  0% { transform: scaleX(0); }
-  100% { transform: scaleX(1); }
-}
-
-/* Card Body */
+/* Card body styling */
 .card-body p {
   font-size: 1.1em;
-  color: #555; /* Darker gray */
+  color: #555;
   line-height: 1.6;
   margin: 20px 0;
-  font-style: italic;
-  opacity: 0;
-  animation: fadeInText 0.5s ease-out forwards;
-}
-
-@keyframes fadeInText {
-  0% { opacity: 0; transform: translateY(15px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Card Footer */
-.card-footer {
-  margin-top: auto; /* Push the button to the bottom */
 }
 
 /* Button Styling */
 .subscribe-btn {
   padding: 14px 28px;
-  background: linear-gradient(45deg, #ff7f50, #f5b742); /* Warm gradient */
+  background: linear-gradient(45deg, #ff7f50, #f5b742);
   border: none;
   color: white;
   font-size: 1.1em;
@@ -162,55 +116,14 @@
   transition: all 0.3s ease;
   letter-spacing: 1px;
   text-transform: uppercase;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
-  position: relative;
 }
 
 .subscribe-btn:hover {
-  background: linear-gradient(45deg, #ff5722, #f1c40f); /* Hover gradient */
+  background: linear-gradient(45deg, #ff5722, #f1c40f);
   transform: scale(1.05);
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow */
 }
 
 .subscribe-btn:focus {
   outline: none;
-  box-shadow: 0px 0px 20px rgba(255, 127, 80, 0.6); /* Focus glow */
+  box-shadow: 0px 0px 20px rgba(255, 127, 80, 0.6);
 }
-
-/* Animation for subscription card appearance */
-@keyframes card-enter {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.subscription-card {
-  animation: card-enter 0.6s ease-out;
-}
-
-/* Media Query for responsiveness */
-@media (max-width: 768px) {
-  .subscription-cards {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .subscription-card {
-    width: 90%; /* Cards take more space on smaller screens */
-    margin-bottom: 30px;
-  }
-}
-
-/* Subscription Duration */
-.duration {
-  font-size: 1.1em;
-  color: #555; /* Darker gray */
-  margin-top: 10px;
-  font-weight: 600;
-}
-

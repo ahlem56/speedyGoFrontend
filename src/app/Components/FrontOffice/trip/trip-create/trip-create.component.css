@@ -1,174 +1,112 @@
-/* Form Container */
-.container-fluid {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-}
-
-/* Section Title */
-.section-title {
-    margin-top: 30px;
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Subheading text */
-.lead {
-    font-size: 1.4rem;
-    color: #555;
-    margin-bottom: 20px;
-    line-height: 1.7;
-    text-align: center;
-    font-style: italic;
-}
-
-/* Form group */
-.form-group {
-    margin-bottom: 25px;
-}
-
-/* Input and select fields */
-input, select {
-    font-size: 1.3rem;
-    padding: 15px;
-    border-radius: 10px;
-    border: 2px solid #ccc;
-    background-color: #fafafa;
-    width: 100%;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* On focus effect for input/select fields */
-input:focus, select:focus {
-    border-color: #8e2021;
-    box-shadow: 0px 0px 8px rgba(142, 32, 33, 0.3);
-}
-
-/* Form labels */
-.form-label {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-/* Map section */
-#map {
-    width: 100%;
-    
-    max-height: 400px; /* Adjust if necessary */
-    border-radius: 10px;
-    margin-top: 30px;
-    border: 2px solid #ddd;
-    margin-bottom: 20px; /* Add some space below the map */
-}
-
-
-/* Responsive Design for Smaller Screens */
-@media (max-width: 768px) {
-    /* Adjust map height for smaller screens */
-    #map {
-        height: 300px; /* Adjust the height for smaller screens */
-    }
-}
-
-
-/* Submit Button */
-.btn-primary {
-    background-color: #8e2021;
-    color: #fff;
-    border: none;
-    padding: 15px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    border-radius: 10px;
-    transition: background-color 0.3s ease;
+.trip-creation-page {
+    min-height: 100vh;
+    background: linear-gradient(to right, #ffffff, #f2f6f9);
+    padding: 2rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    letter-spacing: 1px;
-}
-
-/* Button hover effect */
-.btn-primary:hover {
-    background-color: #a52a2a;
-}
-
-/* Button icon */
-.btn-primary i {
-    margin-right: 10px;
-}
-
-/* Form instructions */
-.form-text {
-    font-size: 0.9rem;
-    color: #666;
+  }
+  
+  .header-section {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .section-title {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+  }
+  
+  .lead {
+    font-size: 1.3rem;
+    color: #6c757d;
     font-style: italic;
-}
-
-/* Decorative line under form inputs */
-.form-group::after {
-    content: "";
-    display: block;
-    width: 50%;
-    height: 2px;
-    background-color: #8e2021;
-    margin-top: 10px;
-    margin-left: 25%;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .col-md-5 {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .btn-primary {
-        font-size: 1rem;
-        padding: 12px;
-    }
-
-    .section-title {
-        font-size: 2.3rem;
-    }
-}
-
-/* Enhanced Input Boxes */
-input, select {
-    background-image: linear-gradient(to right, #f1f1f1, #ffffff);
-    border: 1px solid #ccc;
-}
-
-input::placeholder {
-    color: #aaa;
-}
-
-input:focus {
-    border-color: #8e2021;
-    outline: none;
-    box-shadow: 0px 0px 10px rgba(142, 32, 33, 0.3);
-}
-
-/* Alert Styling */
-.alert {
+  }
+  
+  .map-container {
+    width: 100%;
+    max-width: 900px;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .form-card {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-floating {
+    position: relative;
+  }
+  
+  input, select {
+    border-radius: 12px;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+  }
+  
+  input:focus, select:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 10px rgba(0,123,255,0.3);
+  }
+  
+  .price-estimate {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    color: #333;
+  }
+  
+  .btn-create-trip {
+    margin-top: 1.5rem;
+    background: linear-gradient(to right, #e63c3c, #aa1111);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
     font-size: 1.2rem;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.alert-success {
+    border-radius: 12px;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-create-trip:hover {
+    background: linear-gradient(to right, #ffc933, #f3a126);
+  }
+  
+  .alert {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .alert-success {
     background-color: #d4edda;
     color: #155724;
-}
-
-.alert .close {
-    font-size: 1.5rem;
-}
+  }
+  
+  .view-profile-btn {
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #007bff;
+  }
+  

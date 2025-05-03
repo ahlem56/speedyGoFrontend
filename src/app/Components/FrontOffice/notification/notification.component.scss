@@ -221,7 +221,7 @@
 }
 
 .notification.parcel .notification-badge {
-  background: #9b59b6;
+  background: #b66759;
 }
 
 .notification.carpool-joined .notification-badge {
@@ -261,5 +261,13 @@
   p {
     margin: 0;
     font-size: 14px;
+  }
+}
+
+.parcel-header {
+  border-color: #b66759; // Purple (to match the parcel notification badge)
+  
+  i {
+    color: #b66759;
   }
 }

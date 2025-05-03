@@ -19,7 +19,7 @@
   <div class="notification-groups">
     
     <!-- Trip Notifications Section -->
-    <div class="notification-section" *ngIf="hasNotifications(['acceptance', 'refusal'])">
+    <div class="notification-section" *ngIf="hasNotifications(['acceptance', 'refusal', 'reminder'])">
       <div class="section-header trip-header">
         <i class="fa fa-road"></i>
         <h3>Trip Updates</h3>
@@ -77,8 +77,74 @@
             </div>
           </div>
         </div>
+
+        <!-- Trip Reminder -->
+        <div *ngIf="notification.type === 'reminder'" class="notification reminder">
+          <div class="notification-badge">
+            <i class="fa fa-clock"></i>
+          </div>
+          <div class="notification-content">
+            <div class="notification-header">
+              <h4>Trip Reminder</h4>
+              <span class="notification-time">{{ notification.timestamp | date: 'short' }}</span>
+            </div>
+            <div class="notification-body">
+              <p>{{ notification.message }}</p>
+              <div class="trip-details">
+                <div class="detail-item">
+                  <i class="fa fa-map-marker-alt"></i>
+                  <span>{{ notification.departure }} → {{ notification.destination }}</span>
+                </div>
+                <div class="detail-item">
+                  <i class="fa fa-calendar-day"></i>
+                  <span>Starting at: {{ notification.date | date:'shortTime' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+
+<!-- Parcel Updates Section -->
+<div class="notification-section" *ngIf="hasNotifications(['parcel'])">
+  <div class="section-header parcel-header">
+    <i class="fa fa-box"></i>
+    <h3>Parcel Updates</h3>
+  </div>
+
+  <div *ngFor="let notification of notifications">
+    <div *ngIf="notification.type === 'parcel'" class="notification parcel">
+      <div class="notification-badge">
+        <i class="fa fa-box"></i>
+      </div>
+      <div class="notification-content">
+        <div class="notification-header">
+          <h4>Parcel Status Update</h4>
+          <span class="notification-time">{{ notification.timestamp | date: 'short' }}</span>
+        </div>
+        <div class="notification-body">
+          <p>{{ notification.message }}</p>
+          <div class="trip-details">
+            <div class="detail-item">
+              <i class="fa fa-barcode"></i>
+              <span>Parcel ID: {{ notification.parcelId }}</span>
+            </div>
+            <div class="detail-item">
+              <i class="fa fa-info-circle"></i>
+              <span>Status: {{ notification.status }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- (Everything after this remains exactly the same...) -->
+
+
 
     <!-- Carpool Notifications Section -->
     <div class="notification-section" *ngIf="hasNotifications(['CARPOOL_JOINED', 'CARPOOL_LEFT', 'CARPOOL_DELETED'])">

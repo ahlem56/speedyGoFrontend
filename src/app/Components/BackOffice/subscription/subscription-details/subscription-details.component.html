@@ -1,96 +1,71 @@
-<div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-      <!-- Subscription Card -->
-      <div class="card shadow-lg p-5 mb-5 rounded-lg">
-        <h2 class="text-center text-dark mb-4">Create Your Subscription</h2>
+<div class="subscription-container">
+  <div class="subscription-form card-glass">
+    <h2>Create Your Subscription</h2>
+    <form (ngSubmit)="onSubmit()" #subscriptionForm="ngForm">
 
-        <!-- Form -->
-        <form (ngSubmit)="onSubmit()" #subscriptionForm="ngForm">
-          <!-- Subscription Type -->
-          <div class="form-group">
-            <label for="subscriptionType" class="text-dark">Subscription Type</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="fas fa-cogs"></i></span>
-              <select id="subscriptionType" [(ngModel)]="subscriptionType" name="subscriptionType" class="form-control" required #subscriptionTypeField="ngModel">
-                <option value="BASIC">Basic</option>
-                <option value="PREMIUM">Premium</option>
-                <option value="GOLD">Gold</option>
-              </select>
-            </div>
-            <div *ngIf="subscriptionTypeField.invalid && subscriptionTypeField.touched" class="text-danger">
-              Subscription Type is required.
-            </div>
-          </div>
-
-          <!-- Subscription Price -->
-          <div class="form-group">
-            <label for="subscriptionPrice" class="text-dark">Price (TND)</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
-              <input type="number" id="subscriptionPrice" [(ngModel)]="subscriptionPrice" name="subscriptionPrice" class="form-control" placeholder="Enter price" required min="1" #subscriptionPriceField="ngModel"/>
-            </div>
-            <div *ngIf="subscriptionPriceField.invalid && subscriptionPriceField.touched" class="text-danger">
-              Price is required and must be greater than 0.
-            </div>
-          </div>
-
-          <!-- Subscription Description -->
-          <div class="form-group">
-            <label for="subscriptionDescription" class="text-dark">Description</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
-              <input type="text" id="subscriptionDescription" [(ngModel)]="subscriptionDescription" name="subscriptionDescription" class="form-control" placeholder="Enter description" required minlength="4" #subscriptionDescriptionField="ngModel"/>
-            </div>
-            <div *ngIf="subscriptionDescriptionField.invalid && subscriptionDescriptionField.touched" class="text-danger">
-              Description is required and must have at least 4 characters.
-            </div>
-          </div>
-
-          <!-- Subscription Duration -->
-          <div class="form-group">
-            <label for="durationInMonths" class="text-dark">Duration (Months)</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-              <input type="number" id="durationInMonths" [(ngModel)]="durationInMonths" name="durationInMonths" class="form-control" placeholder="Enter duration in months" required min="1" #durationInMonthsField="ngModel"/>
-            </div>
-            <div *ngIf="durationInMonthsField.invalid && durationInMonthsField.touched" class="text-danger">
-              Duration is required and must be greater than 0.
-            </div>
-          </div>
-
-          <!-- Submit Button -->
-          <button type="submit" class="btn btn-primary btn-lg w-100 shadow-lg mt-3" [disabled]="!subscriptionForm.valid">
-            <i class="fas fa-check"></i> Create Subscription
-          </button>
-        </form>
+      <div class="form-group">
+        <label for="subscriptionType">Subscription Type</label>
+        <select id="subscriptionType" [(ngModel)]="subscriptionType" name="subscriptionType" class="form-control" required #subscriptionTypeField="ngModel">
+          <option value="" disabled selected>Select a type</option>
+          <option value="BASIC">Basic</option>
+          <option value="PREMIUM">Premium</option>
+          <option value="GOLD">Gold</option>
+        </select>
+        <div *ngIf="subscriptionTypeField.invalid && subscriptionTypeField.touched" class="error-text">
+          Please select a subscription type.
+        </div>
       </div>
 
-      <!-- Toggle Button to Show Existing Subscriptions -->
-      <button (click)="toggleExistingSubscriptions()" class="btn btn-info btn-sm mb-4 w-100">
-        {{ showExistingSubscriptions ? 'Hide' : 'Show' }} Existing Subscriptions
-      </button>
+      <div class="form-group">
+        <label for="subscriptionPrice">Price (TND)</label>
+        <input type="number" id="subscriptionPrice" [(ngModel)]="subscriptionPrice" name="subscriptionPrice" class="form-control" placeholder="Enter price" required min="1" #subscriptionPriceField="ngModel">
+        <div *ngIf="subscriptionPriceField.invalid && subscriptionPriceField.touched" class="error-text">
+          Enter a valid price.
+        </div>
+      </div>
 
-      <!-- Existing Subscriptions List -->
-      <div *ngIf="showExistingSubscriptions" class="card shadow-sm p-4">
-        <h4 class="text-center mb-4">Existing Subscriptions</h4>
-        <div class="list-group">
-          <div *ngFor="let sub of subscriptions" class="subscription-card">
-            <div class="subscription-details">
-              <h5 class="text-dark font-weight-bold">{{ sub.subscriptionType }}</h5>
-              <p class="mb-2"><strong>{{ sub.subscriptionPrice }} TND</strong></p>
-              <p class="mb-2">{{ sub.subscriptionDescription }}</p>
-              <p class="mb-2"><strong>{{ sub.durationInMonths }} months</strong></p>
-            </div>
-            <div class="subscription-actions">
-              <button (click)="editSubscription(sub)" class="btn btn-warning btn-sm mr-2">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-              <button (click)="deleteSubscription(sub.subscriptionId)" class="btn btn-danger btn-sm">
-                <i class="fas fa-trash"></i> Delete
-              </button>
-            </div>
-          </div>
+      <div class="form-group">
+        <label for="subscriptionDescription">Description</label>
+        <input type="text" id="subscriptionDescription" [(ngModel)]="subscriptionDescription" name="subscriptionDescription" class="form-control" placeholder="Enter description" required minlength="4" #subscriptionDescriptionField="ngModel">
+        <div *ngIf="subscriptionDescriptionField.invalid && subscriptionDescriptionField.touched" class="error-text">
+          Description must be at least 4 characters.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="durationInMonths">Duration (Months)</label>
+        <input type="number" id="durationInMonths" [(ngModel)]="durationInMonths" name="durationInMonths" class="form-control" placeholder="Months" required min="1" #durationInMonthsField="ngModel">
+        <div *ngIf="durationInMonthsField.invalid && durationInMonthsField.touched" class="error-text">
+          Enter a valid duration.
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="!subscriptionForm.valid">
+        <i class="fas fa-plus"></i> Create Subscription
+      </button>
+    </form>
+  </div>
+
+  <div class="subscription-list">
+    <button (click)="toggleExistingSubscriptions()" class="btn-secondary">
+      {{ showExistingSubscriptions ? 'Hide Subscriptions' : 'Show Subscriptions' }}
+    </button>
+
+    <div *ngIf="showExistingSubscriptions" class="subscription-cards">
+      <div *ngFor="let sub of subscriptions" class="subscription-card">
+        <div class="details">
+          <h5>{{ sub.subscriptionType }}</h5>
+          <p>{{ sub.subscriptionPrice }} TND</p>
+          <p>{{ sub.subscriptionDescription }}</p>
+          <p><i>{{ sub.durationInMonths }} months</i></p>
+        </div>
+        <div class="actions">
+          <button (click)="editSubscription(sub)" class="btn-edit">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button (click)="deleteSubscription(sub.subscriptionId)" class="btn-delete">
+            <i class="fas fa-trash-alt"></i>
+          </button>
         </div>
       </div>
     </div>

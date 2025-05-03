@@ -1,130 +1,156 @@
-/* subscription-create.component.scss */
-.container {
-  margin-top: 40px;
+.subscription-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
 }
 
-.card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  margin-top: 20px;
+.card-glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
 }
 
 h2 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
   color: #333;
   margin-bottom: 1.5rem;
 }
 
 .form-group {
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 label {
-  font-weight: bold;
-  font-size: 1rem;
-  color: #555;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 14px;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
-}
-
-input:focus,
-select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.input-group-text {
-  background-color: #f0ad4e;
-  color: white;
-  border-radius: 8px 0 0 8px;
-}
-
-button {
-  padding: 14px;
-  font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  background-color: #bb2b2b;
-  color: white;
-  transition: background-color 0.3s ease;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #444;
+}
+
+input, select {
   width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
 }
 
-button:hover {
-  background-color: #f1b356;
+input:focus, select:focus {
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
+  border-color: #007bff;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+.error-text {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
 }
 
-button:active {
-  transform: scale(0.98);
+.btn-primary {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f3961c, #c70000da);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 1rem;
 }
 
-/* Existing Subscriptions Styles */
+.btn-primary:hover {
+  background: linear-gradient(135deg, #ffdb0f, #ff9821);
+}
+
+.btn-secondary {
+  background: #c70000da;
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.btn-secondary:hover {
+  background: #0097a7;
+}
+
+.subscription-list {
+  width: 100%;
+  max-width: 800px;
+}
+
+.subscription-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
 .subscription-card {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  background-color: #fafafa;
-  transition: transform 0.2s ease-in-out;
+  align-items: center;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
 }
 
 .subscription-card:hover {
   transform: translateY(-5px);
 }
 
-.subscription-details {
-  width: 70%;
-}
-
-.subscription-details h5 {
-  font-size: 1.2rem;
+.details h5 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
   color: #333;
 }
 
-.subscription-details p {
-  color: #666;
-  font-size: 0.9rem;
+.details p {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0.2rem 0;
 }
 
-.subscription-actions {
+.actions {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
-.subscription-actions .btn {
-  padding: 8px 16px;
+.btn-edit, .btn-delete {
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: none;
   font-size: 0.9rem;
-  border-radius: 5px;
+  cursor: pointer;
 }
 
-.subscription-actions .btn-warning {
-  background-color: #f0ad4e;
+.btn-edit {
+  background: #ff9800;
+  color: white;
 }
 
-.subscription-actions .btn-danger {
-  background-color: #d9534f;
+.btn-delete {
+  background: #f44336;
+  color: white;
 }
 
-.subscription-actions .btn:hover {
+.btn-edit:hover, .btn-delete:hover {
   opacity: 0.8;
 }

@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GoogleMap, GoogleMapsModule } from '@angular/google-maps';
+import { RatingService } from 'src/app/Core/rating.service';
 
 @Component({
   selector: 'app-trip-create',
@@ -47,7 +48,8 @@ export class TripCreateFrontOfficeComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private router: Router,
     private http: HttpClient, 
-    private ngZone: NgZone 
+    private ngZone: NgZone ,
+    private ratingService: RatingService
   ) {}
 
   ngOnInit() {
@@ -81,6 +83,8 @@ export class TripCreateFrontOfficeComponent implements OnInit, AfterViewInit {
         }
       );
     }
+    this.loadDriversWithRatings(); // 👈 add this line to load drivers smartly
+
   }
 
   ngAfterViewInit() {
@@ -358,6 +362,42 @@ calculateDynamicPrice(durationInSeconds: number): number {
 
   // Basic price formula (adjust according to your business logic)
   return basePrice + (durationInMinutes * pricePerMinute);
+}
+
+
+loadDriversWithRatings() {
+  this.driverService.getAvailableDrivers().subscribe(
+    (drivers) => {
+      const ratingPromises = drivers.map((driver) => {
+        if (driver.userId) {
+          return this.ratingService.getAverageRating(driver.userId, new HttpHeaders())
+            .toPromise()
+            .then((rating) => {
+              (driver as any).averageRating = rating || 0;  // if no rating, 0
+              return driver;
+            })
+            .catch((error) => {
+              console.error('Error fetching rating for driver', driver.userId, error);
+              (driver as any).averageRating = 0;
+              return driver;
+            });
+        } else {
+          (driver as any).averageRating = 0;
+          return Promise.resolve(driver);
+        }
+      });
+
+      Promise.all(ratingPromises).then((driversWithRatings) => {
+        // Sort drivers by average rating, highest first
+        this.availableDrivers = driversWithRatings.sort((a: any, b: any) => b.averageRating - a.averageRating);
+        console.log('Sorted Drivers:', this.availableDrivers);
+      });
+    },
+    (error) => {
+      this.errorMessage = 'Error fetching drivers. Please try again later.';
+      console.error(error);
+    }
+  );
 }
 
 }

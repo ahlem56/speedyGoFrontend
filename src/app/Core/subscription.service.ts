@@ -45,11 +45,12 @@ export class SubscriptionService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getAuthToken()}`);
     return this.http.put<any>(`${this.apiUrl}/updateSubscription/${id}`, subscriptionData, { headers });
   }
-
+  // Handle subscription logic when the user subscribes
   subscribe(subscriptionData: any): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getAuthToken()}`);
-    return this.http.post<any>(`${this.apiUrl}/subscribeToSubscription/${subscriptionData.userId}/${subscriptionData.subscriptionId}`, {}, { headers });
+    return this.http.post<any>(`${this.apiUrl}/subscribeWithDiscount/${subscriptionData.userId}/${subscriptionData.subscriptionId}`, {}, { headers });
   }
+
 
 
     // Get subscription details for a specific user

@@ -58,8 +58,9 @@
             <td>{{ driver.userId }}</td>
             <td>
               <img *ngIf="driver.userProfilePhoto; else noPhoto" 
-                   [src]="driver.userProfilePhoto" 
-                   alt="Driver Photo" class="profile-photo">
+     [src]="'assets/FrontOffice/images/bg/' + driver.userProfilePhoto" 
+     alt="Driver Photo" class="profile-photo">
+
               <ng-template #noPhoto>
                 <span class="no-photo">No Photo</span>
               </ng-template>

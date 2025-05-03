@@ -87,7 +87,13 @@ export class NotificationService {
             );
           }
 
-          
+          // Handle trip reminder notification
+else if (messageData.type === 'TRIP_REMINDER') {
+  this.toastSubject.next(
+    `⏰ Reminder: Your trip from ${messageData.details.departure} to ${messageData.details.destination} starts at ${messageData.details.date}`
+  );
+}
+
   
           observer.next(messageData);
         } catch (e) {

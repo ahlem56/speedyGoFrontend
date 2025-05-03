@@ -91,7 +91,18 @@ export class NotificationFrontOfficeComponent implements OnInit, OnDestroy {
       console.warn('Empty notification received');
       return null;
     }
-
+    if (message.type === 'TRIP_REMINDER' && message.details) {
+      const details = message.details;
+      return {
+        type: 'reminder',
+        departure: details.departure || 'unknown',
+        destination: details.destination || 'unknown',
+        date: details.date || 'unknown',
+        message: message.message || `Reminder: Your trip from ${details.departure} to ${details.destination} is starting soon!`,
+        timestamp: new Date(message.timestamp || Date.now())
+      };
+    }
+    
     // Reject carpool notifications with passengers
     if (message.type && ['CARPOOL_JOINED', 'CARPOOL_LEFT', 'CARPOOL_DELETED', 'CARPOOL_RECOMMENDED'].includes(message.type) && message.details?.passengers) {
       console.warn('Invalid carpool notification with passengers:', message);

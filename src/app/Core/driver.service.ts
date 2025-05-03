@@ -15,6 +15,8 @@ export interface Driver {
   profileImageUrl?: string;  // Add this line
   licenseNumberD?: string;
   insuranceDetailsD?: string;
+  averageRating?: number;
+
 
 
 }
@@ -49,8 +51,12 @@ export class DriverService {
   }
 
   deleteDriver(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}delete/${id}`);
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.delete<void>(`${this.baseUrl}delete/${id}`, { headers });
   }
+  
 
   // Get a driver by ID
   getDriverById(driverId: string): Observable<Driver> {
