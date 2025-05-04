@@ -57,8 +57,8 @@
           <tr *ngFor="let driver of filteredDrivers">
             <td>{{ driver.userId }}</td>
             <td>
-              <img *ngIf="driver.userProfilePhoto; else noPhoto" 
-                   [src]="driver.userProfilePhoto" 
+              <img *ngIf="driver.userProfilePhoto; else noPhoto"
+                   [src]="driver.userProfilePhoto"
                    alt="Driver Photo" class="profile-photo">
               <ng-template #noPhoto>
                 <span class="no-photo">No Photo</span>
@@ -82,8 +82,8 @@
                 N/A
               </ng-template>
             </td>
-            
-            
+
+
             <td class="action-buttons">
               <button class="icon-button edit" (click)="editDriver(driver.userId)">
                 <i class="fas fa-edit"></i>

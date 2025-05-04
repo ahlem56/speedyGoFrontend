@@ -16,7 +16,7 @@ export interface Vehicle {
   longitude?: number;
   updateTime?: Date;
   vehicleSerialNumber ?:number;
-  travelHistory?: LocationRecord[]; // Optionnel : pour récupérer l’historique dans le même objet
+  travelHistory?: LocationRecord[];
 }
 export interface TripCoords {
   departure: string;
@@ -26,7 +26,7 @@ export interface TripCoords {
 export interface LocationRecord {
   latitude: number;
   longitude: number;
-  updateTime: Date;
+  arrived : boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -102,9 +102,8 @@ export class VehicleService {
     );
   }
 
-  // Récupérer l'historique du trajet du véhicule
-  getTravelHistory(vehicleId: number): Observable<LocationRecord[]> {
-    return this.http.get<LocationRecord[]>(`${this.baseUrl}/getTravelHistory/${vehicleId}`);
+  getCheckpointsStatus(vehicleId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/checkpointsStatus/${vehicleId}`);
   }
 
   getTripDepartureAndDestination(tripId: number): Observable<TripCoords> {
@@ -117,5 +116,23 @@ export class VehicleService {
   getVehiclesWithExpiredInsurance(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(`${this.baseUrl}/vehicles/expired-insurance`);
   }
+
+  saveCheckpoints(
+    vehicleId: number,
+    checkpoints: LocationRecord[]
+  ): Observable<Vehicle> {
+    return this.http.post<Vehicle>(
+      `${this.baseUrl}/saveCheckpoints/${vehicleId}`,
+      checkpoints
+    );
+  }
+
+  markNextArrived(vehicleId: number): Observable<Vehicle> {
+    return this.http.put<Vehicle>(
+      `${this.baseUrl}/markNextArrived/${vehicleId}`,
+      {}
+    );
+  }
+
 
 }
