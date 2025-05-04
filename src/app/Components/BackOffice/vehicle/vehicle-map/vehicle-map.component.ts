@@ -35,7 +35,7 @@ export class VehicleMapComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private vehicleService: VehicleService,
+    private vehicleService: VehicleService
   ) {}
 
   ngAfterViewInit(): void {
@@ -43,6 +43,7 @@ export class VehicleMapComponent implements AfterViewInit, OnDestroy {
     this.initMap();
     this.loadRouteAndCheckpoints();
   }
+
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();

@@ -64,8 +64,11 @@
             <td class="action-buttons">
               <ng-container *ngIf="trip.reservationStatus === 'CONFIRMED'">
                 <button class="complete-btn" (click)="completeTrip(trip)">Complete</button>
+
               </ng-container>
               <ng-container *ngIf="trip.reservationStatus === 'PENDING'">
+                <button class="checkpoint-btn" (click)="reachNextCheckpoint(trip)">Reach Next Checkpoint</button> 
+
                 <button class="accept-btn" (click)="acceptTrip(trip)">Accept</button>
                 <button class="refuse-btn" (click)="refuseTrip(trip)">Refuse</button>
               </ng-container>

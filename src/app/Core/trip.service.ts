@@ -69,5 +69,12 @@ export class TripService {
     return this.http.get<any>(url, {headers});
   }
 
-
+  reachNextCheckpoint(vehicleId: number, headers: HttpHeaders): Observable<any> {
+    return this.http.put(
+      `http://localhost:8089/examen/vehicle/markNextArrived/${vehicleId}`, 
+      {}, 
+      { headers }
+    );
+  }
+  
 }

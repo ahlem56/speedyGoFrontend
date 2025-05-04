@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { VehicleService } from 'src/app/Core/vehicle.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-trip-list',
@@ -19,6 +22,19 @@ export class TripListDriverInterfaceComponent implements OnInit {
   isLoading: boolean = true;  // État de chargement
   errorMessage: string | null = null;  // Message d'erreur
 
+  private checkpointData: {
+    position: google.maps.LatLng;
+    marker: google.maps.Marker;
+    arrived: boolean;
+  }[] = [];
+
+  readonly checkpointCount = 9;
+  readonly proximityThresholdMeters = 50;
+  vehicleId!: number;
+private directionsService!: google.maps.DirectionsService;
+  private directionsRenderer!: google.maps.DirectionsRenderer;
+  private subs = new Subscription();
+
   // Définir les statuts des voyages (adaptez-les à votre backend)
   tripStatuses = [
     { value: 'all', label: 'All Trips' },
@@ -27,7 +43,7 @@ export class TripListDriverInterfaceComponent implements OnInit {
     { value: 'CANCELLED', label: 'Cancelled' }
   ];
 
-  constructor(private tripService: TripService, private router: Router) {}
+  constructor(private tripService: TripService, private router: Router, private vehicleService : VehicleService) {}
 
   ngOnInit(): void {
     this.loadTrips();
@@ -140,5 +156,21 @@ export class TripListDriverInterfaceComponent implements OnInit {
       }
     });
   }
+  reachNextCheckpoint(trip: any): void {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
+  
+    this.tripService.reachNextCheckpoint(trip.driver.vehicle.vehiculeId  , headers).subscribe({
+      next: () => {
+        alert('Next checkpoint reached ' );
+      },
+      error: (error) => {
+        console.error('Error reaching next checkpoint:', error);
+        alert('Failed to reach next checkpoint. Please try again.');
+      }
+    });
+  }
+  
   
 }
