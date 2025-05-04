@@ -86,14 +86,22 @@
             
             
             <td class="action-buttons">
+              <!-- View Driver Profile -->
+              <button class="icon-button view" (click)="viewDriver(driver.userId)">
+                <i class="fas fa-eye"></i> 
+              </button>
+            
+              <!-- Edit Driver -->
               <button class="icon-button edit" (click)="editDriver(driver.userId)">
                 <i class="fas fa-edit"></i>
               </button>
-              <!-- Delete Icon -->
+            
+              <!-- Delete Driver -->
               <button class="icon-button delete" (click)="deleteDriver(driver.userId)">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
+            
           </tr>
         </tbody>
       </table>

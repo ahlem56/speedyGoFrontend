@@ -84,4 +84,9 @@ export class DriversBackOfficeComponent {
   openAddDriverForm(): void {
     this.router.navigate(['/back-office/drivers/create']);  // Navigate to the add driver page
   }
+
+  viewDriver(driverId: number): void {
+    this.router.navigate([`/driver-profile/${driverId}`]);
+  }
+  
 }

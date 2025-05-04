@@ -93,6 +93,16 @@ export const ALL_ROUTES: RouteInfo[] = [
   extralink: false,
   submenu: []
 },
+
+{
+  path: 'back-office/simple-users',   // <-- Route you will create
+  title: 'Simple Users',              // <-- Sidebar title
+  icon: 'bi bi-people',                // <-- Bootstrap icon (for example)
+  class: '',
+  extralink: false,
+  submenu: []
+},
+
 {
   path: 'back-office/vehicles',
   title: 'Vehicles',
@@ -208,5 +218,7 @@ export const ALL_ROUTES: RouteInfo[] = [
   extralink: false,
   submenu: []
 },
+
+
 
 ];

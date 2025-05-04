@@ -183,6 +183,7 @@ import {VehicleService} from "./Core/vehicle.service";
 import {
   VehicleTravelHistoryComponent
 } from "./Components/BackOffice/vehicle/vehicle-travel-history/vehicle-travel-history.component";
+import { SimpleUsersComponent } from './Components/BackOffice/simple-users/simple-users.component';
 
 
 // Define routes
@@ -277,7 +278,7 @@ const routes: Routes = [
       {path : 'back-office/drivers', component: DriversBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       {path: 'back-office/drivers/create', component: CreateDriverBackOfficeComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       { path: 'back-office/drivers/edit/:id', component: EditDriverComponent },  // Edit route for driver
-
+      {path: 'back-office/simple-users', component: SimpleUsersComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] }},
       // Driver Interface Routes
       { path: 'driver-interface/chat', component: ChatDriverInterfaceComponent, canActivate: [AuthGuard], data: { roles: ['Driver'] } },
       { path: 'driver-interface/chat/list', component: ChatListDriverInterfaceComponent , canActivate: [AuthGuard], data: { roles: ['Driver'] }},

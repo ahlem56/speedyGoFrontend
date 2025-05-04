@@ -146,4 +146,10 @@ export class UserService {
     console.error('User service error:', error);
     return throwError(() => new Error(errorMessage));
   }
+
+  getAllSimpleUsers() {
+    return this.http.get<any[]>('http://localhost:8089/examen/simpleUser');
+  }
+  
+  
 }

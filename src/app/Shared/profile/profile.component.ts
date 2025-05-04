@@ -342,28 +342,30 @@ setRating(rating: number): void {
 }
 
 // Automatically rate based on the sentiment of the comment as the user types
-// Automatically rate based on the sentiment of the comment as the user types
 autoRateFromComment(): void {
   if (this.ratingComment.trim().length > 0) {
+    // ❌ WRONG : no saving here!!
+    // ✅ CORRECT: only ask for sentiment prediction
+    
     this.ratingService.getSentimentAnalysis(this.ratingComment).subscribe({
       next: (sentimentResponse) => {
-        // Validate if the score is a number and within the expected range (1-5)
-        let score = Math.round(sentimentResponse.predicted_score);
+        let score = Math.round(sentimentResponse.predicted_score || 3);
         if (isNaN(score) || score < 1 || score > 5) {
-          score = 3; // Default to 3 if invalid score
+          score = 3;
         }
-
         this.predictedScore = score;
-        this.currentRating = this.predictedScore; // Dynamically update the stars
+        this.currentRating = this.predictedScore;
       },
       error: (error) => {
         console.error('Error analyzing sentiment:', error);
-        this.predictedScore = 3; // Default to neutral score if sentiment analysis fails
-        this.currentRating = 3; // Update stars to neutral (3 stars)
+        this.predictedScore = 3;
+        this.currentRating = 3;
       }
     });
   }
 }
+
+
 
 // Submit the rating to the backend
 submitRating(): void {
@@ -373,53 +375,50 @@ submitRating(): void {
   }
 
   const ratingData = {
-    score: this.currentRating, // Use the rating from the stars
-    comment: this.ratingComment, // Send the comment
-    sentiment: '',               // Sentiment will be updated after analysis
-    sentimentScore: 0,           // Sentiment score will also be set after analysis
-    trip: { tripId: this.tripToRate.tripId },
-    rater: { userId: this.user.userId },
-    rated: { userId: this.tripToRate.driver.userId }
+    comment: this.ratingComment, // Only comment (Spring Boot will handle AI)
   };
 
-  // Analyze sentiment before submitting the rating
-  this.ratingService.getSentimentAnalysis(this.ratingComment).subscribe({
-    next: (sentimentResponse) => {
-      ratingData.sentiment = sentimentResponse.sentiment;
-      ratingData.sentimentScore = sentimentResponse.predicted_score;
-
-      // Submit the rating to the backend
-      this.ratingService.createRating(ratingData, this.tripToRate.tripId, this.user.userId, this.tripToRate.driver.userId, this.getAuthHeaders()).subscribe({
-        next: (response) => {
-          console.log('Rating submitted successfully:', response);
-          this.tripToRate.isRated = true;  // Mark the trip as rated
-          this.refreshTripData(this.tripToRate.tripId);  // Refresh the trip data from backend
-          this.closeRatingModal();  // Close the modal after submission
-        },
-        error: (error) => {
-          console.error('Error submitting rating:', error);
-        }
-      });
+  this.ratingService.createRating(ratingData, this.tripToRate.tripId, this.user.userId, this.tripToRate.driver.userId, this.getAuthHeaders()).subscribe({
+    next: (response) => {
+      console.log('Rating submitted successfully:', response);
+      this.tripToRate.isRated = true;
+      this.refreshTripData(this.tripToRate.tripId);
+      this.closeRatingModal();
     },
     error: (error) => {
-      console.error('Error occurred while analyzing sentiment:', error);
+      console.error('Error submitting rating:', error);
     }
   });
 }
 
+hoverRating(rating: number): void {
+  // If hovering over a star, temporarily set the displayed rating
+  if (rating > 0) {
+    this.currentRating = rating;
+  } else {
+    // When mouse leaves, reset to the selected rating (predictedScore)
+    this.currentRating = this.predictedScore || 0;
+  }
+}
 
 
 // Fetch updated trip data after rating submission
 refreshTripData(tripId: number): void {
   this.tripService.getTripById(tripId, this.getAuthHeaders()).subscribe(
     (updatedTrip) => {
-      this.tripToRate = updatedTrip;  // Update the trip with the latest data
+      // Find the trip in trips array and update it
+      const index = this.trips.findIndex(t => t.tripId === tripId);
+      if (index !== -1) {
+        this.trips[index] = updatedTrip;  // ✅ Update trip inside the array
+      }
+      this.tripToRate = updatedTrip;  // ✅ Update tripToRate as well
     },
     (error) => {
       console.error('Error fetching trip data:', error);
     }
   );
 }
+
 
 // Helper method to check if the user can rate the trip
 canRate(trip: any): boolean {
