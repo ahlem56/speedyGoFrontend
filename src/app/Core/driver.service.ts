@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {Vehicle} from "./vehicle.service";
 
 // Define the Driver interface
 export interface Driver {
@@ -15,7 +16,7 @@ export interface Driver {
   profileImageUrl?: string;  // Add this line
   licenseNumberD?: string;
   insuranceDetailsD?: string;
-
+  vehicule?:Vehicle;
 
 }
 const headers = new HttpHeaders().set('Content-Type', 'application/json');

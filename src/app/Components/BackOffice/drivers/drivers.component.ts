@@ -80,7 +80,7 @@ export class DriversBackOfficeComponent {
   }
 
   // New method to handle the add driver action
-  
+
   openAddDriverForm(): void {
     this.router.navigate(['/back-office/drivers/create']);  // Navigate to the add driver page
   }
