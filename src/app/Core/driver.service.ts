@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {Vehicle} from "./vehicle.service";
 
 // Define the Driver interface
 export interface Driver {
@@ -16,7 +17,7 @@ export interface Driver {
   licenseNumberD?: string;
   insuranceDetailsD?: string;
   averageRating?: number;
-
+  vehicule?:Vehicle;
 
 
 }
