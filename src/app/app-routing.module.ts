@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+
 // *************** Imports FrontOffice Components ***************
 
 // Trip components
@@ -175,7 +176,7 @@ import { SettingsComponent } from './Shared/settings/settings.component';
 import { EditProfileComponent } from './Shared/profile/edit-profile/edit-profile.component';
 import { EditDriverComponent } from './Components/BackOffice/drivers/edit-driver/edit-driver.component';
 import { DriverProfileComponent } from './Shared/profile/driver-profile/driver-profile.component';
-import { StripePaymentComponent } from './Components/FrontOffice/stripe/stripe.component';
+import { StripeComponent } from './Components/FrontOffice/stripe/stripe.component';
 
 import {VehicleMapComponent} from "./Components/BackOffice/vehicle/vehicle-map/vehicle-map.component";
 import {VehicleService} from "./Core/vehicle.service";
@@ -198,6 +199,7 @@ const routes: Routes = [
       { path: 'about', component: AboutComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'signup', component: SignupComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'commissions', component: PartnerCommissionComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser',"ADMIN"] } }, // New route
       { path: 'partner/commissions', component: PartnerCommissionComponent, canActivate: [AuthGuard], data: { roles: ['PARTNER'] }},
       { path: 'edit-profile', component: EditProfileComponent },
       {path: 'forgot-password', component: ForgotPasswordComponent},
@@ -211,7 +213,7 @@ const routes: Routes = [
       { path: 'carpooling/:id', component: CarpoolingDetailFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'carpooling/join/:id', component: CarpoolingJoinFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'offer', component: CarpoolingOfferFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
-      {path:'stripe', component : StripePaymentComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
+      {path:'stripe', component : StripeComponent, canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels', component: ParcelListFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels/track', component: ParcelTrackFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},
       { path: 'parcels/create', component: ParcelCreateFrontOfficeComponent , canActivate: [AuthGuard], data: { roles: ['SimpleUser'] }},

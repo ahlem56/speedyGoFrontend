@@ -69,7 +69,7 @@ export class CarpoolingCreateFrontOfficeComponent implements OnInit {
       return;
     }
 
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     this.carpoolService.createCarpool(this.carpoolForm.value, this.simpleUserId, headers).subscribe(
@@ -105,7 +105,7 @@ export class CarpoolingCreateFrontOfficeComponent implements OnInit {
       return;
     }
 
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     this.carpoolService.getCarpoolsJoinedByUser(this.simpleUserId, headers).subscribe(

@@ -217,7 +217,7 @@ export class TripCreateFrontOfficeComponent implements OnInit, AfterViewInit {
       this.errorMessage = 'Please select a driver.';
       return;
     }
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     // Create clean payload without driverId

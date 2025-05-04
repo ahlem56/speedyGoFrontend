@@ -46,7 +46,7 @@ export class CarpoolingJoinFrontOfficeComponent implements OnInit {
   }
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       this.errorMessage = '❌ Aucun token trouvé.';
       this.router.navigate(['/login']);

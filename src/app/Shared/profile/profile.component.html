@@ -43,7 +43,7 @@
 
     <!-- Availability Button (only for drivers) -->
 <!-- Availability Button (only for drivers) -->
-<div *ngIf="userRole === 'Driver'" class="availability-section">
+<div *ngIf="userRole === 'DRIVER'" class="availability-section">
   <h3 class="availability-title">Your Availability</h3>
   <button (click)="toggleAvailability()" class="availability-btn" [ngClass]="{'available': isAvailable, 'not-available': !isAvailable}">
     {{ isAvailable ? 'Set as Unavailable' : 'Set as Available' }}
@@ -54,7 +54,7 @@
 
 
     <!-- Trip History Section (Visible only for non-admin and non-driver users) -->
-    <div *ngIf="userRole !== 'Admin' && userRole !== 'Driver' " class="trip-history">
+    <div *ngIf="userRole !== 'ADMIN' && userRole !== 'DRIVER' " class="trip-history">
       <h3 class="toggle-trip-history" (click)="toggleTripHistory()">
         My Trip History
         <span *ngIf="isTripsVisible">▲</span>
@@ -145,7 +145,7 @@
 
   
         <!-- Parcel History Section -->
-        <div *ngIf="userRole !== 'Admin' && 'Driver' " class="parcel-history">
+        <div *ngIf="userRole !== 'ADMIN' && 'DRIVER' " class="parcel-history">
     
           <h3 class="toggle-parcel-history" (click)="toggleParcelHistory()">
             My Parcel History
@@ -201,7 +201,7 @@
   </div>
 </div>
  <!-- Carpool History Section -->
-<div *ngIf="userRole !== 'Admin' && 'Driver' " class="trip-history">
+<div *ngIf="userRole !== 'ADMIN' && 'DRIVER' " class="trip-history">
   <h3 class="toggle-trip-history" (click)="toggleCarpoolHistory()">
     My Carpool History
     <span *ngIf="isCarpoolVisible">▲</span>
@@ -256,7 +256,7 @@
 </div>
   </div>
 <!-- Rating Section -->
-<div *ngIf="userRole !== 'Admin'" class="trip-history">
+<div *ngIf="userRole !== 'ADMIN'" class="trip-history">
   <h3 class="toggle-trip-history" (click)="toggleRatingHistory()">
     My Ratings
     <span *ngIf="isRatingsVisible">▲</span>
@@ -289,7 +289,7 @@
     </div>
 
     <!-- Ratings Given -->
-    <div *ngIf="userRole !== 'Driver'  " class="rating-subsection">
+    <div *ngIf="userRole !== 'DRIVER'  " class="rating-subsection">
       <h4>Ratings Given</h4>
       
       <div *ngFor="let rating of ratingsGiven" class="trip-card">
@@ -315,7 +315,7 @@
   </div>
 </div>
 
-<div *ngIf="userRole !== 'Admin' && userRole !== 'Driver' " class="trip-history">
+<div *ngIf="userRole !== 'ADMIN' && userRole !== 'DRIVER' " class="trip-history">
 
 <div class="subscription-card">
   <div class="subscription-header">

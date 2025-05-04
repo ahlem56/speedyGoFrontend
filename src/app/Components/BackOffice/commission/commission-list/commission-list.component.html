@@ -90,7 +90,7 @@
               <!-- Partner Name Column -->
               <ng-container matColumnDef="partnerName">
                 <th mat-header-cell *matHeaderCellDef>Partner</th>
-                <td mat-cell *matCellDef="let commission">{{ commission.partner?.partnerName || 'N/A' }}</td>
+                <td mat-cell *matCellDef="let commission">{{ commission.partnerName || 'N/A' }}</td>
               </ng-container>
 
               <!-- Amount Column -->
@@ -138,4 +138,4 @@
       </mat-card>
     </div>
   </div>
-</div> 
+</div>

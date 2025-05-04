@@ -45,7 +45,7 @@ export class NavigationComponent implements OnInit {
 
   // ✅ Fetch User Data and Update Profile Picture
   checkLoginStatus() {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (token) {
       this.isLoggedIn = true;
       const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -76,7 +76,7 @@ export class NavigationComponent implements OnInit {
     this.isLoggedIn = false;
     this.username = '';
     this.profileImageUrl = 'assets/FrontOffice/images/users/user4.jpg'; // Reset on logout
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('token');
     localStorage.removeItem('userRole');
     this.router.navigate(['/login']);
   }

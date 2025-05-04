@@ -70,17 +70,14 @@ export class CommissionListComponent implements OnInit {
     this.isLoading = true;
     console.log('Starting to load partners...');
     
-    // Try using the real service first
     this.partnerService.getPartners().subscribe({
       next: (data) => {
         console.log('Partners loaded successfully from real service:', data);
         
-        // Ensure data is an array
         if (Array.isArray(data) && data.length > 0) {
           this.partners = data;
           console.log('Partners array updated with', this.partners.length, 'partners');
           
-          // Log each partner for debugging
           this.partners.forEach((partner, index) => {
             console.log(`Partner ${index}:`, partner);
           });
@@ -99,18 +96,15 @@ export class CommissionListComponent implements OnInit {
     });
   }
   
-  // Helper method to load mock partners
   private loadMockPartners(): void {
     this.mockPartnerService.getPartners().subscribe({
       next: (data) => {
         console.log('Mock partners loaded successfully:', data);
         
-        // Ensure data is an array
         if (Array.isArray(data)) {
           this.partners = data;
           console.log('Mock partners array updated with', this.partners.length, 'partners');
           
-          // Log each partner for debugging
           this.partners.forEach((partner, index) => {
             console.log(`Mock Partner ${index}:`, partner);
           });
@@ -131,12 +125,9 @@ export class CommissionListComponent implements OnInit {
   }
 
   loadCommissions(): void {
-    // For admin view, we'll load all commissions
     this.isLoading = true;
-    // This is a placeholder - you'll need to implement getAllCommissions in your service
-    this.commissionService.getCommissions(0).subscribe({
+    this.commissionService.getAllCommissions().subscribe({
       next: (data) => {
-        console.log('Commissions loaded:', data);
         this.commissions = data;
         this.isLoading = false;
       },
@@ -155,7 +146,8 @@ export class CommissionListComponent implements OnInit {
       
       console.log('Creating commission with values:', { partnerId, amount, description });
       
-      this.commissionService.createCommission(partnerId, amount, description).subscribe({
+      const commissionData = { partnerId, amount, description };
+      this.commissionService.createCommission(commissionData).subscribe({
         next: (response) => {
           console.log('Commission created successfully:', response);
           this.snackBar.open('Commission created successfully!', 'Close', { duration: 3000 });
@@ -174,4 +166,4 @@ export class CommissionListComponent implements OnInit {
       this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 3000 });
     }
   }
-} 
+}

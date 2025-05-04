@@ -45,7 +45,7 @@ export class SidebarComponent implements OnInit {
   // Set menu items based on user role
   setMenuItems() {
     switch (this.userRole) {
-      case 'Admin':
+      case 'ADMIN':
         this.sidebarnavItems = ALL_ROUTES.filter((sidebarnavItem: RouteInfo) =>
           sidebarnavItem.path === 'back-office/dashboard' ||
           sidebarnavItem.path === 'back-office/drivers' ||
@@ -58,12 +58,13 @@ export class SidebarComponent implements OnInit {
           sidebarnavItem.path === 'back-office/complaints' ||
           sidebarnavItem.path === 'back-office/events/list' ||
           sidebarnavItem.path === 'back-office/subscriptions' ||
-          sidebarnavItem.path === 'back-office/partners'
+          sidebarnavItem.path === 'back-office/partners' ||
+          sidebarnavItem.path === 'back-office/commissions'
            
 
         );
         break;
-      case 'Driver':
+      case 'DRIVER':
         this.sidebarnavItems = ALL_ROUTES.filter((sidebarnavItem: RouteInfo) =>
           sidebarnavItem.path === 'driver-interface/trips' ||
           sidebarnavItem.path === 'driver-interface/parcels' ||
@@ -93,7 +94,8 @@ export class SidebarComponent implements OnInit {
 
   // Handle sidebar item click and check for login
   handleSidebarItemClick(path: string) {
-    const isLoggedIn = localStorage.getItem('authToken'); // Check if token exists
+    const isLoggedIn = localStorage.getItem('token'); // Check if token exists
+
     if (!isLoggedIn) {
       // If user is not logged in, show the modal
       this.showModal = true;

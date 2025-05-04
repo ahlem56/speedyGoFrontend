@@ -28,7 +28,8 @@ export class LoginComponent {
       this.userService.login(email, password).subscribe(
         (response) => {
           // Store auth token and user role
-          localStorage.setItem('authToken', response.token);
+          const token = response.token.split(' ')[1];
+          localStorage.setItem('token', token);
           localStorage.setItem('userRole', response.role);
           localStorage.setItem('user', JSON.stringify(response.user));
 

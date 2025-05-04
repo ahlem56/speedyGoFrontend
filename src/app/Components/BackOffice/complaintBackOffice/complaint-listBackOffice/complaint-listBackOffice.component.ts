@@ -23,7 +23,7 @@ export class ComplaintListBackOfficeComponent implements OnInit {
 
   // Charger les réclamations depuis l'API
   loadComplaints(): void {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     this.isLoading = true;

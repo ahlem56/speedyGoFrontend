@@ -200,5 +200,13 @@ export const ALL_ROUTES: RouteInfo[] = [
     extralink: false,
     submenu: []
   },
+{
+  path: 'partner/commissions',
+  title: 'My Commissions',
+  icon: 'bi bi-cash-stack',  // Cash stack icon for commissions
+  class: '',
+  extralink: false,
+  submenu: []
+},
 
 ];

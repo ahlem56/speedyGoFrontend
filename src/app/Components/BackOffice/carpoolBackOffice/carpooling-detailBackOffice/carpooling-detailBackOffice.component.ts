@@ -27,7 +27,7 @@ export class CarpoolingDetailBackOfficeComponent implements OnInit {
     }
   
     loadCarpoolDetails(carpoolId: number): void {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
    
       // Fetch carpool details

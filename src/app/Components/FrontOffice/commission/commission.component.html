@@ -1,85 +1,51 @@
-<div class="commission-container">
-  <div *ngIf="isLoading" class="loading-container">
-    <mat-spinner></mat-spinner>
-    <p>Loading commission data...</p>
-  </div>
+<div class="container">
+  <mat-card *ngIf="isLoading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </mat-card>
 
-  <div *ngIf="error" class="error-container">
-    <mat-icon color="warn">error</mat-icon>
+  <mat-card *ngIf="error && !isLoading">
+    <h3>Error</h3>
     <p>{{ error }}</p>
-    <button mat-raised-button color="primary" (click)="loadData()">Retry</button>
-  </div>
+    <button mat-raised-button color="primary" (click)="retry()">Retry</button>
+  </mat-card>
 
-  <div *ngIf="!isLoading && !error" class="content-container">
-    <div class="summary-cards">
-      <mat-card class="summary-card">
-        <mat-card-header>
-          <mat-card-title>Total Commission</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="amount">{{ summary?.totalCommission | currency }}</p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="summary-card">
-        <mat-card-header>
-          <mat-card-title>Pending Commission</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="amount">{{ summary?.pendingCommission | currency }}</p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="summary-card">
-        <mat-card-header>
-          <mat-card-title>Paid Commission</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="amount">{{ summary?.paidCommission | currency }}</p>
-        </mat-card-content>
-      </mat-card>
+  <mat-card *ngIf="!isLoading && !error && canViewCommissions">
+    <h2>Commission Summary</h2>
+    <div class="summary">
+      <mat-chip-list>
+        <mat-chip color="primary" selected>Total: {{ summary.total | currency }}</mat-chip>
+        <mat-chip color="accent">Pending: {{ summary.pending | currency }}</mat-chip>
+        <mat-chip color="warn">Paid: {{ summary.paid | currency }}</mat-chip>
+      </mat-chip-list>
     </div>
 
-    <mat-card class="commission-table-card">
-      <mat-card-header>
-        <mat-card-title>Commission History</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <table mat-table [dataSource]="commissions" class="commission-table">
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let commission">{{ commission.id }}</td>
-          </ng-container>
+    <h2>Commission History</h2>
+    <table mat-table [dataSource]="commissions" class="mat-elevation-z8">
+      <ng-container matColumnDef="commissionId">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let commission">{{ commission.commissionId }}</td>
+      </ng-container>
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <td mat-cell *matCellDef="let commission">{{ commission.amount | currency }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let commission">
+          <mat-chip [color]="getStatusColor(commission.status)">{{ commission.status }}</mat-chip>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let commission">{{ commission.description }}</td>
+      </ng-container>
+      <ng-container matColumnDef="calculatedAt">
+        <th mat-header-cell *matHeaderCellDef>Created At</th>
+        <td mat-cell *matCellDef="let commission">{{ commission.calculatedAt | date:'short' }}</td>
+      </ng-container>
 
-          <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef>Amount</th>
-            <td mat-cell *matCellDef="let commission">{{ commission.amount | currency }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Status</th>
-            <td mat-cell *matCellDef="let commission">
-              <mat-chip [color]="getStatusColor(commission.status)" selected>
-                {{ commission.status }}
-              </mat-chip>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef>Description</th>
-            <td mat-cell *matCellDef="let commission">{{ commission.description }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="createdAt">
-            <th mat-header-cell *matHeaderCellDef>Created At</th>
-            <td mat-cell *matCellDef="let commission">{{ commission.createdAt | date:'medium' }}</td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card>
 </div>
-  

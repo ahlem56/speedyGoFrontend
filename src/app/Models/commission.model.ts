@@ -1,15 +1,18 @@
 export interface Commission {
-  id: number;
+  commissionId: number;
   partnerId: number;
+  partner?: {
+    partnerName: string;
+  };
   amount: number;
-  status: 'PENDING' | 'PAID';
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
+  calculatedAt: Date;
+  paidOut: boolean;
+  description?: string;
+  status?: string; // For display
 }
 
 export interface CommissionSummary {
-  totalAmount: number;
-  pendingAmount: number;
-  paidAmount: number;
-} 
+  total: number;
+  pending: number;
+  paid: number;
+}

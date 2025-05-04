@@ -42,7 +42,7 @@ export class ParcelCreateFrontOfficeComponent {
       }
     
       createParcel() {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem('token');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         
         if (!this.parcel.parcelWeight || !this.parcel.parcelPrice || !this.parcel.parcelCategory || !this.parcel.recepeientPhoneNumber || !this.parcel.senderPhoneNumber || !this.parcel.parcelDeparture || !this.parcel.parcelDestination) {

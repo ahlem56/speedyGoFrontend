@@ -20,7 +20,7 @@ export class CarpoolingListFrontOfficeComponent implements OnInit {
   constructor(private carpoolService: CarpoolService) {}
 
   ngOnInit() {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     console.log("Token récupéré:", token); // Vérifie si un token est récupéré
     this.loadFutureCarpools();
     this.loadRecommendedCarpools();

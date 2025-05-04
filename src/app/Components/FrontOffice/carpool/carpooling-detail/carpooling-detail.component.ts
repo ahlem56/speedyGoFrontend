@@ -50,7 +50,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
   }
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       this.errorMessage = "❌ No token found. Please log in.";
       this.router.navigate(['/login']);
@@ -73,7 +73,7 @@ export class CarpoolingDetailFrontOfficeComponent implements OnInit {
         console.error("❌ API Error:", error);
         if (error.status === 401) {
           this.errorMessage = "Your session has expired. Please log in again.";
-          localStorage.removeItem('authToken');
+          localStorage.removeItem('token');
           this.router.navigate(['/login']);
         } else {
           this.errorMessage = "Unable to load carpool details. Please try again later.";

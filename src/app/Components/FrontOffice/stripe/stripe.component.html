@@ -1,4 +1,3 @@
-<!-- stripe.component.html -->
 <div class="payment-container">
   <div class="payment-card">
     <h2 class="payment-title">Secure Payment</h2>
@@ -10,17 +9,16 @@
 
     <div class="form-group">
       <label class="card-label">Card Information</label>
-      <div #cardElement class="card-element"></div>
+      <div id="card-element" class="card-element"></div> <!-- Keep only this one -->
     </div>
 
-    <div *ngIf="cardError" class="error-message">
-      <i class="fas fa-exclamation-circle"></i>
-      {{ cardError }}
-    </div>
+    <div *ngIf="isProcessing" class="loading">Processing...</div>
+    <div *ngIf="cardError" class="error">{{ cardError }}</div>
+    <div *ngIf="paymentSuccess" class="success">Payment successful!</div>
 
-    <button class="pay-button" (click)="payWithCard()">
+    <button class="pay-button" (click)="payWithCard()" [disabled]="isProcessing">
       <i class="fas fa-lock"></i>
-      Confirm Payment
+      {{ isProcessing ? 'Processing...' : 'Confirm Payment' }}
     </button>
     
     <div class="security-note">

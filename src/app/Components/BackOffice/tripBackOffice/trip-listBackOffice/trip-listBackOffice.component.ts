@@ -36,7 +36,7 @@ export class TripListBackOfficeComponent implements OnInit {
 
   // Charger les voyages depuis le backend
   loadTrips(): void {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('authToken')}`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
     this.tripService.getAllTrips(headers).subscribe({
       next: (data) => {
         this.trips = data;
@@ -64,7 +64,7 @@ export class TripListBackOfficeComponent implements OnInit {
   // Supprimer un voyage
   deleteTrip(tripId: number): void {
     if (confirm('Are you sure you want to delete this trip?')) {
-      const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('authToken')}`);
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
       this.tripService.deleteTrip(tripId, headers).subscribe({
         next: () => {
           this.trips = this.trips.filter(trip => trip.tripId !== tripId); // Mettre à jour la liste

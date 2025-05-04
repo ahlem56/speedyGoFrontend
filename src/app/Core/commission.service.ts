@@ -1,62 +1,121 @@
-// commission.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-// commission.service.ts
+import { environment } from '../../environments/environment';
+
+export interface CommissionSummary {
+  total: number;
+  pending: number;
+  paid: number;
+}
+
+export interface Commission {
+  commissionId: number;
+  partnerId: number;
+  partnerName?: string; // Updated to match backend
+  amount: number;
+  calculatedAt: Date;
+  paidOut: boolean;
+  description?: string;
+  status?: string;
+  updatedAt?: Date;
+}
+
+export interface User {
+  userId: number;
+  email: string;
+  partner?: {
+    partnerId: number;
+    partnerName: string;
+    partnerContactInfo?: string;
+    partnerCode?: number;
+  };
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CommissionService {
-  private apiUrl = 'http://localhost:8089/examen/commissions';
+  private apiUrl = `${environment.apiUrl}/commissions`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  createCommission(partnerId: number, amount: number, description?: string): Observable<any> {
-    console.log(`Creating commission for partner ${partnerId} with amount ${amount}`);
-    
-    // Ensure partnerId is a number
-    const params: any = {
-      partnerId: partnerId,
-      amount: amount
-    };
-    
-    if (description) {
-      params.description = description;
+  private getHeaders(): HttpHeaders {
+    let token = localStorage.getItem('token') || '';
+    if (token.startsWith('Bearer ')) {
+      token = token.split(' ')[1];
     }
-
-    return this.http.post<any>(`${this.apiUrl}/create`, null, { params })
-      .pipe(
-        catchError(this.handleError)
-      );
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
   }
 
-  getCommissions(partnerId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/partner/${partnerId}`);
+  createCommission(commission: Partial<Commission>): Observable<Commission> {
+    return this.http
+      .post<Commission>(`${this.apiUrl}/create`, commission, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  getSummary(partnerId: number): Observable<{ total: number, pending: number }> {
-    return this.http.get<{ total: number, pending: number }>(
-      `${this.apiUrl}/partner/${partnerId}/summary`
-    );
+  getAllCommissions(): Observable<Commission[]> {
+    return this.http
+      .get<Commission[]>(`${this.apiUrl}/all`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  getCommissionDetails(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getCommissionsByPartner(partnerId: number): Observable<Commission[]> {
+    return this.http
+      .get<Commission[]>(`${this.apiUrl}/partner/${partnerId}`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  private handleError(error: HttpErrorResponse) {
-    console.error('Commission service error:', error);
+  getCommissionSummary(partnerId: number): Observable<CommissionSummary> {
+    return this.http
+      .get<CommissionSummary>(`${this.apiUrl}/partner/${partnerId}/summary`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  getCommissionDetails(commissionId: number): Observable<Commission> {
+    return this.http
+      .get<Commission>(`${this.apiUrl}/${commissionId}`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  updateCommissionStatus(commissionId: number, paidOut: boolean): Observable<Commission> {
+    return this.http
+      .patch<Commission>(`${this.apiUrl}/${commissionId}/status`, { paidOut }, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  getUserDetails(): Observable<User> {
+    return this.http
+      .get<User>(`${environment.apiUrl}/user/profile`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An error occurred while processing your request.';
-    
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      errorMessage = `Error: ${error.error.message}`;
+      errorMessage = `Client error: ${error.error.message}`;
     } else {
-      // Server-side error
-      errorMessage = `Server returned code ${error.status}, error: ${error.error}`;
+      switch (error.status) {
+        case 401:
+          errorMessage = 'Unauthorized: Please log in again.';
+          break;
+        case 403:
+          errorMessage = 'Forbidden: You do not have permission.';
+          break;
+        case 404:
+          errorMessage = `Not found: ${error.error.message || 'Resource not found'}`;
+          break;
+        case 500:
+          errorMessage = 'Server error: Please try again later.';
+          break;
+        default:
+          errorMessage = `Server returned code ${error.status}: ${error.error.message || error.message}`;
+      }
     }
-    
+    console.error('Commission service error:', error);
     return throwError(() => new Error(errorMessage));
   }
 }

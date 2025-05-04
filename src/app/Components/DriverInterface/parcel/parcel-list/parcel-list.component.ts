@@ -44,7 +44,7 @@ export class ParcelListDriverInterfaceComponent {
 
     // Préparer les headers pour la requête
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`, // Utiliser le token d'authentification
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Utiliser le token d'authentification
     });
 
     // Appeler le service pour récupérer les colis du conducteur
