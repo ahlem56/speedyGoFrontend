@@ -239,7 +239,7 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  private getProfilePhotoUrl(profilePhoto: string | null): string | null {
+  public getProfilePhotoUrl(profilePhoto: string | null): string | null {
     if (!profilePhoto || profilePhoto === 'null') {
       console.warn("Profile photo is null or invalid, no photo will be displayed");
       return null;

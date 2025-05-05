@@ -419,7 +419,6 @@ refreshTripData(tripId: number): void {
   );
 }
 
-
 // Helper method to check if the user can rate the trip
 canRate(trip: any): boolean {
   return trip && trip.reservationStatus === 'COMPLETED' && !this.isTripRated(trip);

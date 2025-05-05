@@ -205,8 +205,8 @@
       <div class="offerer-profile" *ngFor="let offerer of topRatedOfferers">
         <div class="offerer-avatar">
           <img
-            [src]="'http://localhost:8089/examen/user/profile-photo/' + offerer.userProfilePhoto"
-            [alt]="offerer.firstName + ' ' + offerer.lastName"
+            [src]="getProfilePhotoUrl(offerer.profilePhoto)"
+            [alt]="offerer.firstName + ' ' + offerer.lastName + ' profile photo'"
             class="profile-photo"
             (error)="handleImageError($event)"
           />

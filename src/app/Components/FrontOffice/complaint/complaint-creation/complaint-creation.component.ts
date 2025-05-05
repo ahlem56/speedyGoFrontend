@@ -19,7 +19,7 @@ export class ComplaintCreationFrontOfficeComponent implements OnInit {
   simpleUserId: number | null = null;
   errorMessage: string = '';
   successMessage: string = '';
-
+  severity: string | null = null; // Store severity from backend
   constructor(
     private complaintService: ComplaintService,
     private userService: UserService,
@@ -30,7 +30,6 @@ export class ComplaintCreationFrontOfficeComponent implements OnInit {
     // Retrieve the logged-in user from localStorage
     const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
     this.simpleUserId = currentUser.userId;
-
     console.log("SimpleUser ID: ", this.simpleUserId);
   }
 
@@ -48,7 +47,8 @@ export class ComplaintCreationFrontOfficeComponent implements OnInit {
         console.log('Complaint Created', createdComplaint);
         this.successMessage = 'Your complaint has been created successfully!';
         this.errorMessage = '';
-  
+        this.severity = createdComplaint.severity; // Store severity
+        console.log('Severity:', this.severity);
         // Reset the form after successful creation
         this.complaint = {
           complaintDescription: '',
@@ -67,6 +67,27 @@ export class ComplaintCreationFrontOfficeComponent implements OnInit {
   }
   goToComplaintList() {
     this.router.navigate(['/complaints/list']);
+  }
+
+
+
+
+  getSeverityDots(): number {
+    switch (this.severity?.toLowerCase()) {
+      case 'low':
+        return 1;
+      case 'medium':
+        return 2;
+      case 'high':
+        return 3;
+      default:
+        return 0; // No dots for 'unknown' or null
+    }
+  }
+
+  // Helper to determine dot color
+  getSeverityColor(): string {
+    return this.severity?.toLowerCase() === 'high' ? 'red' : 'orange';
   }
   
   

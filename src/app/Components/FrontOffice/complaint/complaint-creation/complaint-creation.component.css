@@ -169,3 +169,41 @@ input:focus {
     border-radius: 12px;
     background-color: #ffffff;
   }
+
+
+/* New styles for severity dots */
+.severity-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .severity-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .col-md-6 {
+      margin-left: 0;
+      width: 100%;
+    }
+  
+    .btn-primary {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+  
+    .section-title {
+      font-size: 2.3rem;
+    }
+  
+    .severity-dot {
+      width: 10px;
+      height: 10px;
+    }}

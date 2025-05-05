@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ComplaintService } from 'src/app/Core/complaint.service';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-complaint-list-backoffice',
   templateUrl: './complaint-listBackOffice.component.html',
   styleUrls: ['./complaint-listBackOffice.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class ComplaintListBackOfficeComponent implements OnInit {
   complaints: any[] = []; // Toutes les réclamations
@@ -70,12 +72,14 @@ export class ComplaintListBackOfficeComponent implements OnInit {
   getSimpleUserByComplaintId(complaintId: number, headers: HttpHeaders): void {
     this.complaintService.getUserByComplaintId(complaintId, headers).subscribe({
       next: (user) => {
-        console.log('Informations du SimpleUser :', user);
-
-        // Associer les informations de l'utilisateur à la réclamation correspondante
         const complaint = this.complaints.find((c) => c.complaintId === complaintId);
         if (complaint) {
           complaint.simpleUser = user;
+          // Update filteredComplaints to reflect user data
+          const filteredComplaint = this.filteredComplaints.find((c) => c.complaintId === complaintId);
+          if (filteredComplaint) {
+            filteredComplaint.simpleUser = user;
+          }
         }
       },
       error: (error) => {
@@ -83,4 +87,25 @@ export class ComplaintListBackOfficeComponent implements OnInit {
       },
     });
   }
+
+
+// Calculate number of dots based on severity
+getSeverityDots(severity: string): number {
+  switch (severity?.toLowerCase()) {
+    case 'low':
+      return 1;
+    case 'medium':
+      return 2;
+    case 'high':
+      return 3;
+    default:
+      return 0; // No dots for 'unknown' or null
+  }
+}
+
+// Determine dot color based on severity
+getSeverityColor(severity: string): string {
+  return severity?.toLowerCase() === 'high' ? 'red' : 'orange';
+}
+
 }

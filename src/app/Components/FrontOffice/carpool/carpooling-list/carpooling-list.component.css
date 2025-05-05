@@ -1,4 +1,4 @@
-/* Container */
+/* Styles globaux existants */
 .container {
     padding: 40px;
     background-color: #ffffff;
@@ -7,7 +7,6 @@
     margin-top: 30px;
 }
 
-/* Section Title */
 h2 {
     font-size: 2.8rem;
     font-weight: 700;
@@ -19,7 +18,6 @@ h2 {
     text-align: center;
 }
 
-/* Loading and Error Messages */
 .alert {
     font-size: 1.2rem;
     padding: 15px;
@@ -40,63 +38,116 @@ h2 {
     border: 1px solid #f5c6cb;
 }
 
-/* Card Styling */
-.card {
-    border: 2px solid #ddd;
+.filter-container {
+    background-color: #f8f9fa;
+    padding: 20px;
     border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.card-header {
-    background-color: #ad2b2d;
-    color: #ae6363;
-    font-size: 1.5rem;
-    font-weight: 600;
-    padding: 15px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.card-body {
-    padding: 20px;
-    
-}
-
-.card-text {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 10px;
-    line-height: 1.6;
-}
-
-.card-text strong {
-    color: #333;
-}
-
-/* Button Styling */
-.btn-info {
-    background-color: #8e2021;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    font-size: 1.1rem;
-    font-weight: 600;
+.filter-container .form-control {
     border-radius: 10px;
-    transition: background-color 0.3s ease;
-    display: inline-block;
-    text-align: center;
-    width: 100%;
+    font-size: 1rem;
 }
 
-.btn-info:hover {
-    background-color: #a52a2a;
-    text-decoration: none;
+/* Nouveaux styles pour les cartes de covoiturage */
+.carpool-card {
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carpool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.route {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ad2b2d; /* Rouge bordeaux */
+    color: white;
+}
+
+.cities {
+    font-size: 1.3rem;
+    font-weight: bold;
+    flex: 1;
+    text-align: center;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    margin: 0 10px;
+    color: #ffd700; /* Or */
+}
+
+.price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    background-color: white;
+    color: #ad2b2d;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.details {
+    padding: 20px;
+}
+
+.date {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.departure {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.departure-icon {
+    margin-right: 10px;
+    color: #ad2b2d;
+    font-size: 1.2rem;
+}
+
+.seats {
+    display: flex;
+    align-items: center;
+    color: #4CAF50; /* Vert */
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.seats-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.book-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #ad2b2d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.book-btn:hover {
+    background-color: #8e2021;
 }
 
 /* Responsive Design */
@@ -104,18 +155,16 @@ h2 {
     h2 {
         font-size: 2.3rem;
     }
-
-    .card {
-        width: 100%;
+    
+    .cities {
+        font-size: 1.1rem;
     }
-
-    .btn-info {
-        font-size: 1rem;
-        padding: 10px 15px;
+    
+    .price {
+        font-size: 1.1rem;
     }
 }
 
-/* Enhanced Card Layout */
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -134,18 +183,3 @@ h2 {
         max-width: 100%;
     }
 }
-
-/* Decorative Line */
-.filter-container {
-    grid-row: 1/2;;
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
-  }
-  .filter-container .form-control {
-    border-radius: 10px;
-    font-size: 1rem;
-  }
-  
