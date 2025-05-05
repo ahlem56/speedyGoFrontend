@@ -163,6 +163,14 @@ getDamagedParcelPercentage(): Observable<number> {
   const url = `${this.apiUrl}statistics/damaged-percentage`;
   return this.http.get<number>(url);
 }
+getParcel(parcelId: number): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+  const url = `${this.apiUrl}find-parcel/${parcelId}`;
+  return this.http.get<any>(url, { headers });
+}
 
 }
 

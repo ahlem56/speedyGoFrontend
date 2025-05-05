@@ -143,6 +143,7 @@ import { PartnerCommissionComponent } from './Components/FrontOffice/commission/
 @NgModule({
   declarations: [
     AppComponent,
+    
     TripListFrontOfficeComponent,
     TripDetailFrontOfficeComponent,
     CarpoolingListFrontOfficeComponent,
@@ -194,6 +195,7 @@ import { PartnerCommissionComponent } from './Components/FrontOffice/commission/
     VehicleListDriverInterfaceComponent,
     VehicleDetailDriverInterfaceComponent,
     NotFoundComponent
+    
   ],
   imports: [
     //EventListFrontOfficeComponent,

@@ -10,8 +10,9 @@ interface Payment {
   paymentAmount: number;
   paymentDate: string;
   paymentMethod?: string;
-  [key: string]: any; // Add this to allow additional properties
+  [key: string]: any;
 }
+
 import { loadStripe as loadStripeLib, Stripe } from '@stripe/stripe-js';
 
 @Injectable({
@@ -37,7 +38,7 @@ export class PaymentService {
     });
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const payload: any = {
-      paymentAmount: Number(paymentData.amount.toFixed(2)),
+      paymentAmount: Number((paymentData.amount / 100).toFixed(2)), // Convert cents to dollars
       currency: 'USD',
       paymentMethod: paymentData.paymentMethod.toUpperCase(),
       tripId: paymentData.tripId || null,
@@ -54,7 +55,7 @@ export class PaymentService {
 
     return this.http.post(`${this.apiUrl}/process`, payload, { 
       headers,
-      withCredentials: true  // Important for CORS with credentials
+      withCredentials: true
     }).pipe(
       catchError(error => {
         console.error('Payment error:', error);
@@ -67,7 +68,6 @@ export class PaymentService {
     );
   }
 
-  // Rest of your methods remain the same
   getPaymentDetails(paymentId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${paymentId}`);
   }
@@ -101,20 +101,34 @@ export class PaymentService {
   
     return this.http.post(`${this.apiUrl}/create`, paymentData, { headers });
   }
-  
 
-  createPaymentIntent(amount: number): Observable<{ clientSecret: string }> {
+  createPaymentIntent(paymentData: any): Observable<{ clientSecret: string }> {
+    const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     });
-  
+
+    const payload = {
+      paymentAmount: Number((paymentData.amount / 100).toFixed(2)), // Convert cents to dollars
+      currency: paymentData.currency,
+      paymentMethod: paymentData.paymentMethod.toUpperCase(),
+      tripId: paymentData.tripId || null,
+      parcelId: paymentData.parcelId || null,
+      userId: JSON.parse(localStorage.getItem('user') || '{}')?.userId || null
+    };
+
     return this.http.post<{ clientSecret: string }>(
-      `${this.apiUrl}/create-payment-intent`,
-      { paymentAmount: amount },
+      `${this.apiUrl}/create-intent`,
+      payload,
       { headers }
+    ).pipe(
+      catchError(error => {
+        console.error('Payment intent creation error:', error);
+        return throwError(() => 'Failed to create payment intent');
+      })
     );
   }
-  
 
   updatePaymentStatus(paymentId: number, status: string): Observable<any> {
     const headers = new HttpHeaders({

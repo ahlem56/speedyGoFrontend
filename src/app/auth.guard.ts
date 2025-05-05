@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
   
     if (!token) {
       console.log('No token, redirecting to /login');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], { queryParams: route.queryParams });
       return false;
     }
   
