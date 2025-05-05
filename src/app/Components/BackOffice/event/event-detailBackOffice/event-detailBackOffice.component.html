@@ -1,0 +1,50 @@
+<!-- src/app/BackOffice/event-detailBackOffice.component.html -->
+<div *ngIf="loading" class="loading">Chargement...</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<form *ngIf="!loading" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>Date</label>
+    <input type="datetime-local" formControlName="eventDate" />
+    <div *ngIf="submitting && f['eventDate'].errors" class="error">
+      Date requise.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <textarea formControlName="eventDescription"></textarea>
+    <div *ngIf="submitting && f['eventDescription'].errors" class="error">
+      Description invalide (max 500).
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Lieu</label>
+    <input type="text" formControlName="eventLocation" />
+    <div *ngIf="submitting && f['eventLocation'].errors" class="error">
+      Lieu invalide (max 100).
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Max participants</label>
+    <input type="number" formControlName="maxParticipants" />
+    <div *ngIf="submitting && f['maxParticipants'].errors" class="error">
+      Doit être ≥ 1.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Photo</label>
+    <input type="file" (change)="onFileChange($event)" />
+    <div *ngIf="photoPreview" class="preview">
+      <img [src]="photoPreview" alt="Aperçu" />
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="submitting">Enregistrer</button>
+  <button type="button" (click)="router.navigate(['/back-office/events/list'])">
+    Annuler
+  </button>
+</form>

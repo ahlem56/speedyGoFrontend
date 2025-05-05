@@ -1,0 +1,48 @@
+<!-- src/app/FrontOffice/event-list.component.html -->
+<div *ngIf="loading" class="loading">Loading events…</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div class="events-grid" *ngIf="!loading && !error">
+  <div *ngFor="let evt of events" class="event-card">
+    <div class="photo" *ngIf="evt.photo; else noPhoto">
+      <img [src]="evt.photo" alt="Event photo" />
+    </div>
+    <ng-template #noPhoto>
+      <div class="no-photo">No photo available</div>
+    </ng-template>
+
+    <div class="content">
+      <h3>{{ evt.eventDescription }}</h3>
+      <p class="meta">
+        <span>{{ formatDate(evt.eventDate) }}</span> —
+        <span>{{ evt.eventLocation }}</span>
+      </p>
+      <p class="participants">
+        {{ evt.currentParticipants }}/{{ evt.maxParticipants }} participants
+      </p>
+
+      <div class="actions">
+        <button
+          *ngIf="!evt.registered && evt.currentParticipants < evt.maxParticipants"
+          (click)="join(evt)"
+        >
+          Join event
+        </button>
+
+        <button
+          *ngIf="evt.registered"
+          (click)="leave(evt)"
+        >
+          Cancel participation
+        </button>
+
+        <button
+          *ngIf="!evt.registered && evt.currentParticipants >= evt.maxParticipants"
+          disabled
+        >
+          Full
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

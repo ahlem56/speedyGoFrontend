@@ -1,0 +1,49 @@
+<div class="actions-bar">
+  <button class="create-event-btn" (click)="navigateToCreate()">
+    <i class="fas fa-plus"></i> Create Event
+  </button>
+</div>
+<div class="backoffice-container">
+
+  <div class="events-grid">
+    <div *ngFor="let event of filteredEvents" class="event-card">
+      <!-- Photo Section -->
+      <div class="event-photo" *ngIf="event.photo">
+        <img [src]="event.photo" alt="Event photo" class="event-image">
+      </div>
+      <div class="no-photo" *ngIf="!event.photo">
+        <i class="fas fa-image"></i>
+      </div>
+
+      <!-- Event Details -->
+      <div class="event-content">
+        <h3 class="event-title">{{ event.eventDescription }}</h3>
+
+        <div class="event-meta">
+          <div class="meta-item">
+            <i class="fas fa-calendar-alt"></i>
+            {{ formatDate(event.eventDate) }}
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-map-marker-alt"></i>
+            {{ event.eventLocation }}
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-users"></i>
+            {{ event.simpleUsers.length || 0 }}/{{ event.maxParticipants }}
+          </div>
+        </div>
+
+        <div class="event-actions">
+          <button class="edit-btn" (click)="navigateToEdit(event.eventId)">
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button class="delete-btn" (click)="deleteEvent(event.eventId)">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

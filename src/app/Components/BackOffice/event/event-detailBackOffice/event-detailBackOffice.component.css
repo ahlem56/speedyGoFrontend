@@ -1,0 +1,123 @@
+/* Container & Form */
+:host {
+  display: block;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Inputs & Textarea */
+.form-group input[type="datetime-local"],
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* File input */
+.form-group input[type="file"] {
+  padding: 0.4rem 0;
+}
+
+/* Photo preview */
+.preview {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* Buttons */
+button {
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+button[type="submit"] {
+  background: #28a745;
+  color: #fff;
+  margin-right: 0.5rem;
+}
+
+button[type="submit"]:hover:not([disabled]) {
+  background: #218838;
+}
+
+button[type="submit"][disabled] {
+  background: #94d3a2;
+  cursor: not-allowed;
+}
+
+button[type="button"] {
+  background: #6c757d;
+  color: #fff;
+}
+
+button[type="button"]:hover {
+  background: #5a6268;
+}
+
+/* Error & Loading States */
+.error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.loading {
+  text-align: center;
+  font-style: italic;
+  color: #555;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  :host {
+    padding: 0.8rem;
+    margin: 1rem;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  button[type="submit"] {
+    margin-right: 0;
+  }
+}
