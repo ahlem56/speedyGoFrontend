@@ -234,3 +234,29 @@ button {
     gap: 0.5rem;
   }
 }
+
+.checkpoint-btn {
+  background-color: #0ea5e9; /* Sky Blue */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.4);
+}
+
+.checkpoint-btn:hover {
+  background-color: #0284c7; /* Darker Sky Blue */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(14, 165, 233, 0.5);
+}
+
+.checkpoint-btn:active {
+  background-color: #0369a1;
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.4);
+}

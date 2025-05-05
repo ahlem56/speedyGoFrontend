@@ -279,7 +279,7 @@
     </div>
 
     <!-- Other Notifications Section -->
-    <div class="notification-section" *ngIf="hasNotifications(['event', 'parcel'])">
+    <div class="notification-section" *ngIf="hasNotifications(['event'])">
       <div class="section-header other-header">
         <i class="fa fa-info-circle"></i>
         <h3>Event Updates</h3>
@@ -302,30 +302,7 @@
           </div>
         </div>
 
-        <!-- Parcel Notification -->
-        <div *ngIf="notification.type === 'parcel'" class="notification parcel">
-          <div class="notification-badge">
-            <i class="fa fa-box"></i>
-          </div>
-          <div class="notification-content">
-            <div class="notification-header">
-              <h4>Parcel Update</h4>
-              <span class="notification-time">{{ notification.timestamp | date: 'short' }}</span>
-            </div>
-            <div class="notification-body">
-              <div class="detail-item">
-                <i class="fa fa-barcode"></i>
-                <span>ID: {{ notification.parcelId }}</span>
-              </div>
-              <div class="detail-item">
-                <i class="fa fa-info-circle"></i>
-                <span>Status: {{ notification.status }}</span>
-              </div>
-              <p>{{ notification.message }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </div>
 
     <!-- Empty State -->

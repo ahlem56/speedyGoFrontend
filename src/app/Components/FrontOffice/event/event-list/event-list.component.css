@@ -1,8 +1,37 @@
-:host {
+/* Events Header */
+.events-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Section Title Reuse */
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8em;
+  font-weight: 800;
+  color: #2d3a3a;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
   display: block;
-  padding: 1rem;
-  max-width: 1000px;
-  margin: 0 auto;
+  width: 60px;
+  height: 5px;
+  background-color: #ff7f50;
+  margin: 10px auto;
+  border-radius: 50px;
+  animation: animate-line 1s ease-in-out infinite alternate;
+}
+
+/* Same animated underline */
+@keyframes animate-line {
+  0% { width: 60px; }
+  100% { width: 90px; }
 }
 
 /* Loading & Error */
@@ -119,12 +148,12 @@
 
 /* Join */
 .actions button:nth-child(1) {
-  background: #007bff;
+  background: #bd1616;
   color: #fff;
 }
 
 .actions button:nth-child(1):hover:not(:disabled) {
-  background: #0056b3;
+  background: #ec8d11;
 }
 
 /* Leave */

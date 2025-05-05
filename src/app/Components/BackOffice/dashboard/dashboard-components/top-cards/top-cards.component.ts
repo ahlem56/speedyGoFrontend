@@ -8,10 +8,10 @@ import { topcard, topcards } from './top-cards-data';
 })
 export class TopCardsComponent implements OnInit, OnChanges {
 
-  @Input() totalUsers: number = 0;  // Default value of 0
-  @Input() totalTrips: number = 0;  // Default value of 0
-  @Input() totalCarpools: number = 0; 
-  @Input() totalParcels: number = 0; // Added for parcels count
+  @Input() totalUsers: number = 0;
+  @Input() totalTrips: number = 0;
+  @Input() totalParcels: number = 0;
+  @Input() totalCarpools: number = 0;
 
 
   topcards: topcard[];
@@ -43,6 +43,9 @@ export class TopCardsComponent implements OnInit, OnChanges {
     }
     if (changes['totalCarpools']) { // Added
       this.updateTotalCarpoolsCard();
+    }
+    if (changes['totalParcels']) { // 👉 Add this!
+      this.updateTotalParcelsCard();
     }
   }
 
