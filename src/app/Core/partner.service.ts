@@ -36,68 +36,38 @@ export class PartnerService {
   }
 
   getPartners(): Observable<Partner[]> {
-    console.log('Fetching partners from:', this.apiUrl);
-    return new Observable<Partner[]>(observer => {
-      fetch(this.apiUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        credentials: 'include'
-      })
-      .then(response => {
-        console.log('Raw fetch response:', response);
-        return response.json();
-      })
-      .then(data => {
-        console.log('Parsed fetch response:', data);
-        if (Array.isArray(data)) {
-          observer.next(data);
-          observer.complete();
-          return;
-        }
-        if (data && typeof data === 'object') {
-          const possibleProperties = ['content', 'partners', 'data', 'items', 'results'];
-          for (const prop of possibleProperties) {
-            if (data[prop] && Array.isArray(data[prop])) {
-              observer.next(data[prop]);
-              observer.complete();
-              return;
-            }
-          }
-          const keys = Object.keys(data);
-          if (keys.length > 0) {
-            const numericKeys = keys.filter(key => !isNaN(Number(key)));
-            if (numericKeys.length > 0) {
-              const arrayData = numericKeys.map(key => data[key]);
-              observer.next(arrayData);
-              observer.complete();
-              return;
-            }
-          }
-        }
-        console.warn('Could not extract partners array from response:', data);
-        observer.next([]);
-        observer.complete();
-      })
-      .catch(error => {
-        console.error('Error in getPartners fetch:', error);
-        observer.next([]);
-        observer.complete();
-      });
-    });
+    return this.http.get<Partner[]>(`${this.apiUrl}/with-promotions`, {
+      headers: this.getHeaders(),
+      withCredentials: true
+    }).pipe(
+      map(partners => partners.map(partner => ({
+        partnerId: partner.partnerId,
+        partnerName: partner.partnerName,
+        partnerContactInfo: partner.partnerContactInfo,
+        partnerCode: partner.partnerCode,
+        partnershipDuration: partner.partnershipDuration,
+        totalCommission: partner.totalCommission,
+        commissionRate: partner.commissionRate,
+        promotions: partner.promotions
+      }))),
+      catchError(this.handleError)
+    );
   }
 
   getPartnerById(id: number): Observable<Partner> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`, {
+    return this.http.get<Partner>(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders(),
       withCredentials: true
     }).pipe(
       map(partner => ({
-        ...partner,
-        commissionRate: partner.commissionRate?.toString() || '0',
-        totalCommission: partner.totalCommission?.toString() || '0'
+        partnerId: partner.partnerId,
+        partnerName: partner.partnerName,
+        partnerContactInfo: partner.partnerContactInfo,
+        partnerCode: partner.partnerCode,
+        partnershipDuration: partner.partnershipDuration,
+        totalCommission: partner.totalCommission,
+        commissionRate: partner.commissionRate,
+        promotions: partner.promotions
       })),
       catchError(this.handleError)
     );

@@ -115,6 +115,15 @@ tr:hover td {
   background-color: #f8fafc;
 }
 
+/* Promotion tier styles */
+tr.promotion-silver {
+  background-color: #e5e5e5;
+}
+
+tr.promotion-gold {
+  background-color: #ffd700;
+}
+
 /* Action buttons */
 .actions {
   display: flex;
@@ -226,4 +235,25 @@ tr:hover td {
   .search-box {
     max-width: 100%;
   }
+}
+
+/* Filter button styles */
+.filter-button {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.filter-button:hover {
+  background-color: #e2e8f0;
+}
+
+.filter-button.active {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
 }
