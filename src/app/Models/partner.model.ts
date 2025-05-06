@@ -1,11 +1,18 @@
+export interface Promotion {
+  promotionTitle: string;
+  promotionDescription: string;
+  promotionDiscountPercentage: number;
+  promotionStartDate: string;
+  promotionEndDate: string;
+}
+
 export interface Partner {
   partnerId: number;
-  partnerCode?: number;
   partnerName: string;
-  partnerContactInfo?: string;
-  partnershipDuration?: number;
-  commissionRate?: string | number;
-  totalCommission?: string | number;
-  simpleUsers?: any[];
-  promotions?: any;
+  partnerContactInfo: string;
+  partnerCode: number;
+  partnershipDuration: number;
+  totalCommission: number;
+  commissionRate: number;
+  promotions?: Promotion;
 }

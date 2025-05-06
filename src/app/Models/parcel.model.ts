@@ -1,5 +1,5 @@
 export interface Parcel {
-    parcelId: number;
+    parcelId?: number;
     parcelPrice: number;
     parcelWeight: number;
     parcelCategory: string;

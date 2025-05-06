@@ -18,6 +18,7 @@ export class PartnerListBackOfficeComponent implements OnInit {
   isLoading = true;
   searchTerm = '';
   errorMessage = '';
+  filterTier: string = '';
 
   // Pagination
   currentPage = 1;
@@ -54,23 +55,34 @@ export class PartnerListBackOfficeComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading partners:', err);
-        this.errorMessage = err.message || 'Failed to load partners. Please check if the backend server is running.';
+        this.errorMessage = err.message || 'Failed to load partners. Please check if the backend server is running on http://localhost:8089.';
         this.isLoading = false;
       }
     });
   }
   
   applyFilter(): void {
-    if (!this.searchTerm.trim()) {
-      this.filteredPartners = this.partners;
-    } else {
+    let filtered = this.partners;
+
+    // Apply search term filter
+    if (this.searchTerm.trim()) {
       const searchLower = this.searchTerm.toLowerCase();
-      this.filteredPartners = this.partners.filter(partner => 
+      filtered = filtered.filter(partner => 
         partner.partnerName?.toLowerCase().includes(searchLower) ||
         partner.partnerCode?.toString().includes(this.searchTerm) ||
         partner.partnerContactInfo?.toLowerCase().includes(searchLower)
       );
     }
+
+    // Apply promotion tier filter
+    if (this.filterTier) {
+      filtered = filtered.filter(partner =>
+        this.filterTier === 'None' ? !partner.promotions :
+        partner.promotions?.promotionTitle === this.filterTier
+      );
+    }
+
+    this.filteredPartners = filtered;
     this.totalItems = this.filteredPartners.length;
     this.currentPage = 1; // Reset to first page when filtering
   }
@@ -120,5 +132,10 @@ export class PartnerListBackOfficeComponent implements OnInit {
       pages.push(i);
     }
     return pages;
+  }
+
+  filterByTier(tier: string): void {
+    this.filterTier = tier;
+    this.applyFilter();
   }
 }
