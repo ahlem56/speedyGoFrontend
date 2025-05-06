@@ -106,7 +106,7 @@ export class UserService {
   }
 
   updateUserProfile(user: any): Observable<any> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put<any>(`${this.apiUrl}/update-profile`, {
       firstName: user.firstName,

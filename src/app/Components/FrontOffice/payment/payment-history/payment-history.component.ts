@@ -5,7 +5,7 @@ import { PaymentService } from 'src/app/Core/payment.service';
     selector: 'app-payment-history',
     templateUrl: './payment-history.component.html',
     styleUrls: ['./payment-history.component.css'],
-    standalone: false
+    standalone: false,
 })
 export class PaymentHistoryFrontOfficeComponent {
   payments: any[] = [];

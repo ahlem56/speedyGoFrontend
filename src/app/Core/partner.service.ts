@@ -4,13 +4,10 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Partner } from '../Models/partner.model';
 
-// Add Partner interface
-
 @Injectable({
   providedIn: 'root'
 })
 export class PartnerService {
-  // Use the full URL since proxy isn't working
   private apiUrl = 'http://localhost:8089/examen/partners';
 
   constructor(private http: HttpClient) {}
@@ -24,20 +21,22 @@ export class PartnerService {
 
   private handleError(error: HttpErrorResponse) {
     console.error('An error occurred:', error);
+    console.error('Error details:', {
+      status: error.status,
+      statusText: error.statusText,
+      url: error.url,
+      errorBody: error.error
+    });
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       return throwError(() => new Error('Network error occurred. Please check your connection.'));
     } else {
-      // Backend error
-      return throwError(() => new Error(`Backend returned code ${error.status}, body was: ${error.error}`));
+      const errorMessage = error.error?.message || JSON.stringify(error.error) || 'Unknown server error';
+      return throwError(() => new Error(`Backend returned code ${error.status}, error: ${errorMessage}`));
     }
   }
 
-  // Get all partners
   getPartners(): Observable<Partner[]> {
     console.log('Fetching partners from:', this.apiUrl);
-    
-    // Use a direct fetch approach to see the raw response
     return new Observable<Partner[]>(observer => {
       fetch(this.apiUrl, {
         method: 'GET',
@@ -53,19 +52,13 @@ export class PartnerService {
       })
       .then(data => {
         console.log('Parsed fetch response:', data);
-        
-        // Check if data is an array
         if (Array.isArray(data)) {
           observer.next(data);
           observer.complete();
           return;
         }
-        
-        // If data is an object, try to extract the partners array
         if (data && typeof data === 'object') {
-          // Try different possible property names
           const possibleProperties = ['content', 'partners', 'data', 'items', 'results'];
-          
           for (const prop of possibleProperties) {
             if (data[prop] && Array.isArray(data[prop])) {
               observer.next(data[prop]);
@@ -73,14 +66,10 @@ export class PartnerService {
               return;
             }
           }
-          
-          // If no array property found, try to convert the object to an array
           const keys = Object.keys(data);
           if (keys.length > 0) {
-            // Check if the object has numeric keys (like an array)
             const numericKeys = keys.filter(key => !isNaN(Number(key)));
             if (numericKeys.length > 0) {
-              // Convert to array
               const arrayData = numericKeys.map(key => data[key]);
               observer.next(arrayData);
               observer.complete();
@@ -88,8 +77,6 @@ export class PartnerService {
             }
           }
         }
-        
-        // If we can't extract an array, return empty array
         console.warn('Could not extract partners array from response:', data);
         observer.next([]);
         observer.complete();
@@ -102,7 +89,6 @@ export class PartnerService {
     });
   }
 
-  // Get a single partner by ID
   getPartnerById(id: number): Observable<Partner> {
     return this.http.get<any>(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders(),
@@ -117,14 +103,12 @@ export class PartnerService {
     );
   }
 
-  // Create a new partner
   createPartner(partner: Partner): Observable<Partner> {
     const payload = {
       ...partner,
       commissionRate: Number(partner.commissionRate) || 0,
       totalCommission: Number(partner.totalCommission) || 0
     };
-
     return this.http.post<Partner>(`${this.apiUrl}/create`, payload, {
       headers: this.getHeaders(),
       withCredentials: true
@@ -133,14 +117,13 @@ export class PartnerService {
     );
   }
 
-  // Update a partner
   updatePartner(id: number, partner: Partner): Observable<Partner> {
     const payload = {
       ...partner,
       commissionRate: Number(partner.commissionRate) || 0,
       totalCommission: Number(partner.totalCommission) || 0
     };
-
+    console.log('Updating partner with payload:', payload);
     return this.http.put<Partner>(`${this.apiUrl}/${id}`, payload, {
       headers: this.getHeaders(),
       withCredentials: true
@@ -149,7 +132,6 @@ export class PartnerService {
     );
   }
 
-  // Delete a partner
   deletePartner(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders(),

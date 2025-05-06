@@ -62,9 +62,8 @@ export class ParcelCreateFrontOfficeComponent {
             this.errorMessage = '';  // Clear any previous error message
       
             // Redirect to "payments/create" after parcel creation
-            this.router.navigate(['/payments/create']);
-      
-            // Reset the form
+            const parcelId = createdParcel.parcelId; 
+            this.router.navigate(['/stripe'], { queryParams: { parcelId: parcelId } });             // Reset the form
             this.parcel = { parcelName: '', parcelWeight: null, parcelDimensions: '', parcelPrice: null };  
           },
           (error: any) => {

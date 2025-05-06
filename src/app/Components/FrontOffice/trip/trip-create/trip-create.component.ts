@@ -233,17 +233,19 @@ export class TripCreateFrontOfficeComponent implements OnInit, AfterViewInit {
     latitude: this.trip.latitude,
     longitude: this.trip.longitude
   }; 
-  this.tripService.createTrip(tripPayload, this.simpleUserId!, this.selectedDriverId, headers).subscribe(
-    (createdTrip) => {
-      console.log('Trip Created', createdTrip);
-      this.successMessage = 'Your trip has been created successfully!';
-      this.resetForm();
-    },
-    (error) => {
-      this.errorMessage = 'Failed to create trip. Please try again later.';
-      console.error(error);
-    }
-  );
+  console.log('Trip Payload being sent:', tripPayload);// trip-create.component.ts
+this.tripService.createTrip(tripPayload, this.simpleUserId!, this.selectedDriverId, headers).subscribe(
+  (createdTrip) => {
+    console.log('Trip Created', createdTrip);
+    this.successMessage = 'Your trip has been created successfully!';
+    this.resetForm();
+    const tripId = createdTrip.tripId; // Extract the dynamic tripId
+    this.router.navigate(['/stripe'], { queryParams: { tripId: tripId } });   },
+  (error) => {
+    this.errorMessage = 'Failed to create trip. Please try again later.';
+    console.error(error);
+  }
+);
 }
 
 resetForm() {

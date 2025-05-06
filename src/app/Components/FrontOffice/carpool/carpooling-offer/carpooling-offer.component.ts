@@ -160,7 +160,7 @@ export class CarpoolingOfferFrontOfficeComponent implements OnInit {
 
   // Delete a carpool
   deleteCarpool(carpoolId: number): void {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     if (!token) {
       console.error("No authentication token found.");
       this.router.navigate(['/login']);
